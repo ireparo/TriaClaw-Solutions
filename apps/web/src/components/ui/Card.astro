@@ -1,0 +1,20 @@
+---
+type Tone = 'default' | 'navy' | 'cyan' | 'teal';
+interface Props {
+  tone?: Tone;
+  class?: string;
+}
+const { tone = 'default', class: cls = '' } = Astro.props;
+const tops: Record<Tone, string> = {
+  default: '',
+  navy: 'before:absolute before:top-0 before:left-0 before:right-0 before:h-1 before:bg-navy',
+  cyan: 'before:absolute before:top-0 before:left-0 before:right-0 before:h-1 before:bg-cyan-brand',
+  teal: 'before:absolute before:top-0 before:left-0 before:right-0 before:h-1 before:bg-teal-brand',
+};
+---
+
+<div
+  class={`relative bg-white border border-line rounded-2xl p-7 transition hover:-translate-y-1 hover:shadow-lg ${tops[tone]} ${cls}`}
+>
+  <slot />
+</div>
