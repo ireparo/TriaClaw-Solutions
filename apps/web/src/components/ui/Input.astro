@@ -1,6 +1,7 @@
 ---
+type InputType = 'text' | 'email' | 'tel' | 'url' | 'password' | 'number' | 'search';
 interface Props {
-  type?: string;
+  type?: InputType;
   name: string;
   label: string;
   placeholder?: string;
@@ -34,7 +35,7 @@ const {
       />
     ) : (
       <input
-        type={type as any}
+        type={type}
         name={name}
         placeholder={placeholder}
         required={required}

@@ -1,5 +1,4 @@
-/** @jsxImportSource solid-js */
-import { createSignal, For, Show } from 'solid-js';
+import { createSignal, For } from 'solid-js';
 
 interface QA {
   q: string;
@@ -22,14 +21,19 @@ export default function Faq(props: Props) {
                 type="button"
                 class="w-full flex items-center justify-between px-6 py-5 text-left"
                 aria-expanded={isOpen()}
+                aria-controls={`faq-panel-${i()}`}
                 onClick={() => setOpen(isOpen() ? null : i())}
               >
                 <span class="font-semibold text-navy text-[14px]">{item.q}</span>
                 <span class="text-muted text-lg">{isOpen() ? '−' : '+'}</span>
               </button>
-              <Show when={isOpen()}>
-                <div class="px-6 pb-5 text-[13.5px] text-muted leading-relaxed">{item.a}</div>
-              </Show>
+              <div
+                id={`faq-panel-${i()}`}
+                hidden={!isOpen()}
+                class="px-6 pb-5 text-[13.5px] text-muted leading-relaxed"
+              >
+                {item.a}
+              </div>
             </div>
           );
         }}
