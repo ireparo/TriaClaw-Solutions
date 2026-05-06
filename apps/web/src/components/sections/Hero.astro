@@ -2,32 +2,30 @@
 import Container from '../layout/Container.astro';
 import { getLocaleFromUrl, t, tList, type Locale } from '../../i18n';
 const locale: Locale = getLocaleFromUrl(Astro.url);
-const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
 const metaArr = tList(locale, 'hero.meta');
 const dotClasses = ['', 'v', 'p'];
+
+// Split title around the highlighted word so we can wrap it in a gradient span
+const titleFull = t(locale, 'hero.title');
+const titleWord = t(locale, 'hero.title_word');
+const wordIdx = titleFull.indexOf(titleWord);
+const titlePre = wordIdx >= 0 ? titleFull.slice(0, wordIdx) : titleFull;
+const titlePost = wordIdx >= 0 ? titleFull.slice(wordIdx + titleWord.length) : '';
+const subtitle = t(locale, 'hero.subtitle');
 ---
 
-<section class="tcw-hero">
+<section class="tcw-hero wrap" id="top">
   <Container>
     <div class="tcw-hero__grid">
       <div class="tcw-hero__copy reveal">
         <span class="eyebrow mono">{t(locale, 'hero.eyebrow')}</span>
         <h1 class="tcw-hero__title">
-          <span class="grad-text">{t(locale, 'hero.title')}</span><br />
-          <span class="tcw-hero__subtitle">{t(locale, 'hero.subtitle')}</span>
+          {titlePre}<span class="word grad-text">{titleWord}</span>{titlePost}<br />{subtitle}
         </h1>
-        <p class="tcw-hero__lead">{t(locale, 'hero.lead')}</p>
-        <div class="tcw-hero__ctas">
-          <a class="tcw-btn tcw-btn--cyan" href={wa}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
-              ><path
-                d="M20.52 3.48A11.94 11.94 0 0 0 12.07 0C5.5 0 .15 5.34.15 11.92c0 2.1.55 4.15 1.6 5.96L0 24l6.32-1.66a11.93 11.93 0 0 0 5.74 1.46h.01c6.58 0 11.92-5.34 11.92-11.92 0-3.18-1.24-6.18-3.47-8.4Z"
-              ></path></svg
-            >
-            {t(locale, 'hero.cta_whatsapp')}
-          </a>
-          <a class="tcw-btn tcw-btn--ghost" href="#contacto">
-            {t(locale, 'hero.cta_demo')}
+        <p class="tcw-hero__lead lead">{t(locale, 'hero.lead')}</p>
+        <div class="tcw-hero__ctas cta-row">
+          <a class="tcw-btn tcw-btn--cyan btn primary" href="#cta">
+            {t(locale, 'hero.cta_primary')}
             <svg
               width="16"
               height="16"
@@ -40,12 +38,15 @@ const dotClasses = ['', 'v', 'p'];
               aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"></path></svg
             >
           </a>
+          <a class="tcw-btn tcw-btn--ghost btn ghost" href="#case">
+            {t(locale, 'hero.cta_secondary')}
+          </a>
         </div>
-        <div class="tcw-hero__pills">
+        <div class="tcw-hero__pills pills">
           {
             metaArr.map((m, i) => (
-              <span class="tcw-pill mono">
-                <span class={`tcw-pill__dot ${dotClasses[i % 3]}`} />
+              <span class="tcw-pill pill mono">
+                <span class={`tcw-pill__dot dot ${dotClasses[i % 3]}`} />
                 {m}
               </span>
             ))
@@ -53,13 +54,13 @@ const dotClasses = ['', 'v', 'p'];
         </div>
       </div>
 
-      <div class="tcw-hero__console glass reveal">
-        <div class="tcw-hero__console-head">
-          <div class="tcw-hero__dots">
+      <div class="tcw-hero__console console glass reveal">
+        <div class="tcw-hero__console-head console-head">
+          <div class="tcw-hero__dots dots">
             <i></i><i></i><i></i>
           </div>
-          <span class="tcw-hero__console-title mono">agent.console</span>
-          <span class="tcw-hero__console-live mono">LIVE</span>
+          <span class="tcw-hero__console-title title mono">agent.console</span>
+          <span class="tcw-hero__console-live live mono">LIVE</span>
         </div>
 
         <div class="bubble in b1">
@@ -79,9 +80,9 @@ const dotClasses = ['', 'v', 'p'];
           Reservado. Te envío recordatorio el jueves a las 19h.
         </div>
 
-        <div class="tcw-hero__lead-card">
-          <div class="tcw-hero__lead-ic">+1</div>
-          <div class="tcw-hero__lead-txt">
+        <div class="lead-card">
+          <div class="ic">+1</div>
+          <div class="txt">
             <b>Lead creado en CRM</b>
             <span class="mono">booking · 0:42s · auto-routed</span>
           </div>
@@ -117,9 +118,8 @@ const dotClasses = ['', 'v', 'p'];
     margin: 18px 0 22px;
     color: var(--ink);
   }
-  .tcw-hero__subtitle {
-    color: var(--ink);
-    font-weight: 800;
+  .tcw-hero__title .word {
+    display: inline-block;
   }
   .tcw-hero__lead {
     font-size: 19px;
@@ -243,7 +243,7 @@ const dotClasses = ['', 'v', 'p'];
     box-shadow: 0 0 10px var(--soft-cyan);
     animation: pulse 1.6s ease-in-out infinite;
   }
-  .tcw-hero__lead-card {
+  .lead-card {
     margin-top: 14px;
     padding: 12px 14px;
     border-radius: 12px;
@@ -259,7 +259,7 @@ const dotClasses = ['', 'v', 'p'];
     opacity: 0;
     animation: bubIn 0.6s ease-out 3.4s forwards;
   }
-  .tcw-hero__lead-ic {
+  .lead-card .ic {
     width: 34px;
     height: 34px;
     border-radius: 10px;
@@ -270,14 +270,14 @@ const dotClasses = ['', 'v', 'p'];
     font-weight: 800;
     font-size: 13px;
   }
-  .tcw-hero__lead-txt {
+  .lead-card .txt {
     font-size: 13px;
   }
-  .tcw-hero__lead-txt b {
+  .lead-card .txt b {
     display: block;
     color: var(--ink);
   }
-  .tcw-hero__lead-txt span {
+  .lead-card .txt span {
     color: var(--dim);
     font-size: 11px;
   }

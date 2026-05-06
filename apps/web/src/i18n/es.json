@@ -9,90 +9,112 @@
     "contact": "Contacto"
   },
   "hero": {
-    "eyebrow": "Pymes · Autònoms · Integradors",
-    "title": "Tria el teu agent.",
-    "subtitle": "Centralita, bots i CRM que parlen entre ells.",
-    "lead": "Una sola plataforma para que tu pyme no pierda ni una llamada, ni un WhatsApp, ni un lead. Lleida-made, integrado de fábrica, listo en días.",
-    "cta_whatsapp": "Habla por WhatsApp",
-    "cta_demo": "Pedir demo",
+    "eyebrow": "AGENT PLATFORM · v3",
+    "title": "El agent que escucha,",
+    "title_word": "agent",
+    "subtitle": "responde y reserva por ti.",
+    "lead": "TriaClaw conecta tu centralita, tus bots de WhatsApp y tu CRM en una sola capa. Calls, mensajes y leads pasan a una operación inteligente — siempre despierta, siempre tuya.",
+    "cta_whatsapp": "Hablar por WhatsApp",
+    "cta_primary": "Empezar gratis",
+    "cta_secondary": "Ver caso real",
+    "cta_demo": "Reservar demo",
     "meta": ["Sin permanencia", "Setup en 7 días", "RGPD-compliant"]
   },
   "footer": {
-    "tagline": "Una marca de iReparo.",
+    "tagline": "Plataforma de agents IA para PYMES. Centralita, mensajería y CRM en una capa.",
     "city": "Lleida · Catalunya",
-    "rights": "© 2026 TriaClaw"
+    "rights": "© 2026 TriaClaw Solutions · Lleida, ES",
+    "right_meta": "v3.04 · glassmorphic-ai",
+    "email": "hello@triaclaw.com"
   },
   "footer_columns": {
     "product": "Producto",
     "company": "Empresa",
+    "resources": "Recursos",
     "legal": "Legal",
     "contact": "Contacto",
     "about": "Sobre nosotros",
     "legal_notice": "Aviso legal",
     "privacy": "Privacidad",
+    "terms": "Términos",
     "cookies": "Cookies",
+    "rgpd": "RGPD",
+    "integrations": "Integraciones",
+    "blog": "Blog",
+    "docs": "Documentación",
+    "status": "Status",
+    "changelog": "Changelog",
+    "support": "Soporte",
     "made_in": "Made in Lleida"
   },
   "logobar": {
-    "label": "Pymes que ya nos usan"
+    "label": "Operating for"
   },
   "pillars": {
-    "eyebrow": "Tres productos · una plataforma",
-    "title": "Tria el teu pilar",
-    "lead": "Empieza por uno. Combina los tres y rebaja un 15%. Los datos viajan entre ellos sin que tengas que tocar nada.",
-    "centralita_title": "Centralita",
-    "centralita_desc": "PBX virtual con IVR, transferencias, panel de supervisión y grabación. SIP estándar, sin atarte al hardware.",
+    "eyebrow": "TRES CAPAS · UNA OPERACIÓN",
+    "title": "Cada canal con su",
+    "title_word": "agent",
+    "title_tail": "especializado.",
+    "lead": "Voz, mensajería y datos. Funcionan por separado, pero pasan información entre sí en tiempo real.",
+    "centralita_title": "Centralita Cloud",
+    "centralita_desc": "Tu numeración fija con IVR de IA, transcripción y enrutamiento inteligente. Sin cables, sin centralita física.",
     "centralita_bullets": [
-      "Multi-extensión y multi-sede",
-      "Grabación y panel supervisor",
-      "Conexión SIP con cualquier teléfono"
+      "Numeraciones nacionales y portabilidad",
+      "IVR conversacional, no botoneras",
+      "Grabación y transcripción auditable"
     ],
-    "centralita_cta": "Ver Centralita →",
+    "centralita_cta": "Explorar centralita",
     "agents_title": "Agents & Bots",
-    "agents_desc": "Bots de WhatsApp y agentes IA conversacionales. Cualifican, agendan y transfieren cuando hace falta humano.",
+    "agents_desc": "WhatsApp, web, Instagram. Bots que entienden el contexto, agendan, responden FAQs y derivan a humano cuando toca.",
     "agents_bullets": [
-      "WhatsApp Business + IA con contexto",
-      "Plantillas: envíos, atención, ventas",
-      "Integración nativa con tu CRM"
+      "Multilingüe ES / CA / EN",
+      "Plantillas oficiales WhatsApp",
+      "Handoff a humano sin fricciones"
     ],
-    "agents_cta": "Ver Agents →",
+    "agents_cta": "Explorar agents",
     "crm_title": "CRM & Gestión",
-    "crm_desc": "CRMs verticales hechos a medida del sector: SAT, energía, inmobiliaria, gestión de proyectos.",
+    "crm_desc": "Leads, pipeline, tareas y reportes con vista única del cliente. Toda la conversación en un timeline.",
     "crm_bullets": [
-      "Verticales listos: SAT, energía, inmo",
-      "Integrado con centralita y bots",
-      "Custom para tu flujo concreto"
+      "Pipeline visual con automatizaciones",
+      "Atribución por canal y campaña",
+      "Integraciones con Holded y Stripe"
     ],
-    "crm_cta": "Ver CRM →"
+    "crm_cta": "Explorar CRM"
   },
   "connected": {
-    "eyebrow": "La tesis",
-    "title": "Tres productos que hablan entre ellos",
-    "lead": "Llamada → ficha CRM. WhatsApp → ticket. Bot agenda → calendario centralita. Sin Zapier, sin pegar APIs, sin que se te enfríe un lead.",
-    "node_call": "Llamada entrante",
-    "node_bot": "Bot pre-cualifica",
+    "eyebrow": "CONNECTED FLOW",
+    "title": "Una llamada se convierte en un cliente.",
+    "title_em": "Sin fricción.",
+    "lead": "El agent capta, califica, agenda y entrega al humano con todo el contexto. Tú solo cierras.",
+    "node_call": "Llamada entra",
+    "node_bot": "Agent califica",
     "node_crm": "Lead en CRM",
     "node_human": "Humano cierra"
   },
   "case_featured": {
-    "eyebrow": "Caso destacado · iReparo",
-    "quote": "Antes perdíamos 1 de cada 4 llamadas. Ahora cero. Y los WhatsApps de envíos se contestan solos.",
-    "body": "Centralita virtual + bot WhatsApp para envíos + CRM SAT integrados. Cada llamada se convierte en ficha. Cada WhatsApp en ticket. Cada lead se atiende. El equipo deja de hacer de centralita y se concentra en reparar.",
-    "metric1_label": "llamadas perdidas",
-    "metric2_label": "leads cualificados",
-    "metric3_label": "menos admin",
-    "cta": "Leer caso completo →"
+    "eyebrow": "CASO · IREPARO SAT",
+    "quote_pre": "“Hemos pasado de perder llamadas a",
+    "quote_em": "cerrar reparaciones",
+    "quote_post": "mientras dormimos.”",
+    "body": "Después de 90 días con TriaClaw, el agent de WhatsApp resuelve el 71% de los tickets sin tocar a un humano. La centralita detecta y devuelve cada llamada perdida en menos de 60 segundos.",
+    "metric1_value": "-78%",
+    "metric1_label": "Llamadas perdidas",
+    "metric2_value": "+3.4×",
+    "metric2_label": "Leads cualificados",
+    "metric3_value": "71%",
+    "metric3_label": "Auto-resolución"
   },
   "pricing_teaser": {
-    "eyebrow": "Pricing",
-    "title": "Sin sorpresas. Sin permanencia.",
-    "lead": "Empieza por uno. Combina dos y rebaja un 15%. Cancela cuando quieras.",
+    "eyebrow": "PRECIOS TRANSPARENTES",
+    "title": "Empieza por una capa.",
+    "title_em": "Crece sin permanencia.",
+    "lead": "Modular: contrata solo lo que necesitas hoy. Activa el resto cuando estés listo. Sin permanencia, sin sorpresas.",
     "chip_centralita": "Centralita",
-    "chip_agents": "Agents",
+    "chip_agents": "Agents WA",
     "chip_crm": "CRM",
     "from": "desde",
-    "cta_table": "Ver tabla completa →",
-    "note": "Setup incluido en planes Pro. IVA no incluido."
+    "cta_table": "Ver tabla completa",
+    "note": "Setup incluido en planes Pro · IVA no incluido"
   },
   "testimonials": {
     "eyebrow": "Confían",
@@ -109,9 +131,9 @@
     "role3": "Asesoría"
   },
   "cta_final": {
-    "title_l1": "¿Listo para que tu pyme",
-    "title_l2": "conteste sola?",
-    "lead": "15 minutos por WhatsApp. Sin compromiso. Te enseñamos los tres pilares en 1 demo."
+    "title_l1": "Tu próxima",
+    "title_l2": "operación inteligente.",
+    "lead": "30 minutos contigo, una demo en directo y un plan a 7 días. Sin compromiso."
   },
   "a11y": {
     "skip_to_content": "Saltar al contenido"

@@ -14,7 +14,7 @@ const chips = [
     <div class="reveal">
       <span class="eyebrow mono">{t(locale, 'pricing_teaser.eyebrow')}</span>
       <h2 class="tcw-h2 tcw-pricing__title">
-        <span class="grad-text">{t(locale, 'pricing_teaser.title')}</span>
+        {t(locale, 'pricing_teaser.title')} <span>{t(locale, 'pricing_teaser.title_em')}</span>
       </h2>
       <p class="tcw-section-head__lead tcw-pricing__lead">{t(locale, 'pricing_teaser.lead')}</p>
 
@@ -59,6 +59,13 @@ const chips = [
   .tcw-pricing__title {
     margin: 16px auto 14px;
     max-width: 900px;
+  }
+  .tcw-pricing__title span {
+    background: var(--grad-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
   .tcw-pricing__lead {
     margin: 0 auto 36px;

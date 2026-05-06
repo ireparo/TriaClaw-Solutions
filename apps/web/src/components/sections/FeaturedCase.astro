@@ -1,6 +1,6 @@
 ---
 import Container from '../layout/Container.astro';
-import { getLocaleFromUrl, t, localizedHref, type Locale } from '../../i18n';
+import { getLocaleFromUrl, t, type Locale } from '../../i18n';
 const locale: Locale = getLocaleFromUrl(Astro.url);
 ---
 
@@ -10,26 +10,23 @@ const locale: Locale = getLocaleFromUrl(Astro.url);
       <div class="reveal">
         <span class="tcw-case__pill mono">{t(locale, 'case_featured.eyebrow')}</span>
         <h2 class="tcw-case__quote">
-          <span class="tcw-case__open-quote">"</span>{t(locale, 'case_featured.quote')}
+          {t(locale, 'case_featured.quote_pre')} <em>{t(locale, 'case_featured.quote_em')}</em> {t(locale, 'case_featured.quote_post')}
         </h2>
         <p class="tcw-case__body">{t(locale, 'case_featured.body')}</p>
         <div class="tcw-case__metrics">
           <div class="tcw-case__metric glass">
-            <div class="tcw-case__num grad-text">−78%</div>
+            <div class="tcw-case__num grad-text">{t(locale, 'case_featured.metric1_value')}</div>
             <span class="tcw-case__lbl mono">{t(locale, 'case_featured.metric1_label')}</span>
           </div>
           <div class="tcw-case__metric glass">
-            <div class="tcw-case__num grad-text">+34%</div>
+            <div class="tcw-case__num grad-text">{t(locale, 'case_featured.metric2_value')}</div>
             <span class="tcw-case__lbl mono">{t(locale, 'case_featured.metric2_label')}</span>
           </div>
           <div class="tcw-case__metric glass">
-            <div class="tcw-case__num grad-text">−3h</div>
+            <div class="tcw-case__num grad-text">{t(locale, 'case_featured.metric3_value')}</div>
             <span class="tcw-case__lbl mono">{t(locale, 'case_featured.metric3_label')}</span>
           </div>
         </div>
-        <a class="tcw-case__cta" href={localizedHref(locale, '/casos/ireparo')}
-          >{t(locale, 'case_featured.cta')}</a
-        >
       </div>
 
       <div class="tcw-dash glass reveal">
@@ -142,10 +139,13 @@ const locale: Locale = getLocaleFromUrl(Astro.url);
     line-height: 1.15;
     color: var(--ink);
   }
-  .tcw-case__open-quote {
-    color: var(--neon-cyan);
-    font-weight: 800;
-    margin-right: 4px;
+  .tcw-case__quote em {
+    font-style: normal;
+    background: var(--grad-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
   .tcw-case__body {
     color: var(--muted);
@@ -157,7 +157,6 @@ const locale: Locale = getLocaleFromUrl(Astro.url);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 14px;
-    margin-bottom: 28px;
   }
   .tcw-case__metric {
     padding: 18px 16px;
@@ -175,17 +174,8 @@ const locale: Locale = getLocaleFromUrl(Astro.url);
     color: var(--dim);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    margin-top: 6px;
+    margin-top: 4px;
     display: block;
-  }
-  .tcw-case__cta {
-    color: var(--neon-cyan);
-    font-weight: 600;
-    font-size: 14px;
-    text-decoration: none;
-  }
-  .tcw-case__cta:hover {
-    color: var(--neon-violet);
   }
 
   /* dashboard preview */

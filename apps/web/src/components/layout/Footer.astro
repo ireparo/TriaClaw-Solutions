@@ -4,47 +4,51 @@ import { getLocaleFromUrl, t, localizedHref, type Locale } from '../../i18n';
 const locale: Locale = getLocaleFromUrl(Astro.url);
 ---
 
-<footer class="tcw-footer">
+<footer class="tcw-footer" id="footer">
   <Container>
     <div class="tcw-footer__grid">
       <div class="tcw-footer__brand">
         <img src="/logo-triaclaw.png" alt="TriaClaw" />
-        <p>
-          {t(locale, 'footer.tagline')}<br /><span class="mono tcw-footer__city"
-            >{t(locale, 'footer.city')}</span
-          >
-        </p>
+        <p>{t(locale, 'footer.tagline')}</p>
       </div>
       <div>
         <h5 class="mono">{t(locale, 'footer_columns.product')}</h5>
         <ul>
-          <li>
-            <a href={localizedHref(locale, '/centralita')}>{t(locale, 'nav.centralita')}</a>
-          </li>
+          <li><a href={localizedHref(locale, '/centralita')}>{t(locale, 'nav.centralita')}</a></li>
           <li><a href={localizedHref(locale, '/agents')}>{t(locale, 'nav.agents')}</a></li>
           <li><a href={localizedHref(locale, '/crm')}>{t(locale, 'nav.crm')}</a></li>
-          <li><a href={localizedHref(locale, '/precios')}>{t(locale, 'nav.pricing')}</a></li>
+          <li><a href="#">{t(locale, 'footer_columns.integrations')}</a></li>
         </ul>
       </div>
       <div>
         <h5 class="mono">{t(locale, 'footer_columns.company')}</h5>
         <ul>
-          <li><a href={localizedHref(locale, '/sobre')}>{t(locale, 'footer_columns.about')}</a></li>
           <li><a href={localizedHref(locale, '/casos')}>{t(locale, 'nav.cases')}</a></li>
           <li><a href={localizedHref(locale, '/partners')}>{t(locale, 'nav.partners')}</a></li>
+          <li><a href="#">{t(locale, 'footer_columns.blog')}</a></li>
+          <li><a href={localizedHref(locale, '/contacto')}>{t(locale, 'nav.contact')}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="mono">{t(locale, 'footer_columns.resources')}</h5>
+        <ul>
+          <li><a href="#">{t(locale, 'footer_columns.docs')}</a></li>
+          <li><a href="#">{t(locale, 'footer_columns.status')}</a></li>
+          <li><a href="#">{t(locale, 'footer_columns.changelog')}</a></li>
+          <li><a href="#">{t(locale, 'footer_columns.support')}</a></li>
         </ul>
       </div>
       <div>
         <h5 class="mono">{t(locale, 'footer_columns.legal')}</h5>
         <ul>
           <li>
-            <a href={localizedHref(locale, '/legal/aviso')}
-              >{t(locale, 'footer_columns.legal_notice')}</a
+            <a href={localizedHref(locale, '/legal/privacidad')}
+              >{t(locale, 'footer_columns.privacy')}</a
             >
           </li>
           <li>
-            <a href={localizedHref(locale, '/legal/privacidad')}
-              >{t(locale, 'footer_columns.privacy')}</a
+            <a href={localizedHref(locale, '/legal/aviso')}
+              >{t(locale, 'footer_columns.terms')}</a
             >
           </li>
           <li>
@@ -52,28 +56,22 @@ const locale: Locale = getLocaleFromUrl(Astro.url);
               >{t(locale, 'footer_columns.cookies')}</a
             >
           </li>
-        </ul>
-      </div>
-      <div>
-        <h5 class="mono">{t(locale, 'footer_columns.contact')}</h5>
-        <ul>
-          <li>
-            <a href={`https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`}>WhatsApp</a>
-          </li>
-          <li><a href="mailto:hola@triaclaw.com">hola@triaclaw.com</a></li>
+          <li><a href="#">{t(locale, 'footer_columns.rgpd')}</a></li>
         </ul>
       </div>
     </div>
     <div class="tcw-footer__bottom mono">
-      <span>{t(locale, 'footer.rights')} · iReparo</span>
-      <span>{t(locale, 'footer_columns.made_in')}</span>
+      <span>{t(locale, 'footer.rights')}</span>
+      <span>
+        <a href={`mailto:${t(locale, 'footer.email')}`}>{t(locale, 'footer.email')}</a> · {t(locale, 'footer.right_meta')}
+      </span>
     </div>
   </Container>
 </footer>
 
 <style>
   .tcw-footer {
-    margin-top: 80px;
+    margin-top: 60px;
     background: rgba(10, 8, 30, 0.55);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -120,10 +118,6 @@ const locale: Locale = getLocaleFromUrl(Astro.url);
     font-size: 14px;
     max-width: 32ch;
     line-height: 1.55;
-  }
-  .tcw-footer__city {
-    color: var(--dim);
-    font-size: 12px;
   }
   .tcw-footer h5 {
     font-size: 11px;

@@ -9,90 +9,112 @@
     "contact": "Contacte"
   },
   "hero": {
-    "eyebrow": "Pimes · Autònoms · Integradors",
-    "title": "Tria el teu agent.",
-    "subtitle": "Centraleta, bots i CRM que parlen entre ells.",
-    "lead": "Una sola plataforma perquè la teva pime no perdi cap trucada, ni cap WhatsApp, ni cap lead. Feta a Lleida, integrada de fàbrica, llesta en dies.",
+    "eyebrow": "AGENT PLATFORM · v3",
+    "title": "L'agent que escolta,",
+    "title_word": "agent",
+    "subtitle": "respon i reserva per tu.",
+    "lead": "TriaClaw connecta la teva centraleta, els teus bots de WhatsApp i el teu CRM en una sola capa. Trucades, missatges i leads passen a una operació intel·ligent — sempre desperta, sempre teva.",
     "cta_whatsapp": "Parla per WhatsApp",
-    "cta_demo": "Demanar demo",
+    "cta_primary": "Comença gratis",
+    "cta_secondary": "Veure cas real",
+    "cta_demo": "Reservar demo",
     "meta": ["Sense permanència", "Posada en marxa en 7 dies", "RGPD-compliant"]
   },
   "footer": {
-    "tagline": "Una marca d'iReparo.",
+    "tagline": "Plataforma d'agents IA per a PIMES. Centraleta, missatgeria i CRM en una capa.",
     "city": "Lleida · Catalunya",
-    "rights": "© 2026 TriaClaw"
+    "rights": "© 2026 TriaClaw Solutions · Lleida, ES",
+    "right_meta": "v3.04 · glassmorphic-ai",
+    "email": "hello@triaclaw.com"
   },
   "footer_columns": {
     "product": "Producte",
     "company": "Empresa",
+    "resources": "Recursos",
     "legal": "Legal",
     "contact": "Contacte",
     "about": "Sobre nosaltres",
     "legal_notice": "Avís legal",
     "privacy": "Privacitat",
+    "terms": "Termes",
     "cookies": "Cookies",
+    "rgpd": "RGPD",
+    "integrations": "Integracions",
+    "blog": "Blog",
+    "docs": "Documentació",
+    "status": "Status",
+    "changelog": "Changelog",
+    "support": "Suport",
     "made_in": "Made in Lleida"
   },
   "logobar": {
-    "label": "Pimes que ja ens fan servir"
+    "label": "Operating for"
   },
   "pillars": {
-    "eyebrow": "Tres productes · una plataforma",
-    "title": "Tria el teu pilar",
-    "lead": "Comença per un. Combina els tres i rebaixa un 15%. Les dades viatgen entre ells sense que hagis de tocar res.",
-    "centralita_title": "Centraleta",
-    "centralita_desc": "PBX virtual amb IVR, transferències, panell de supervisió i gravació. SIP estàndard, sense lligar-te al maquinari.",
+    "eyebrow": "TRES CAPES · UNA OPERACIÓ",
+    "title": "Cada canal amb el seu",
+    "title_word": "agent",
+    "title_tail": "especialitzat.",
+    "lead": "Veu, missatgeria i dades. Funcionen per separat, però es passen informació en temps real.",
+    "centralita_title": "Centraleta Cloud",
+    "centralita_desc": "La teva numeració fixa amb IVR d'IA, transcripció i enrutament intel·ligent. Sense cables, sense centraleta física.",
     "centralita_bullets": [
-      "Multi-extensió i multi-seu",
-      "Gravació i panell supervisor",
-      "Connexió SIP amb qualsevol telèfon"
+      "Numeracions nacionals i portabilitat",
+      "IVR conversacional, no botoneres",
+      "Gravació i transcripció auditable"
     ],
-    "centralita_cta": "Veure Centraleta →",
+    "centralita_cta": "Explorar centraleta",
     "agents_title": "Agents & Bots",
-    "agents_desc": "Bots de WhatsApp i agents IA conversacionals. Qualifiquen, agenden i transfereixen quan cal humà.",
+    "agents_desc": "WhatsApp, web, Instagram. Bots que entenen el context, agenden, responen FAQs i deriven a humà quan toca.",
     "agents_bullets": [
-      "WhatsApp Business + IA amb context",
-      "Plantilles: enviaments, atenció, vendes",
-      "Integració nativa amb el teu CRM"
+      "Multilingüe ES / CA / EN",
+      "Plantilles oficials WhatsApp",
+      "Handoff a humà sense friccions"
     ],
-    "agents_cta": "Veure Agents →",
+    "agents_cta": "Explorar agents",
     "crm_title": "CRM & Gestió",
-    "crm_desc": "CRMs verticals fets a mida del sector: SAT, energia, immobiliària, gestió de projectes.",
+    "crm_desc": "Leads, pipeline, tasques i informes amb vista única del client. Tota la conversa en un timeline.",
     "crm_bullets": [
-      "Verticals llestos: SAT, energia, immo",
-      "Integrat amb centraleta i bots",
-      "Custom per al teu flux concret"
+      "Pipeline visual amb automatitzacions",
+      "Atribució per canal i campanya",
+      "Integracions amb Holded i Stripe"
     ],
-    "crm_cta": "Veure CRM →"
+    "crm_cta": "Explorar CRM"
   },
   "connected": {
-    "eyebrow": "La tesi",
-    "title": "Tres productes que parlen entre ells",
-    "lead": "Trucada → fitxa CRM. WhatsApp → ticket. Bot agenda → calendari centraleta. Sense Zapier, sense enganxar APIs, sense que se't refredi cap lead.",
-    "node_call": "Trucada entrant",
-    "node_bot": "Bot pre-qualifica",
+    "eyebrow": "CONNECTED FLOW",
+    "title": "Una trucada es converteix en un client.",
+    "title_em": "Sense fricció.",
+    "lead": "L'agent capta, qualifica, agenda i lliura a l'humà amb tot el context. Tu només tanques.",
+    "node_call": "Trucada entra",
+    "node_bot": "Agent qualifica",
     "node_crm": "Lead al CRM",
     "node_human": "Humà tanca"
   },
   "case_featured": {
-    "eyebrow": "Cas destacat · iReparo",
-    "quote": "Abans perdíem 1 de cada 4 trucades. Ara cap. I els WhatsApps d'enviaments es contesten sols.",
-    "body": "Centraleta virtual + bot WhatsApp per a enviaments + CRM SAT integrats. Cada trucada es converteix en fitxa. Cada WhatsApp en ticket. Cada lead s'atén. L'equip deixa de fer de centraleta i es concentra a reparar.",
-    "metric1_label": "trucades perdudes",
-    "metric2_label": "leads qualificats",
-    "metric3_label": "menys admin",
-    "cta": "Llegir el cas complet →"
+    "eyebrow": "CAS · IREPARO SAT",
+    "quote_pre": "“Hem passat de perdre trucades a",
+    "quote_em": "tancar reparacions",
+    "quote_post": "mentre dormim.”",
+    "body": "Després de 90 dies amb TriaClaw, l'agent de WhatsApp resol el 71% dels tickets sense tocar a un humà. La centraleta detecta i torna cada trucada perduda en menys de 60 segons.",
+    "metric1_value": "-78%",
+    "metric1_label": "Trucades perdudes",
+    "metric2_value": "+3.4×",
+    "metric2_label": "Leads qualificats",
+    "metric3_value": "71%",
+    "metric3_label": "Auto-resolució"
   },
   "pricing_teaser": {
-    "eyebrow": "Preus",
-    "title": "Sense sorpreses. Sense permanència.",
-    "lead": "Comença per un. Combina dos i rebaixa un 15%. Cancel·la quan vulguis.",
+    "eyebrow": "PREUS TRANSPARENTS",
+    "title": "Comença per una capa.",
+    "title_em": "Creix sense permanència.",
+    "lead": "Modular: contracta només el que necessites avui. Activa la resta quan estiguis llest. Sense permanència, sense sorpreses.",
     "chip_centralita": "Centraleta",
-    "chip_agents": "Agents",
+    "chip_agents": "Agents WA",
     "chip_crm": "CRM",
     "from": "des de",
-    "cta_table": "Veure taula completa →",
-    "note": "Posada en marxa inclosa als plans Pro. IVA no inclòs."
+    "cta_table": "Veure taula completa",
+    "note": "Posada en marxa inclosa als plans Pro · IVA no inclòs"
   },
   "testimonials": {
     "eyebrow": "Confien",
@@ -109,9 +131,9 @@
     "role3": "Assessoria"
   },
   "cta_final": {
-    "title_l1": "Llest perquè la teva pime",
-    "title_l2": "contesti sola?",
-    "lead": "15 minuts per WhatsApp. Sense compromís. T'ensenyem els tres pilars en 1 demo."
+    "title_l1": "La teva propera",
+    "title_l2": "operació intel·ligent.",
+    "lead": "30 minuts amb tu, una demo en directe i un pla a 7 dies. Sense compromís."
   },
   "a11y": {
     "skip_to_content": "Saltar al contingut"

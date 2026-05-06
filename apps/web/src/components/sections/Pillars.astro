@@ -31,13 +31,19 @@ const pillars = [
     icon: `<path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/>`,
   },
 ];
+
+const titlePre = t(locale, 'pillars.title');
+const titleWord = t(locale, 'pillars.title_word');
+const titleTail = t(locale, 'pillars.title_tail');
 ---
 
 <section class="tcw-section" id="pillars">
   <Container>
     <div class="tcw-section-head reveal">
       <span class="eyebrow mono">{t(locale, 'pillars.eyebrow')}</span>
-      <h2 class="tcw-h2 grad-text">{t(locale, 'pillars.title')}</h2>
+      <h2 class="tcw-h2">
+        {titlePre} <span class="grad-text">{titleWord}</span> {titleTail}
+      </h2>
       <p class="tcw-section-head__lead">{t(locale, 'pillars.lead')}</p>
     </div>
 

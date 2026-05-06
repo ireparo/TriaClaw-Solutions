@@ -21,7 +21,7 @@ describe('i18n helpers', () => {
   });
 
   it('resolves deep nested keys via t()', () => {
-    expect(t('es', 'hero.cta_whatsapp')).toBe('Habla por WhatsApp');
+    expect(t('es', 'hero.cta_whatsapp')).toBe('Hablar por WhatsApp');
     expect(t('ca', 'hero.cta_whatsapp')).toBe('Parla per WhatsApp');
   });
 
