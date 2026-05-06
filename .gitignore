@@ -11,6 +11,7 @@ Thumbs.db
 
 # Node / build (por si acabamos con Next/Astro)
 node_modules/
+.pnpm-store/
 .next/
 .astro/
 dist/
