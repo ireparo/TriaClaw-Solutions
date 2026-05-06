@@ -3,6 +3,7 @@ import Container from './Container.astro';
 import { getLocaleFromUrl, t, localizedHref, type Locale } from '../../i18n';
 const locale: Locale = getLocaleFromUrl(Astro.url);
 const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
+const currentPath = Astro.url.pathname;
 ---
 
 <header class="sticky top-0 z-50 bg-white/85 backdrop-blur border-b border-line">
@@ -42,11 +43,12 @@ const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
     </nav>
     <div class="flex items-center gap-3">
       <div class="flex border border-line rounded-md overflow-hidden text-xs font-semibold">
-        <a href="/" class={`px-2.5 py-1.5 ${locale === 'es' ? 'bg-navy text-white' : 'text-muted'}`}
-          >ES</a
+        <a
+          href={localizedHref('es', currentPath)}
+          class={`px-2.5 py-1.5 ${locale === 'es' ? 'bg-navy text-white' : 'text-muted'}`}>ES</a
         >
         <a
-          href="/ca/"
+          href={localizedHref('ca', currentPath)}
           class={`px-2.5 py-1.5 ${locale === 'ca' ? 'bg-navy text-white' : 'text-muted'}`}>CA</a
         >
       </div>

@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
-import { getLocaleFromUrl, type Locale } from '../i18n';
+import { getLocaleFromUrl, t, type Locale } from '../i18n';
 
 interface Props {
   title: string;
@@ -15,7 +15,8 @@ const {
   ogImage = '/og-default.png',
 } = Astro.props;
 const locale: Locale = getLocaleFromUrl(Astro.url);
-const canonical = new URL(Astro.url.pathname, import.meta.env.PUBLIC_SITE_URL).toString();
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'http://localhost:4321';
+const canonical = new URL(Astro.url.pathname, siteUrl).toString();
 ---
 
 <!doctype html>
@@ -28,16 +29,19 @@ const canonical = new URL(Astro.url.pathname, import.meta.env.PUBLIC_SITE_URL).t
     <link rel="canonical" href={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta
-      property="og:image"
-      content={new URL(ogImage, import.meta.env.PUBLIC_SITE_URL).toString()}
-    />
+    <meta property="og:image" content={new URL(ogImage, siteUrl).toString()} />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body class="bg-white text-ink">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] bg-navy text-white px-4 py-2 rounded-lg font-semibold text-sm"
+    >
+      {t(locale, 'a11y.skip_to_content')}
+    </a>
     <Header />
-    <main><slot /></main>
+    <main id="main"><slot /></main>
     <Footer />
   </body>
 </html>
