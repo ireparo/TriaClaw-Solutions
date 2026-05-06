@@ -18,6 +18,9 @@ const {
 const locale: Locale = getLocaleFromUrl(Astro.url);
 const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'http://localhost:4321';
 const canonical = new URL(Astro.url.pathname, siteUrl).toString();
+const path = Astro.url.pathname.replace(/^\/ca\//, '/').replace(/^\/ca$/, '/');
+const esUrl = new URL(path, siteUrl).toString();
+const caUrl = new URL(`/ca${path === '/' ? '' : path}`, siteUrl).toString();
 ---
 
 <!doctype html>
@@ -34,6 +37,9 @@ const canonical = new URL(Astro.url.pathname, siteUrl).toString();
     <meta property="og:image" content={new URL(ogImage, siteUrl).toString()} />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <link rel="alternate" hreflang="es-ES" href={esUrl} />
+    <link rel="alternate" hreflang="ca-ES" href={caUrl} />
+    <link rel="alternate" hreflang="x-default" href={esUrl} />
     <JsonLd />
   </head>
   <body class="bg-white text-ink">
