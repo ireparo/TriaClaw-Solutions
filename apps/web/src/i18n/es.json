@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "centralita": "Centralita",
+    "agents": "Agents",
+    "crm": "CRM",
+    "pricing": "Precios",
+    "cases": "Casos",
+    "partners": "Partners",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "eyebrow": "Pymes · Autònoms · Integradors",
+    "title": "Tria el teu agent.",
+    "subtitle": "Centralita, bots i CRM que parlen entre ells.",
+    "lead": "Una sola plataforma para que tu pyme no pierda ni una llamada, ni un WhatsApp, ni un lead. Lleida-made, integrado de fábrica, listo en días.",
+    "cta_whatsapp": "Habla por WhatsApp",
+    "cta_demo": "Pedir demo",
+    "meta": ["Sin permanencia", "Setup en 7 días", "RGPD-compliant"]
+  },
+  "footer": {
+    "tagline": "Una marca de iReparo.",
+    "city": "Lleida · Catalunya",
+    "rights": "© 2026 TriaClaw"
+  }
+}

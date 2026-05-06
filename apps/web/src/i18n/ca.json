@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "centralita": "Centraleta",
+    "agents": "Agents",
+    "crm": "CRM",
+    "pricing": "Preus",
+    "cases": "Casos",
+    "partners": "Partners",
+    "contact": "Contacte"
+  },
+  "hero": {
+    "eyebrow": "Pimes · Autònoms · Integradors",
+    "title": "Tria el teu agent.",
+    "subtitle": "Centraleta, bots i CRM que parlen entre ells.",
+    "lead": "Una sola plataforma perquè la teva pime no perdi cap trucada, ni cap WhatsApp, ni cap lead. Feta a Lleida, integrada de fàbrica, llesta en dies.",
+    "cta_whatsapp": "Parla per WhatsApp",
+    "cta_demo": "Demanar demo",
+    "meta": ["Sense permanència", "Posada en marxa en 7 dies", "RGPD-compliant"]
+  },
+  "footer": {
+    "tagline": "Una marca d'iReparo.",
+    "city": "Lleida · Catalunya",
+    "rights": "© 2026 TriaClaw"
+  }
+}
