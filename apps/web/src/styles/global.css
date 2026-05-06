@@ -13,8 +13,8 @@
   --color-muted: #475569;
   --color-line: #E2E8F0;
 
-  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", monospace;
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, "SFMono-Regular", monospace;
 
   --radius-sm: 4px;
   --radius-md: 8px;
