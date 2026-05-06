@@ -23,14 +23,40 @@ const note =
     : 'Setup incluido en planes Pro. IVA no incluido. Combina 2+ pilares y rebaja un 15%.';
 ---
 
-<section class="bg-[#fafbfd] py-24">
-  <div class="mx-auto max-w-[1200px] px-8">
-    <h2 class="text-3xl md:text-4xl font-extrabold text-navy tracking-tight mb-10 text-center">
-      {title}
-    </h2>
-    <div class="grid md:grid-cols-3 gap-5">
+<section class="tcw-section">
+  <div class="tcw-pillar-plans__wrap">
+    <h2 class="tcw-h2 grad-text tcw-pillar-plans__title">{title}</h2>
+    <div class="tcw-pillar-plans__grid">
       {plans.map((p) => <PricingCard {...p} />)}
     </div>
-    <p class="text-[13px] text-muted text-center mt-6">{note}</p>
+    <p class="tcw-pillar-plans__note mono">{note}</p>
   </div>
 </section>
+
+<style>
+  .tcw-pillar-plans__wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .tcw-pillar-plans__title {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .tcw-pillar-plans__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  @media (max-width: 900px) {
+    .tcw-pillar-plans__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .tcw-pillar-plans__note {
+    font-size: 12px;
+    color: var(--dim);
+    text-align: center;
+    margin-top: 24px;
+  }
+</style>

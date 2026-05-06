@@ -3,15 +3,16 @@
 @import '@fontsource-variable/geist-mono';
 
 @theme {
+  /* legacy palette (kept for backwards compatibility with components not yet migrated) */
   --color-navy: #0f2a5c;
   --color-navy-2: #1e40af;
   --color-cyan-brand: #22d3ee;
   --color-teal-brand: #14b8a6;
   --color-whatsapp: #25d366;
-  --color-bg: #f8fafc;
-  --color-ink: #0f172a;
-  --color-muted: #475569;
-  --color-line: #e2e8f0;
+  --color-bg: #0b0a1f;
+  --color-ink: #fafafa;
+  --color-muted: #cbd5e1;
+  --color-line: rgba(255, 255, 255, 0.12);
 
   --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
@@ -21,31 +22,336 @@
   --radius-lg: 12px;
   --radius-xl: 16px;
 
-  --shadow-sm: 0 1px 2px rgba(15, 42, 92, 0.06);
-  --shadow-md: 0 4px 12px rgba(15, 42, 92, 0.08);
-  --shadow-lg: 0 12px 32px rgba(15, 42, 92, 0.14);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+/* ───────────────────────── V4 glassmorphic design tokens ───────────────────────── */
+:root {
+  --ink: #fafafa;
+  --muted: #cbd5e1;
+  --dim: #94a3b8;
+
+  --neon-cyan: #22d3ee;
+  --neon-violet: #a78bfa;
+  --neon-pink: #f0abfc;
+  --soft-cyan: #67e8f9;
+  --whatsapp: #25d366;
+
+  --grad-text: linear-gradient(120deg, #22d3ee 0%, #a78bfa 60%, #f0abfc 100%);
+  --grad-button: linear-gradient(120deg, #22d3ee 0%, #a78bfa 100%);
+  --grad-bg: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #5b21b6 70%, #06b6d4 100%);
+
+  --glass-bg: rgba(255, 255, 255, 0.06);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.12);
+  --glass-blur: blur(20px) saturate(1.4);
+  --glass-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 60px -15px rgba(167, 139, 250, 0.4);
+
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-xl: 28px;
 }
 
 @layer base {
   html {
     font-family: var(--font-sans);
-    color: var(--color-ink);
+    color: var(--ink);
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
   body {
-    background: #fff;
+    background: #0b0a1f;
+    color: var(--ink);
+    min-height: 100vh;
+    position: relative;
+    line-height: 1.55;
   }
   *:focus-visible {
-    outline: 2px solid var(--color-navy);
+    outline: 2px solid var(--neon-cyan);
     outline-offset: 2px;
+  }
+  ::selection {
+    background: rgba(167, 139, 250, 0.45);
+    color: #fff;
   }
 }
 
+/* ───────────────────────── animated mesh background layers ───────────────────────── */
+.bg-mesh {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  background: var(--grad-bg);
+  background-size: 200% 200%;
+  animation: meshShift 30s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes meshShift {
+  0%,
+  100% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 30%;
+  }
+  50% {
+    background-position: 80% 100%;
+  }
+  75% {
+    background-position: 20% 70%;
+  }
+}
+.bg-orbs {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+}
+.orb.o1 {
+  width: 520px;
+  height: 520px;
+  background: var(--neon-violet);
+  top: -120px;
+  left: -80px;
+  animation: floatA 22s ease-in-out infinite;
+}
+.orb.o2 {
+  width: 460px;
+  height: 460px;
+  background: var(--neon-cyan);
+  top: 30%;
+  right: -120px;
+  animation: floatB 26s ease-in-out infinite;
+}
+.orb.o3 {
+  width: 380px;
+  height: 380px;
+  background: var(--neon-pink);
+  bottom: 10%;
+  left: 20%;
+  animation: floatC 30s ease-in-out infinite;
+}
+.orb.o4 {
+  width: 300px;
+  height: 300px;
+  background: var(--soft-cyan);
+  bottom: -100px;
+  right: 30%;
+  animation: floatA 28s ease-in-out infinite reverse;
+}
+@keyframes floatA {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(80px, 60px) scale(1.15);
+  }
+}
+@keyframes floatB {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-100px, 80px) scale(0.9);
+  }
+}
+@keyframes floatC {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(60px, -90px) scale(1.1);
+  }
+}
+.bg-dots {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+  background-size: 42px 42px;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);
+}
+
+/* ───────────────────────── shared utilities ───────────────────────── */
+.mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+.grad-text {
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/* legacy gradient – still used by some components, redefined to feel native on dark bg */
 .gradient-brand {
+  background: var(--grad-button);
+}
+
+/* eyebrow pill — used across sections */
+.eyebrow {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(167, 139, 250, 0.14);
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  color: #ddd6fe;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* reveal-on-scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* gradient border helper for cards/chips that want the rainbow outline */
+.grad-border {
+  position: relative;
+}
+.grad-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
   background: linear-gradient(
     135deg,
-    var(--color-navy) 0%,
-    var(--color-navy-2) 50%,
-    var(--color-cyan-brand) 100%
+    rgba(34, 211, 238, 0.6),
+    rgba(167, 139, 250, 0.5),
+    rgba(240, 171, 252, 0.5)
   );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* hero console card animation */
+.bubble {
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.45;
+  max-width: 82%;
+  margin: 10px 0;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: bubIn 0.6s ease-out forwards;
+}
+.bubble.in {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-right: auto;
+}
+.bubble.out {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.22), rgba(167, 139, 250, 0.22));
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  margin-left: auto;
+}
+.bubble .meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--dim);
+  margin-bottom: 4px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.bubble.b1 {
+  animation-delay: 0.3s;
+}
+.bubble.b2 {
+  animation-delay: 1.1s;
+}
+.bubble.b3 {
+  animation-delay: 1.9s;
+}
+.bubble.b4 {
+  animation-delay: 2.7s;
+}
+@keyframes bubIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* connected flow path animation */
+@keyframes dash {
+  to {
+    stroke-dashoffset: -200;
+  }
+}
+@keyframes nodeFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+/* WhatsApp FAB pulse */
+@keyframes waPulse {
+  0% {
+    box-shadow:
+      0 0 0 0 rgba(37, 211, 102, 0.55),
+      0 18px 40px -10px rgba(37, 211, 102, 0.6);
+  }
+  70% {
+    box-shadow:
+      0 0 0 24px rgba(37, 211, 102, 0),
+      0 18px 40px -10px rgba(37, 211, 102, 0.6);
+  }
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(37, 211, 102, 0),
+      0 18px 40px -10px rgba(37, 211, 102, 0.6);
+  }
 }

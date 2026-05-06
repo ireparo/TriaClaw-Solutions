@@ -1,40 +1,125 @@
 ---
 import Container from '../layout/Container.astro';
-import Button from '../ui/Button.astro';
 import { getLocaleFromUrl, t, localizedHref, type Locale } from '../../i18n';
 const locale: Locale = getLocaleFromUrl(Astro.url);
-const from = t(locale, 'pricing_teaser.from');
 const chips = [
-  { icon: '📞', name: t(locale, 'pricing_teaser.chip_centralita'), price: '29 €/mes' },
-  { icon: '🤖', name: t(locale, 'pricing_teaser.chip_agents'), price: '49 €/mes' },
-  { icon: '📋', name: t(locale, 'pricing_teaser.chip_crm'), price: '39 €/usuario/mes' },
+  { name: t(locale, 'pricing_teaser.chip_centralita'), price: '€39', suffix: '/mes', sub: '+ consumo por minuto' },
+  { name: t(locale, 'pricing_teaser.chip_agents'), price: '€89', suffix: '/mes', sub: 'hasta 1.000 conv.' },
+  { name: t(locale, 'pricing_teaser.chip_crm'), price: '€19', suffix: '/usuario', sub: 'facturado mensual' },
 ];
 ---
 
-<section class="py-24">
-  <Container class="text-center">
-    <span
-      class="inline-block px-3.5 py-1.5 bg-navy/[8%] text-navy rounded-full text-xs font-semibold tracking-wide mb-3"
-      >{t(locale, 'pricing_teaser.eyebrow')}</span
-    >
-    <h2 class="text-4xl md:text-5xl font-extrabold text-navy tracking-tight mb-3">
-      {t(locale, 'pricing_teaser.title')}
-    </h2>
-    <p class="text-lg text-muted max-w-2xl mx-auto mb-10">
-      {t(locale, 'pricing_teaser.lead')}
-    </p>
-    <div class="flex justify-center gap-3 flex-wrap mb-6">
-      {
-        chips.map((c) => (
-          <div class="px-5 py-3.5 border border-line rounded-xl bg-white text-[14.5px]">
-            {c.icon} <strong class="text-navy font-bold">{c.name}</strong> · {from} {c.price}
-          </div>
-        ))
-      }
+<section class="tcw-section tcw-pricing" id="pricing">
+  <Container>
+    <div class="reveal">
+      <span class="eyebrow mono">{t(locale, 'pricing_teaser.eyebrow')}</span>
+      <h2 class="tcw-h2 tcw-pricing__title">
+        <span class="grad-text">{t(locale, 'pricing_teaser.title')}</span>
+      </h2>
+      <p class="tcw-section-head__lead tcw-pricing__lead">{t(locale, 'pricing_teaser.lead')}</p>
+
+      <div class="tcw-chips">
+        {
+          chips.map((c) => (
+            <div class="tcw-chip glass">
+              <span class="tcw-chip__name mono">{c.name}</span>
+              <span class="tcw-chip__price">
+                {c.price}
+                <small>{c.suffix}</small>
+              </span>
+              <span class="tcw-chip__sub">{c.sub}</span>
+            </div>
+          ))
+        }
+      </div>
+
+      <a class="tcw-btn tcw-btn--cyan" href={localizedHref(locale, '/precios')}>
+        {t(locale, 'pricing_teaser.cta_table')}
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"></path></svg
+        >
+      </a>
+      <p class="tcw-pricing__note mono">{t(locale, 'pricing_teaser.note')}</p>
     </div>
-    <Button variant="navy" href={localizedHref(locale, '/precios')}
-      >{t(locale, 'pricing_teaser.cta_table')}</Button
-    >
-    <p class="text-[13.5px] text-muted mt-4">{t(locale, 'pricing_teaser.note')}</p>
   </Container>
 </section>
+
+<style>
+  .tcw-pricing {
+    text-align: center;
+  }
+  .tcw-pricing__title {
+    margin: 16px auto 14px;
+    max-width: 900px;
+  }
+  .tcw-pricing__lead {
+    margin: 0 auto 36px;
+    max-width: 60ch;
+  }
+  .tcw-chips {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .tcw-chip {
+    position: relative;
+    padding: 18px 26px;
+    border-radius: 18px;
+    min-width: 200px;
+    text-align: center;
+  }
+  .tcw-chip::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 18px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.5), rgba(167, 139, 250, 0.5));
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .tcw-chip__name {
+    font-size: 11px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  .tcw-chip__price {
+    font-family: var(--font-mono);
+    font-size: 30px;
+    font-weight: 600;
+    background: var(--grad-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin: 6px 0 4px;
+    display: block;
+  }
+  .tcw-chip__price small {
+    font-size: 14px;
+  }
+  .tcw-chip__sub {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .tcw-pricing__note {
+    color: var(--dim);
+    font-size: 12px;
+    margin-top: 18px;
+  }
+</style>

@@ -8,16 +8,8 @@ interface Props {
   ariaLabel?: string;
 }
 const { href, variant = 'navy', type = 'button', class: cls = '', ariaLabel } = Astro.props;
-const base =
-  'inline-flex items-center gap-2 rounded-lg px-5 py-3 font-semibold text-sm transition shadow-sm hover:-translate-y-px hover:shadow-md';
-const variants: Record<Variant, string> = {
-  navy: 'bg-navy text-white',
-  cyan: 'bg-cyan-brand text-navy',
-  outline: 'bg-transparent text-navy border border-navy',
-  ghost: 'bg-transparent text-navy underline-offset-4 hover:underline',
-  whatsapp: 'bg-whatsapp text-navy',
-};
-const className = `${base} ${variants[variant]} ${cls}`;
+const base = `tcw-btn tcw-btn--${variant}`;
+const className = `${base} ${cls}`;
 ---
 
 {
@@ -31,3 +23,55 @@ const className = `${base} ${variants[variant]} ${cls}`;
     </button>
   )
 }
+
+<style is:global>
+  .tcw-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 24px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 15px;
+    transition: all 0.25s ease;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  /* primary gradient (used by 'cyan' and 'navy' variants for the brightest CTA) */
+  .tcw-btn--cyan,
+  .tcw-btn--navy {
+    background: var(--grad-button);
+    color: #0b0a1f;
+    box-shadow: 0 0 50px -10px rgba(34, 211, 238, 0.55);
+  }
+  .tcw-btn--cyan:hover,
+  .tcw-btn--navy:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 0 70px -8px rgba(167, 139, 250, 0.8);
+  }
+  /* glass ghost */
+  .tcw-btn--outline,
+  .tcw-btn--ghost {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
+    color: var(--ink);
+  }
+  .tcw-btn--outline:hover,
+  .tcw-btn--ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+  }
+  /* whatsapp green with glow halo */
+  .tcw-btn--whatsapp {
+    background: var(--whatsapp);
+    color: #ffffff;
+    box-shadow: 0 0 32px -8px rgba(37, 211, 102, 0.7);
+  }
+  .tcw-btn--whatsapp:hover {
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 0 50px -6px rgba(37, 211, 102, 0.9);
+  }
+</style>

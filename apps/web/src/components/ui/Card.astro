@@ -5,16 +5,49 @@ interface Props {
   class?: string;
 }
 const { tone = 'default', class: cls = '' } = Astro.props;
-const tops: Record<Tone, string> = {
-  default: '',
-  navy: 'before:absolute before:top-0 before:left-0 before:right-0 before:h-1 before:bg-navy',
-  cyan: 'before:absolute before:top-0 before:left-0 before:right-0 before:h-1 before:bg-cyan-brand',
-  teal: 'before:absolute before:top-0 before:left-0 before:right-0 before:h-1 before:bg-teal-brand',
-};
+const accent =
+  tone === 'navy'
+    ? 'rgba(167,139,250,.7)'
+    : tone === 'cyan'
+      ? 'rgba(34,211,238,.7)'
+      : tone === 'teal'
+        ? 'rgba(103,232,249,.7)'
+        : '';
 ---
 
 <div
-  class={`relative bg-white border border-line rounded-2xl p-7 transition hover:-translate-y-1 hover:shadow-lg ${tops[tone]} ${cls}`}
+  class={`glass tcw-card ${cls}`}
+  data-tone={tone}
+  style={accent ? `--accent:${accent}` : undefined}
 >
   <slot />
 </div>
+
+<style is:global>
+  .tcw-card {
+    position: relative;
+    border-radius: var(--r-lg);
+    padding: 28px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .tcw-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      0 24px 60px -20px rgba(167, 139, 250, 0.5);
+  }
+  .tcw-card[data-tone='navy']::after,
+  .tcw-card[data-tone='cyan']::after,
+  .tcw-card[data-tone='teal']::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+    background: var(--accent);
+    opacity: 0.8;
+    pointer-events: none;
+  }
+</style>

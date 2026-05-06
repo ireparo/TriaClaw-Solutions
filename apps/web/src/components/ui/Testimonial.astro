@@ -8,10 +8,10 @@ interface Props {
 const { quote, name, role, avatar } = Astro.props;
 ---
 
-<div class="bg-white border border-line rounded-2xl p-7">
-  <div class="text-3xl text-cyan-brand leading-none mb-2">"</div>
-  <p class="text-[14.5px] text-ink leading-relaxed mb-4">{quote}</p>
-  <div class="flex items-center gap-3">
+<div class="glass tcw-testimonial">
+  <div class="tcw-testimonial__mark">"</div>
+  <p class="tcw-testimonial__quote">{quote}</p>
+  <div class="tcw-testimonial__author">
     {
       avatar ? (
         <img
@@ -21,15 +21,63 @@ const { quote, name, role, avatar } = Astro.props;
           height="40"
           loading="lazy"
           decoding="async"
-          class="w-10 h-10 rounded-full object-cover"
+          class="tcw-testimonial__avatar"
         />
       ) : (
-        <div class="w-10 h-10 rounded-full gradient-brand" />
+        <div class="tcw-testimonial__avatar tcw-testimonial__avatar--gradient" />
       )
     }
     <div>
-      <div class="font-semibold text-sm text-navy">{name}</div>
-      <div class="text-xs text-muted">{role}</div>
+      <div class="tcw-testimonial__name mono">{name}</div>
+      <div class="tcw-testimonial__role mono">{role}</div>
     </div>
   </div>
 </div>
+
+<style is:global>
+  .tcw-testimonial {
+    border-radius: var(--r-lg);
+    padding: 28px;
+  }
+  .tcw-testimonial__mark {
+    font-size: 36px;
+    line-height: 1;
+    margin-bottom: 8px;
+    background: var(--grad-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-weight: 800;
+  }
+  .tcw-testimonial__quote {
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.55;
+    margin-bottom: 18px;
+    font-style: italic;
+  }
+  .tcw-testimonial__author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .tcw-testimonial__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    object-fit: cover;
+  }
+  .tcw-testimonial__avatar--gradient {
+    background: var(--grad-button);
+  }
+  .tcw-testimonial__name {
+    font-size: 13px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .tcw-testimonial__role {
+    font-size: 11px;
+    color: var(--dim);
+  }
+</style>

@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TriaClaw // brutalist tech terminal</title>
+<meta name="description" content="TriaClaw — centralita, agents i CRM que parlen entre ells. Built for pymes." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Geist:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ────────────────────────────────────────────────────────────────────
+     TriaClaw // 03-brutalist-tech.html
+     pure black on pure white · single neon accent · all monospace
+     ──────────────────────────────────────────────────────────────────── */
+
+  :root{
+    --bg:#ffffff;
+    --ink:#000000;
+    --accent:#00FF88;
+    --subtle:#888888;
+    --rule:#000000;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ background:var(--bg); color:var(--ink); }
+  body{
+    font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-weight:400;
+    font-size:14px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:geometricPrecision;
+  }
+
+  ::selection{ background:var(--accent); color:#000; }
+  ::-moz-selection{ background:var(--accent); color:#000; }
+
+  a{ color:inherit; text-decoration:none; }
+  a.lnk{ text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px; }
+  a.lnk:hover{ text-decoration-thickness:3px; background:#000; color:#fff; }
+
+  button, .btn{
+    font-family:inherit;
+    font-size:13px;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+    cursor:pointer;
+    border:1px solid #000;
+    border-radius:0;
+    padding:10px 16px;
+    background:#fff;
+    color:#000;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .btn-solid{ background:#000; color:#fff; }
+  .btn:hover{ background:#000; color:#fff; }
+  .btn-solid:hover{ background:#fff; color:#000; }
+
+  .container{ max-width:1280px; margin:0 auto; padding:0 24px; }
+
+  /* HEADER ─────────────────────────────────────────────────────── */
+  header.site{
+    border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+    background:#fff;
+    position:sticky; top:0; z-index:50;
+  }
+  header.site .row{
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  header.site nav{
+    display:flex; align-items:center; gap:14px;
+    font-size:12px; font-weight:500; letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+  header.site nav a{
+    padding:4px 6px;
+    border:1px solid transparent;
+  }
+  header.site nav a:hover{ background:#000; color:#fff; }
+  header.site nav .sep{ color:var(--subtle); user-select:none; }
+  header.site .right{ display:flex; align-items:center; gap:14px; }
+  .lang{ display:flex; gap:4px; font-size:11px; }
+  .lang a{ padding:2px 6px; border:1px solid #000; }
+  .lang a.active{ background:#000; color:#fff; }
+  .lang a:hover{ background:#000; color:#fff; }
+
+  /* HERO ───────────────────────────────────────────────────────── */
+  section.hero{
+    border-bottom:1px solid #000;
+    padding:64px 0 56px;
+    position:relative;
+  }
+  .hero .grid{
+    display:grid;
+    grid-template-columns: 1fr 280px;
+    gap:48px;
+    align-items:start;
+  }
+  .hero-pretext{
+    font-size:12px; color:var(--subtle); letter-spacing:0.06em;
+    text-transform:uppercase; margin-bottom:24px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .hero-pretext .dot{
+    width:8px; height:8px; background:var(--accent); display:inline-block;
+    animation:blink 1.4s infinite;
+  }
+  h1.hero-title{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:800;
+    font-size:clamp(40px, 6vw, 76px);
+    line-height:1.02;
+    letter-spacing:-0.02em;
+  }
+  h1.hero-title .l1{ display:block; }
+  h1.hero-title .l2{
+    display:block;
+    font-weight:400;
+    color:#000;
+    font-size:clamp(28px, 4vw, 50px);
+    margin-top:6px;
+    letter-spacing:-0.01em;
+  }
+  .cursor{
+    display:inline-block;
+    width:0.55ch;
+    background:var(--accent);
+    color:transparent;
+    animation:blink 1s steps(2) infinite;
+    margin-left:4px;
+    transform:translateY(2px);
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .hero-lead{
+    font-family:'Geist', 'JetBrains Mono', monospace;
+    font-size:17px; line-height:1.55;
+    max-width:62ch;
+    margin-top:28px;
+    color:#000;
+  }
+  .hero-ctas{
+    display:flex; gap:12px; margin-top:32px; flex-wrap:wrap;
+  }
+
+  .status-box{
+    border:1px solid #000;
+    padding:14px 16px;
+    font-size:12px;
+    line-height:1.7;
+  }
+  .status-box .row{
+    display:flex; justify-content:space-between; gap:16px;
+  }
+  .status-box .label{ color:var(--subtle); text-transform:uppercase; }
+  .status-box .val{ font-weight:700; }
+  .status-box .val.green{ color:#000; background:var(--accent); padding:0 4px; }
+  .status-box .head{
+    border-bottom:1px solid #000;
+    padding-bottom:8px; margin-bottom:8px;
+    text-transform:uppercase; font-weight:700;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .status-box .head .live{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:11px; color:var(--subtle);
+  }
+  .live-dot{
+    width:8px; height:8px; background:var(--accent); display:inline-block;
+    animation:blink 1.4s infinite;
+  }
+
+  pre.declaration{
+    margin-top:48px;
+    border-top:1px solid #000;
+    border-bottom:1px solid #000;
+    padding:18px 0;
+    font-size:12px;
+    line-height:1.7;
+    white-space:pre;
+    overflow:auto;
+    color:#000;
+  }
+  pre.declaration .acc{ background:var(--accent); padding:0 4px; }
+
+  /* LOGOBAR ────────────────────────────────────────────────────── */
+  section.logobar{
+    border-bottom:1px solid #000;
+    padding:18px 0;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+  }
+  .logobar .row{
+    display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+  }
+  .logobar .label{ color:var(--subtle); }
+  .logobar .names{ display:flex; gap:14px; flex-wrap:wrap; }
+  .logobar .sep{ color:var(--subtle); user-select:none; }
+  .logobar .names span:hover{ background:#000; color:#fff; cursor:default; }
+
+  /* PILLARS ───────────────────────────────────────────────────── */
+  section.pillars{
+    border-bottom:1px solid #000;
+    padding:64px 0;
+  }
+  .section-head{
+    margin-bottom:40px;
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:24px; flex-wrap:wrap;
+  }
+  .section-head h2{
+    font-size:clamp(28px, 4vw, 44px);
+    font-weight:800;
+    letter-spacing:-0.02em;
+  }
+  .section-head .sub{
+    font-size:12px; color:var(--subtle);
+    text-transform:uppercase; letter-spacing:0.06em;
+  }
+  .pillars .cols{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-top:1px solid #000;
+    border-bottom:1px solid #000;
+  }
+  .pillars .col{
+    padding:32px 24px;
+    border-right:1px solid #000;
+  }
+  .pillars .col:last-child{ border-right:none; }
+  .pillars h3{
+    font-size:22px; font-weight:800; margin-bottom:12px;
+    letter-spacing:-0.01em;
+  }
+  .pillars .stat{
+    font-size:11px; text-transform:uppercase; color:var(--subtle);
+    margin-bottom:16px; display:flex; align-items:center; gap:6px;
+  }
+  .pillars .stat .live-dot{ background:var(--accent); }
+  .pillars p{ font-size:13px; line-height:1.6; margin-bottom:16px; }
+  .pillars ul{ list-style:none; margin-bottom:24px; }
+  .pillars ul li{
+    font-size:13px; padding:4px 0;
+    display:flex; gap:8px;
+  }
+  .pillars ul li::before{ content:"+"; color:var(--accent); font-weight:700; }
+  .pillars .access{
+    font-size:12px; text-transform:uppercase; font-weight:700;
+    border-bottom:1px solid #000; padding-bottom:2px;
+    display:inline-block;
+  }
+  .pillars .access:hover{ background:#000; color:#fff; }
+
+  /* DATAFLOW ─────────────────────────────────────────────────── */
+  section.dataflow{
+    border-bottom:1px solid #000;
+    padding:64px 0;
+  }
+  .flow-block{
+    border:1px solid #000;
+    padding:32px;
+    background:#fff;
+  }
+  pre.flow-art{
+    font-size:14px;
+    line-height:1.4;
+    white-space:pre;
+    overflow:auto;
+    text-align:center;
+  }
+  pre.flow-art .step{
+    display:inline-block;
+    padding:6px 10px;
+    border:1px solid #000;
+    font-weight:700;
+    background:#fff;
+  }
+  pre.flow-art .step:hover{ background:#000; color:#fff; }
+  pre.flow-art .arrow{ color:#000; }
+  pre.flow-art .acc{ background:var(--accent); padding:0 2px; }
+  .flow-captions{
+    margin-top:24px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:24px;
+    text-align:center;
+    font-size:11px;
+    color:var(--subtle);
+    text-transform:uppercase;
+  }
+  .flow-captions strong{ display:block; color:#000; font-size:13px; margin-bottom:4px; }
+
+  /* CASE STUDY ──────────────────────────────────────────────── */
+  section.case{
+    border-bottom:1px solid #000;
+    padding:64px 0;
+  }
+  .case .grid{
+    display:grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap:48px;
+    align-items:start;
+  }
+  .case .quote{
+    font-family:'JetBrains Mono', monospace;
+    font-size:24px; font-weight:500; line-height:1.35;
+    letter-spacing:-0.01em;
+    border-left:3px solid var(--accent);
+    padding-left:16px;
+    margin-bottom:24px;
+  }
+  .case .quote span.acc{ background:var(--accent); padding:0 4px; }
+  .case .body{ font-size:14px; line-height:1.6; margin-bottom:24px; max-width:55ch; }
+  .case table.kv{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+    border-top:1px solid #000;
+    border-bottom:1px solid #000;
+  }
+  .case table.kv td{
+    padding:10px 0;
+    border-bottom:1px dashed #000;
+  }
+  .case table.kv tr:last-child td{ border-bottom:none; }
+  .case table.kv td.k{ color:var(--subtle); text-transform:uppercase; font-size:11px; letter-spacing:0.04em; }
+  .case table.kv td.v{ font-weight:700; text-align:right; }
+  .case table.kv td.v .acc{ background:var(--accent); padding:0 4px; }
+
+  .console{
+    border:1px solid #000;
+    background:#000;
+    color:#fff;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    line-height:1.6;
+  }
+  .console .titlebar{
+    border-bottom:1px solid #fff;
+    padding:8px 12px;
+    text-transform:uppercase;
+    font-size:11px;
+    color:var(--subtle);
+    display:flex; justify-content:space-between;
+  }
+  .console .body{
+    padding:14px 16px;
+    white-space:pre;
+    overflow:auto;
+  }
+  .console .prompt{ color:var(--accent); }
+  .console .ok{ color:var(--accent); }
+  .console .dim{ color:var(--subtle); }
+
+  /* PRICING ─────────────────────────────────────────────────── */
+  section.pricing{
+    border-bottom:1px solid #000;
+    padding:72px 0;
+    text-align:center;
+  }
+  .pricing h2{
+    font-size:clamp(28px, 4vw, 44px); font-weight:800;
+    letter-spacing:-0.02em; margin-bottom:8px;
+  }
+  .pricing .sub{
+    font-size:12px; color:var(--subtle);
+    text-transform:uppercase; letter-spacing:0.06em;
+    margin-bottom:36px;
+  }
+  table.pricing-tbl{
+    margin:0 auto;
+    border-collapse:collapse;
+    font-size:14px;
+    min-width:520px;
+    max-width:680px;
+    width:100%;
+    border:1px solid #000;
+  }
+  table.pricing-tbl th, table.pricing-tbl td{
+    padding:14px 18px;
+    text-align:left;
+    border-bottom:1px solid #000;
+  }
+  table.pricing-tbl th{
+    background:#000; color:#fff;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    font-size:11px;
+    font-weight:700;
+  }
+  table.pricing-tbl tr:last-child td{ border-bottom:none; }
+  table.pricing-tbl tr:hover td{ background:#000; color:#fff; }
+  table.pricing-tbl tr:hover td .acc{ color:#000; }
+  table.pricing-tbl td.module{ font-weight:700; }
+  table.pricing-tbl td.price .acc{ background:var(--accent); padding:0 4px; }
+  .pricing .cta-row{ margin-top:32px; }
+
+  /* CTA FINAL ───────────────────────────────────────────────── */
+  section.cta-final{
+    border-bottom:1px solid #000;
+    padding:96px 0;
+    text-align:center;
+  }
+  .cta-final h2{
+    font-size:clamp(48px, 8vw, 96px);
+    font-weight:800;
+    letter-spacing:-0.04em;
+    line-height:1;
+  }
+  .cta-final h2 .hash{ color:var(--accent); }
+  .cta-final .tag{
+    margin-top:18px;
+    font-style:italic;
+    font-weight:400;
+    font-size:18px;
+    color:#000;
+    text-transform:lowercase;
+  }
+  .cta-final .ctas{
+    margin-top:36px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
+  }
+
+  /* FOOTER ──────────────────────────────────────────────────── */
+  footer.site{
+    background:#fff;
+    color:#000;
+    border-top:1px solid #000;
+  }
+  footer.site .cols{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:32px;
+    padding:48px 0 32px;
+  }
+  footer.site h4{
+    font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin-bottom:14px;
+    color:var(--subtle);
+    font-weight:700;
+  }
+  footer.site h4::before{ content:"## "; color:var(--accent); }
+  footer.site ul{ list-style:none; }
+  footer.site ul li{ margin-bottom:6px; font-size:13px; }
+  footer.site ul li a:hover{ background:#000; color:#fff; }
+  footer.site .bottom{
+    border-top:1px solid #000;
+    padding:14px 0;
+    font-size:11px;
+    color:var(--subtle);
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  }
+  footer.site .bottom .acc{ color:#000; background:var(--accent); padding:0 4px; }
+
+  /* RESPONSIVE ──────────────────────────────────────────────── */
+  @media (max-width:920px){
+    header.site nav{ display:none; }
+    .hero .grid{ grid-template-columns:1fr; }
+    .pillars .cols{ grid-template-columns:1fr; }
+    .pillars .col{ border-right:none; border-bottom:1px solid #000; }
+    .pillars .col:last-child{ border-bottom:none; }
+    .case .grid{ grid-template-columns:1fr; }
+    .flow-captions{ grid-template-columns:repeat(2,1fr); }
+    footer.site .cols{ grid-template-columns:repeat(2,1fr); }
+    pre.flow-art{ font-size:11px; }
+  }
+  @media (max-width:560px){
+    pre.declaration{ font-size:10px; }
+    pre.flow-art{ font-size:9px; }
+    table.pricing-tbl{ min-width:0; font-size:12px; }
+    table.pricing-tbl th, table.pricing-tbl td{ padding:10px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER ─────────────────────────────────────────────────────── -->
+<header class="site">
+  <div class="container row">
+    <a href="/" aria-label="TriaClaw" style="display:flex;align-items:center;gap:10px;">
+      <img src="/logo-triaclaw.png" alt="TriaClaw" style="height:32px" />
+    </a>
+    <nav>
+      <a href="#modules">[CENTRALITA]</a>
+      <a href="#modules">[AGENTS]</a>
+      <a href="#modules">[CRM]</a>
+      <span class="sep">│</span>
+      <a href="#pricing">[PRECIOS]</a>
+      <a href="#case">[CASOS]</a>
+      <span class="sep">│</span>
+      <a href="#partners">[PARTNERS]</a>
+      <a href="#cta">[CONTACTO]</a>
+    </nav>
+    <div class="right">
+      <div class="lang">
+        <a href="#" class="active">ES</a>
+        <a href="#">CA</a>
+      </div>
+      <a class="btn btn-solid" href="https://wa.me/34000000000">&gt; WHATSAPP</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO ────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container">
+    <div class="grid">
+      <div>
+        <div class="hero-pretext">
+          <span class="dot"></span>
+          <span>~/triaclaw $ ./init --target=pyme</span>
+        </div>
+        <h1 class="hero-title">
+          <span class="l1">&gt; tria el teu agent.<span class="cursor">▮</span></span>
+          <span class="l2">centralita, bots i crm que parlen entre ells.</span>
+        </h1>
+        <p class="hero-lead">
+          Operamos centralitas, agentes IA y CRM como un único sistema. Cada llamada,
+          mensaje y ticket queda registrado, enrutado y respondido. Tu pyme deja de
+          perder leads mientras duerme — y tú dejas de hacer de operador 24/7.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-solid" href="https://wa.me/34000000000">&gt; WHATSAPP</a>
+          <a class="btn" href="#cta">[ PEDIR DEMO ]</a>
+        </div>
+      </div>
+
+      <aside class="status-box" aria-label="System status">
+        <div class="head">
+          <span>SYSTEM_STATUS</span>
+          <span class="live"><span class="live-dot"></span>LIVE</span>
+        </div>
+        <div class="row"><span class="label">status</span><span class="val"><span class="val green">ONLINE</span></span></div>
+        <div class="row"><span class="label">uptime</span><span class="val">99.97%</span></div>
+        <div class="row"><span class="label">build</span><span class="val">2026.05.06</span></div>
+        <div class="row"><span class="label">region</span><span class="val">eu-west-3</span></div>
+        <div class="row"><span class="label">latency</span><span class="val">42ms</span></div>
+      </aside>
+    </div>
+
+<pre class="declaration">┌──────────────────────────────────────────────────────────────────────────────┐
+│ 01. <span class="acc">centralita</span> — atiende, transcribe y enruta cada llamada en castellano y català. │
+│ 02. <span class="acc">agents</span>     — bots WhatsApp / web que cualifican, citan y contestan 24/7.       │
+│ 03. <span class="acc">crm</span>        — un único hilo por cliente; tickets, citas y ventas en su sitio.   │
+└──────────────────────────────────────────────────────────────────────────────┘</pre>
+  </div>
+</section>
+
+<!-- LOGOBAR ─────────────────────────────────────────────────────── -->
+<section class="logobar">
+  <div class="container row">
+    <span class="label">// OPERATING_FOR //</span>
+    <div class="names">
+      <span>iReparo</span>
+      <span class="sep">|</span>
+      <span>Falcon-Cat</span>
+      <span class="sep">|</span>
+      <span>Ilercasa</span>
+      <span class="sep">|</span>
+      <span>[comerc-energia]</span>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS ────────────────────────────────────────────────────── -->
+<section class="pillars" id="modules">
+  <div class="container">
+    <div class="section-head">
+      <h2>## MODULES</h2>
+      <span class="sub">// 03 — independientes · interoperables · auditados</span>
+    </div>
+    <div class="cols">
+      <div class="col">
+        <h3># 01. CENTRALITA</h3>
+        <div class="stat"><span class="live-dot"></span> STATUS: ● ONLINE</div>
+        <p>
+          Numeración nacional, IVR multilingüe y transcripción en streaming. Cada
+          llamada queda como evento estructurado en el CRM antes de colgar.
+        </p>
+        <ul>
+          <li>IVR ES/CA con detección de intención</li>
+          <li>Grabación + transcripción Whisper</li>
+          <li>Transferencia inteligente a humano</li>
+          <li>Buzón con resumen + acción sugerida</li>
+        </ul>
+        <a href="#" class="access">&gt; ACCESS_MODULE</a>
+      </div>
+
+      <div class="col">
+        <h3># 02. AGENTS</h3>
+        <div class="stat"><span class="live-dot"></span> STATUS: ● ONLINE</div>
+        <p>
+          Agentes IA en WhatsApp, web y email. Cualifican, agendan citas y
+          escalan a humano cuando hace falta. Sin scripts rígidos.
+        </p>
+        <ul>
+          <li>WhatsApp Business API oficial</li>
+          <li>Memoria por cliente y por hilo</li>
+          <li>Tools: agenda, catálogo, FAQ, ticket</li>
+          <li>Hand-off humano con un emoji</li>
+        </ul>
+        <a href="#" class="access">&gt; ACCESS_MODULE</a>
+      </div>
+
+      <div class="col">
+        <h3># 03. CRM</h3>
+        <div class="stat"><span class="live-dot"></span> STATUS: ● ONLINE</div>
+        <p>
+          Un único timeline por cliente: llamadas, mensajes, tickets, presupuestos
+          y firmas. Sin duplicar datos entre apps.
+        </p>
+        <ul>
+          <li>Pipeline visual + estados custom</li>
+          <li>Plantillas de presupuesto + e-firma</li>
+          <li>Reportes diarios en automático</li>
+          <li>API + webhooks para integrar</li>
+        </ul>
+        <a href="#" class="access">&gt; ACCESS_MODULE</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATAFLOW ───────────────────────────────────────────────────── -->
+<section class="dataflow">
+  <div class="container">
+    <div class="section-head">
+      <h2>## DATAFLOW</h2>
+      <span class="sub">// cómo viaja un cliente por el sistema</span>
+    </div>
+
+    <div class="flow-block">
+<pre class="flow-art"><span class="step">[CALL]</span> <span class="arrow">─────&gt;</span> <span class="step">[BOT]</span> <span class="arrow">─────&gt;</span> <span class="step">[CRM]</span> <span class="arrow">─────&gt;</span> <span class="step">[HUMAN]</span>
+   <span class="acc">▔▔▔▔</span>            <span class="acc">▔▔▔</span>            <span class="acc">▔▔▔</span>             <span class="acc">▔▔▔▔▔</span></pre>
+      <div class="flow-captions">
+        <div><strong>CALL</strong>llamada o WA entrante · IVR ES/CA</div>
+        <div><strong>BOT</strong>cualifica · agenda · responde 24/7</div>
+        <div><strong>CRM</strong>ticket · timeline · estado</div>
+        <div><strong>HUMAN</strong>solo cuando aporta valor</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY ─────────────────────────────────────────────────── -->
+<section class="case" id="case">
+  <div class="container">
+    <div class="section-head">
+      <h2>## CASE_STUDY/ireparo</h2>
+      <span class="sub">// cadena de reparación · 4 tiendas · Lleida + Barcelona</span>
+    </div>
+
+    <div class="grid">
+      <div>
+        <div class="quote">
+          “antes perdíamos <span class="acc">3 de cada 10 llamadas</span>.<br/>
+          ahora el bot atiende, cita y avisa al técnico antes de que entre el cliente.”
+        </div>
+        <p class="body">
+          Migramos su centralita Comercia, conectamos un agente de WhatsApp al
+          CRM y dejamos los tickets viajando solos. En 6 semanas cambiaron las
+          guardias del fin de semana y dejaron de contratar refuerzos.
+        </p>
+        <table class="kv">
+          <tr><td class="k">llamadas_perdidas</td><td class="v"><span class="acc">-78%</span></td></tr>
+          <tr><td class="k">leads_cualificados</td><td class="v"><span class="acc">+34%</span></td></tr>
+          <tr><td class="k">tiempo_primera_respuesta</td><td class="v"><span class="acc">-92%</span></td></tr>
+          <tr><td class="k">npscustom</td><td class="v">8.7 / 10</td></tr>
+          <tr><td class="k">payback</td><td class="v">~ 6 semanas</td></tr>
+        </table>
+      </div>
+
+      <div class="console" aria-hidden="true">
+        <div class="titlebar">
+          <span>~/ireparo · prod</span>
+          <span>tail -f tickets.log</span>
+        </div>
+<div class="body"><span class="prompt">$</span> kubectl get tickets --namespace=ireparo
+NAME           STATE       CHANNEL     AGE   ASSIGNEE
+TKT-9012       <span class="ok">resolved</span>    whatsapp    12m   bot.triaclaw
+TKT-9013       <span class="ok">scheduled</span>   call        18m   bot.triaclaw
+TKT-9014       open        web         1h    marina@ireparo
+TKT-9015       <span class="ok">resolved</span>    whatsapp    2h    bot.triaclaw
+
+<span class="prompt">$</span> triaclaw stats --since=24h
+<span class="dim">────────────────────────────────────</span>
+calls_in       : 142
+calls_handled  : <span class="ok">141 (99.3%)</span>
+wa_messages    : 612
+auto_resolved  : <span class="ok">487 (79.5%)</span>
+human_handoff  : 125
+
+<span class="prompt">$</span> _</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING ────────────────────────────────────────────────────── -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <h2>## PRICING</h2>
+    <div class="sub">// precios públicos · sin permanencia · facturación mensual</div>
+
+    <table class="pricing-tbl" aria-label="precios">
+      <thead>
+        <tr><th>MODULE</th><th>PRICE</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="module">centralita</td><td class="price">desde <span class="acc">29 €/mes</span></td></tr>
+        <tr><td class="module">agents</td><td class="price">desde <span class="acc">49 €/mes</span></td></tr>
+        <tr><td class="module">crm</td><td class="price">desde <span class="acc">39 €/usr</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="cta-row">
+      <a href="#" class="btn">&gt; SEE_FULL_TABLE</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL ──────────────────────────────────────────────────── -->
+<section class="cta-final" id="cta">
+  <div class="container">
+    <h2><span class="hash">#</span> READY?</h2>
+    <p class="tag">is your pyme ready to answer alone?</p>
+    <div class="ctas">
+      <a class="btn btn-solid" href="https://wa.me/34000000000">&gt; WHATSAPP</a>
+      <a class="btn" href="#">[ PEDIR DEMO ]</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER ─────────────────────────────────────────────────────── -->
+<footer class="site" id="partners">
+  <div class="container">
+    <div class="cols">
+      <div>
+        <h4>PRODUCT</h4>
+        <ul>
+          <li><a class="lnk" href="#">Centralita</a></li>
+          <li><a class="lnk" href="#">Agents</a></li>
+          <li><a class="lnk" href="#">CRM</a></li>
+          <li><a class="lnk" href="#">Integraciones</a></li>
+          <li><a class="lnk" href="#">Status</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>COMPANY</h4>
+        <ul>
+          <li><a class="lnk" href="#">Sobre nosotros</a></li>
+          <li><a class="lnk" href="#">Casos</a></li>
+          <li><a class="lnk" href="#">Partners</a></li>
+          <li><a class="lnk" href="#">Trabaja con nosotros</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>RESOURCES</h4>
+        <ul>
+          <li><a class="lnk" href="#">Docs</a></li>
+          <li><a class="lnk" href="#">API reference</a></li>
+          <li><a class="lnk" href="#">Changelog</a></li>
+          <li><a class="lnk" href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>LEGAL</h4>
+        <ul>
+          <li><a class="lnk" href="#">Términos</a></li>
+          <li><a class="lnk" href="#">Privacidad</a></li>
+          <li><a class="lnk" href="#">DPA</a></li>
+          <li><a class="lnk" href="#">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bottom">
+      <span>made_in_lleida.txt &nbsp; │ &nbsp; © 2026 TRIACLAW SOLUTIONS &nbsp; │ &nbsp; build:<span class="acc">f3a2c1</span></span>
+      <span>~/triaclaw $ exit 0</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

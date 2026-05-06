@@ -1,0 +1,1363 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TriaClaw — Issue 01 / Vol. 1 · Mayo 2026</title>
+<meta name="description" content="Centralita, agentes y CRM que hablan entre ellos. Una revista editorial sobre operaciones para pymes." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  /* ============================================================
+     EDITORIAL MAGAZINE — TriaClaw
+     Cream paper, deep navy ink, asymmetric grid, print typography.
+     ============================================================ */
+
+  :root {
+    --bg: #f8f4ed;
+    --bg-warm: #f3ede1;
+    --ink: #0f1f3a;
+    --ink-soft: #1c2c48;
+    --muted: #5e6878;
+    --dim: #9aa1ad;
+    --line: #e0d8cc;
+    --line-strong: #c8bfae;
+    --red: #dc2626;
+    --red-dark: #b91c1c;
+    --serif: "Fraunces", "Times New Roman", Times, serif;
+    --sans: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --max: 1280px;
+    --gutter: 32px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-variation-settings: "opsz" 14, "SOFT" 50;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Paper noise overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.06   0 0 0 0 0.12   0 0 0 0 0.22   0 0 0 0.18 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity: 0.55;
+    mix-blend-mode: multiply;
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.5) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 100%, rgba(15,31,58,0.06) 0%, transparent 50%);
+  }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    position: relative;
+    z-index: 2;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; height: auto; }
+
+  /* ---------- Type system ---------- */
+  .smallcaps {
+    font-family: var(--sans);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .mono {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .display {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    font-weight: 400;
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+  .display-roman {
+    font-family: var(--serif);
+    font-variation-settings: "opsz" 144;
+    font-weight: 400;
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+  }
+  h1, h2, h3 { font-weight: 400; }
+
+  .rule {
+    height: 1px;
+    background: var(--line);
+    border: 0;
+    width: 100%;
+  }
+  .rule-strong { background: var(--ink); }
+
+  /* ---------- Header ---------- */
+  header.site {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(248, 244, 237, 0.92);
+    backdrop-filter: saturate(140%) blur(8px);
+    -webkit-backdrop-filter: saturate(140%) blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-bar {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 32px;
+    padding: 18px 0;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .brand img { height: 36px; width: auto; }
+  .brand .meta {
+    border-left: 1px solid var(--line);
+    padding-left: 14px;
+    line-height: 1.1;
+  }
+  .brand .meta strong {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 15px;
+    display: block;
+    color: var(--ink);
+  }
+  .brand .meta span {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  nav.primary {
+    display: flex;
+    justify-content: center;
+    gap: 26px;
+    font-family: var(--sans);
+    font-size: 13.5px;
+    color: var(--ink);
+  }
+  nav.primary a {
+    position: relative;
+    padding: 6px 0;
+    transition: color 0.2s;
+  }
+  nav.primary a:hover { color: var(--red); }
+  nav.primary .sep {
+    color: var(--dim);
+    user-select: none;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .lang {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    display: flex;
+    gap: 6px;
+  }
+  .lang a.active { color: var(--ink); border-bottom: 1px solid var(--ink); }
+  .lang span { color: var(--dim); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 11px 20px;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .btn:hover { background: var(--ink); color: var(--bg); }
+  .btn-red {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .btn-red:hover { background: var(--red); color: var(--bg); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 96px 0 140px;
+    position: relative;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 80px;
+    align-items: start;
+  }
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 56px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .hero-eyebrow .dot {
+    width: 7px; height: 7px; background: var(--red); border-radius: 50%;
+  }
+  .hero h1 {
+    font-size: clamp(72px, 11vw, 168px);
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    font-weight: 400;
+    line-height: 0.88;
+    letter-spacing: -0.035em;
+    margin-bottom: 28px;
+  }
+  .hero h1 .reg {
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    font-weight: 300;
+    display: block;
+    font-size: 0.55em;
+    letter-spacing: -0.02em;
+    color: var(--ink-soft);
+    margin-top: 14px;
+  }
+  .hero h1 em {
+    color: var(--red);
+    font-style: italic;
+  }
+
+  .hero-lead {
+    max-width: 580px;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-variation-settings: "opsz" 18;
+    margin-top: 36px;
+    margin-bottom: 36px;
+    column-count: 1;
+  }
+  .hero-lead::first-letter {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    font-weight: 400;
+    font-size: 86px;
+    line-height: 0.85;
+    float: left;
+    padding: 6px 12px 0 0;
+    color: var(--red);
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .link-red {
+    color: var(--red);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 18px;
+    font-weight: 500;
+    border-bottom: 1px solid var(--red);
+    padding-bottom: 2px;
+    transition: color 0.2s;
+  }
+  .link-red:hover { color: var(--red-dark); }
+  .link-ink {
+    color: var(--ink);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 18px;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 2px;
+  }
+
+  /* Field notes column */
+  .field-notes {
+    border-left: 1px solid var(--ink);
+    padding-left: 28px;
+    padding-top: 8px;
+    position: relative;
+  }
+  .field-notes .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 18px;
+    display: block;
+  }
+  .field-notes h4 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 36;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.15;
+    margin-bottom: 14px;
+    color: var(--ink);
+  }
+  .field-notes p {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.55;
+    font-variation-settings: "opsz" 14;
+    margin-bottom: 18px;
+  }
+  .diagram {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .diagram svg { width: 100%; height: auto; display: block; }
+  .diagram .cap {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--dim);
+    margin-top: 12px;
+  }
+
+  /* ---------- LogoBar ---------- */
+  .logobar {
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 26px 0;
+    margin-bottom: 0;
+  }
+  .logobar-inner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .logobar-names {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 28px;
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 36;
+    font-size: 22px;
+    color: var(--ink);
+  }
+  .logobar-names .sep {
+    width: 1px;
+    height: 22px;
+    background: var(--line-strong);
+    flex-shrink: 0;
+  }
+
+  /* ---------- Section base ---------- */
+  section { padding: 140px 0; position: relative; }
+  section.tight { padding: 100px 0; }
+
+  .section-head {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+    align-items: end;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 72px;
+  }
+  .section-head .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+  }
+  .section-head h2 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    font-weight: 400;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+
+  /* ---------- Pillars ---------- */
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 56px;
+    margin-bottom: 56px;
+  }
+  .pillars-grid .vrule {
+    background: var(--line);
+    width: 1px;
+  }
+  .pillar-article {
+    padding-bottom: 16px;
+  }
+  .pillar-chapter {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 10px;
+    margin-bottom: 22px;
+  }
+  .pillar-chapter .roman {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 96;
+    font-size: 32px;
+    line-height: 1;
+    color: var(--red);
+  }
+  .pillar-chapter .name {
+    font-family: var(--sans);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .pillar-title {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 96, "SOFT" 100;
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+  .pillar-body {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    text-align: justify;
+    hyphens: auto;
+    margin-bottom: 22px;
+    font-variation-settings: "opsz" 14;
+  }
+  .pillar-body::first-letter {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    font-size: 56px;
+    line-height: 0.85;
+    float: left;
+    padding: 6px 10px 0 0;
+    color: var(--ink);
+    font-weight: 400;
+  }
+  .pillar-list {
+    list-style: none;
+    margin: 0 0 24px;
+    counter-reset: item;
+  }
+  .pillar-list li {
+    counter-increment: item;
+    padding: 10px 0 10px 38px;
+    position: relative;
+    border-bottom: 1px dotted var(--line-strong);
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.45;
+  }
+  .pillar-list li::before {
+    content: counter(item, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 10px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--red);
+    letter-spacing: 0.08em;
+  }
+
+  /* ---------- Connected (pull-quote) ---------- */
+  .connected {
+    background: var(--bg-warm);
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+  }
+  .connected-pull {
+    text-align: center;
+    max-width: 1100px;
+    margin: 0 auto 80px;
+  }
+  .connected-pull .smallcaps { display: block; margin-bottom: 32px; }
+  .connected-pull h2 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    font-weight: 400;
+    font-size: clamp(54px, 8vw, 120px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+  .connected-pull h2 em {
+    color: var(--red);
+    font-style: italic;
+  }
+
+  .connected-flow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+    border-top: 1px solid var(--line-strong);
+    padding-top: 36px;
+  }
+  .flow-step {
+    padding: 0 28px;
+    border-right: 1px dotted var(--line-strong);
+    position: relative;
+  }
+  .flow-step:last-child { border-right: 0; }
+  .flow-step .roman {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 96;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--red);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .flow-step h4 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 36;
+    font-size: 26px;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    color: var(--ink);
+    font-weight: 400;
+  }
+  .flow-step p {
+    font-size: 14.5px;
+    color: var(--muted);
+    line-height: 1.55;
+    font-variation-settings: "opsz" 14;
+  }
+
+  /* ---------- Featured Case ---------- */
+  .case-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 48px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .case-pull {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    font-weight: 400;
+    font-size: clamp(40px, 5.6vw, 78px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin-bottom: 56px;
+    max-width: 1100px;
+    color: var(--ink);
+  }
+  .case-pull .open, .case-pull .close {
+    color: var(--red);
+    font-style: italic;
+  }
+  .case-attrib {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    margin-bottom: 64px;
+    padding-left: 28px;
+    border-left: 2px solid var(--red);
+  }
+  .case-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-bottom: 88px;
+    column-rule: 1px solid var(--line);
+  }
+  .case-cols p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    text-align: justify;
+    hyphens: auto;
+    font-variation-settings: "opsz" 14;
+  }
+  .case-cols p:first-child::first-letter {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    font-size: 64px;
+    line-height: 0.85;
+    float: left;
+    padding: 4px 10px 0 0;
+    color: var(--red);
+  }
+
+  .case-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    border-top: 1px solid var(--ink);
+    padding-top: 48px;
+  }
+  .metric .num {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    font-weight: 400;
+    font-size: clamp(96px, 14vw, 200px);
+    line-height: 0.86;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    display: inline-block;
+    border-bottom: 4px solid var(--red);
+    padding-bottom: 6px;
+    margin-bottom: 18px;
+  }
+  .metric .lbl {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    line-height: 1.45;
+    max-width: 260px;
+  }
+
+  /* ---------- Pricing TOC ---------- */
+  .pricing { background: var(--bg-warm); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+  .pricing-head {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .pricing-head h2 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    font-weight: 400;
+    font-size: clamp(56px, 8vw, 120px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+  .pricing-head .sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+  }
+  .pricing-toc {
+    max-width: 880px;
+    margin: 0 auto;
+    border-top: 1px solid var(--ink);
+  }
+  .toc-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 200px 140px;
+    gap: 24px;
+    align-items: baseline;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .toc-row:last-child { border-bottom: 1px solid var(--ink); }
+  .toc-row .roman {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 96;
+    font-size: 32px;
+    color: var(--red);
+    line-height: 1;
+  }
+  .toc-row .module {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 36;
+    font-size: 30px;
+    color: var(--ink);
+    line-height: 1.05;
+  }
+  .toc-row .desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+    font-variation-settings: "opsz" 14;
+  }
+  .toc-row .price {
+    font-family: var(--serif);
+    font-variation-settings: "opsz" 96;
+    font-weight: 400;
+    font-size: 30px;
+    color: var(--ink);
+    text-align: right;
+    line-height: 1;
+  }
+  .toc-row .price small {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    font-weight: 400;
+    margin-top: 6px;
+  }
+
+  /* ---------- CTA Final ---------- */
+  .cta-final { text-align: center; padding: 160px 0; }
+  .cta-final h2 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    font-weight: 400;
+    font-size: clamp(56px, 9vw, 140px);
+    line-height: 0.93;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    max-width: 1100px;
+    margin: 0 auto 56px;
+  }
+  .cta-final h2 em { color: var(--red); font-style: italic; }
+  .cta-row {
+    display: flex;
+    justify-content: center;
+    gap: 36px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  /* ---------- Footer ---------- */
+  footer.site {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 88px 0 36px;
+    position: relative;
+    z-index: 2;
+  }
+  footer.site .wrap { color: var(--bg); }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 64px;
+  }
+  .foot-col h5 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 36;
+    font-weight: 400;
+    font-size: 20px;
+    color: var(--bg);
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(248,244,237,0.18);
+  }
+  .foot-col ul { list-style: none; }
+  .foot-col li {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: rgba(248,244,237,0.62);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 5px 0;
+  }
+  .foot-col li a:hover { color: var(--bg); }
+  .foot-brand p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-variation-settings: "opsz" 36;
+    font-size: 18px;
+    line-height: 1.45;
+    color: rgba(248,244,237,0.78);
+    margin-top: 16px;
+  }
+  .foot-brand img {
+    height: 32px;
+    filter: brightness(0) invert(1);
+    opacity: 0.95;
+  }
+  .foot-bottom {
+    border-top: 1px solid rgba(248,244,237,0.16);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: rgba(248,244,237,0.5);
+  }
+  .foot-bottom .roman {
+    font-family: var(--serif);
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 14px;
+    color: rgba(248,244,237,0.7);
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.9s cubic-bezier(0.2, 0.6, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1080px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 56px; }
+    .field-notes { border-left: 0; border-top: 1px solid var(--ink); padding-left: 0; padding-top: 28px; }
+    .case-cols { grid-template-columns: 1fr 1fr; }
+    .case-metrics { grid-template-columns: 1fr; gap: 48px; }
+    .connected-flow { grid-template-columns: 1fr 1fr; }
+    .flow-step { border-right: 0; border-bottom: 1px dotted var(--line-strong); padding-bottom: 24px; margin-bottom: 24px; }
+    .foot-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 720px) {
+    nav.primary { display: none; }
+    .site-bar { grid-template-columns: 1fr auto; gap: 16px; }
+    .brand .meta { display: none; }
+    .lang { display: none; }
+    .hero { padding: 56px 0 96px; }
+    .hero-eyebrow { margin-bottom: 32px; flex-wrap: wrap; }
+    section { padding: 80px 0; }
+    .section-head { grid-template-columns: 1fr; gap: 16px; margin-bottom: 48px; }
+    .pillars-grid { grid-template-columns: 1fr; gap: 36px; }
+    .pillars-grid .vrule { display: none; }
+    .case-cols { grid-template-columns: 1fr; }
+    .connected-flow { grid-template-columns: 1fr; }
+    .toc-row { grid-template-columns: 40px 1fr; row-gap: 8px; }
+    .toc-row .desc, .toc-row .price { grid-column: 2; text-align: left; }
+    .foot-grid { grid-template-columns: 1fr; gap: 32px; }
+    .foot-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .logobar-inner { grid-template-columns: 1fr; gap: 18px; }
+    .logobar-names { flex-wrap: wrap; justify-content: flex-start; gap: 16px; font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site">
+  <div class="wrap">
+    <div class="site-bar">
+      <a href="#" class="brand" aria-label="TriaClaw">
+        <img src="/logo-triaclaw.png" alt="TriaClaw" />
+        <span class="meta">
+          <strong>TriaClaw</strong>
+          <span>Issue 01 / Vol. 1</span>
+        </span>
+      </a>
+      <nav class="primary" aria-label="Principal">
+        <a href="#pillars">Centralita</a>
+        <a href="#pillars">Agents</a>
+        <a href="#pillars">CRM</a>
+        <span class="sep">·</span>
+        <a href="#pricing">Precios</a>
+        <a href="#case">Casos</a>
+        <span class="sep">·</span>
+        <a href="#footer">Partners</a>
+        <a href="#cta">Contacto</a>
+      </nav>
+      <div class="header-right">
+        <div class="lang" aria-label="Idioma">
+          <a class="active" href="#">ES</a>
+          <span>·</span>
+          <a href="#">CA</a>
+        </div>
+        <a class="btn" href="https://wa.me/34000000000" target="_blank" rel="noopener">
+          Habla por WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow">
+      <span class="dot" aria-hidden="true"></span>
+      <span class="smallcaps">Issue 01 / Vol. 1 — Mayo 2026</span>
+      <span class="mono" style="margin-left:auto">ES · Lleida · Catalunya</span>
+    </div>
+    <div class="hero-grid">
+      <div class="hero-main reveal">
+        <h1>
+          <span>Tria el teu <em>agent</em>.</span>
+          <span class="reg">Centralita, bots i CRM<br/>que parlen entre <em>ells</em>.</span>
+        </h1>
+        <p class="hero-lead">
+          La operación de tu pyme es un mosaico: llamadas perdidas, mensajes sin respuesta,
+          fichas dispersas. TriaClaw publica una colección de tres módulos —centralita en la
+          nube, agentes conversacionales y un CRM operativo— diseñados para hablar entre sí.
+          No vendemos software: editamos un sistema operativo para empresas que prefieren
+          dedicarse a su oficio antes que a su tecnología.
+        </p>
+        <div class="hero-ctas">
+          <a class="link-red" href="https://wa.me/34000000000">Habla por WhatsApp →</a>
+          <a class="link-ink" href="#pricing">Pedir demo</a>
+        </div>
+      </div>
+
+      <aside class="field-notes reveal" aria-label="Field notes">
+        <span class="label">— Field notes</span>
+        <h4>Tres módulos, un mismo lenguaje.</h4>
+        <p>
+          Centralita IP, agentes IA y CRM. Cada uno publica eventos al siguiente: la llamada
+          se transcribe, el bot la cualifica, el CRM la convierte en tarea. Sin parches, sin
+          Zapier, sin hojas de cálculo.
+        </p>
+        <p>
+          <strong style="color:var(--ink)">Editado en Lleida</strong> — operado en cualquier
+          punto del estado.
+        </p>
+
+        <div class="diagram" aria-hidden="true">
+          <svg viewBox="0 0 260 220" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <style>
+                .stroke { fill: none; stroke: #0f1f3a; stroke-width: 1; }
+                .stroke-thin { fill: none; stroke: #0f1f3a; stroke-width: 0.6; stroke-dasharray: 2 2; }
+                .lab { font-family: 'Geist Mono', monospace; font-size: 7px; fill: #5e6878; letter-spacing: 0.1em; text-transform: uppercase; }
+                .roman { font-family: 'Fraunces', serif; font-style: italic; font-size: 11px; fill: #dc2626; }
+              </style>
+            </defs>
+            <!-- Nodes -->
+            <circle cx="50" cy="50" r="22" class="stroke" />
+            <text x="50" y="53" text-anchor="middle" class="roman">I</text>
+            <text x="50" y="86" text-anchor="middle" class="lab">CENTRALITA</text>
+
+            <circle cx="210" cy="50" r="22" class="stroke" />
+            <text x="210" y="53" text-anchor="middle" class="roman">II</text>
+            <text x="210" y="86" text-anchor="middle" class="lab">AGENTS</text>
+
+            <circle cx="130" cy="160" r="22" class="stroke" />
+            <text x="130" y="163" text-anchor="middle" class="roman">III</text>
+            <text x="130" y="196" text-anchor="middle" class="lab">CRM</text>
+
+            <!-- Edges -->
+            <path d="M72 50 L188 50" class="stroke" />
+            <path d="M62 70 L120 140" class="stroke" />
+            <path d="M198 70 L140 140" class="stroke" />
+            <!-- Annotations -->
+            <path d="M82 38 L116 38" class="stroke-thin" />
+            <text x="100" y="34" text-anchor="middle" class="lab">webhook</text>
+            <path d="M48 95 L48 130 L100 145" class="stroke-thin" />
+            <text x="60" y="120" class="lab">events</text>
+            <path d="M212 95 L212 130 L160 145" class="stroke-thin" />
+            <text x="200" y="120" text-anchor="end" class="lab">api</text>
+
+            <!-- Outer frame -->
+            <rect x="6" y="6" width="248" height="208" class="stroke-thin" />
+            <text x="14" y="18" class="lab">Fig. 01 — Integración</text>
+          </svg>
+          <span class="cap">Fig. 01 · Tres pilares, un mismo bus de eventos.</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LOGOBAR ============ -->
+<div class="logobar">
+  <div class="wrap">
+    <div class="logobar-inner">
+      <span class="smallcaps">Pymes en cartera —</span>
+      <div class="logobar-names">
+        <span>iReparo</span>
+        <span class="sep"></span>
+        <span>Ilercasa</span>
+        <span class="sep"></span>
+        <span>Falcon Cat</span>
+        <span class="sep"></span>
+        <span>Mis Tesoros</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PILLARS ============ -->
+<section id="pillars">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="num">§ 01 — Tres módulos.</span>
+      <h2>Tres módulos.<br/>Un mismo idioma.</h2>
+    </div>
+
+    <div class="pillars-grid">
+
+      <article class="pillar-article reveal">
+        <header class="pillar-chapter">
+          <span class="roman">I.</span>
+          <span class="name">Centralita</span>
+        </header>
+        <h3 class="pillar-title">Llamadas que dejan de perderse.</h3>
+        <p class="pillar-body">
+          Una centralita IP en la nube, sin hardware caprichoso ni operadoras de los noventa.
+          Configuras desvíos, IVR, horarios y grabaciones desde un panel pensado por personas
+          que cogen llamadas. Cada conversación queda transcrita y vinculada a su contacto
+          en el CRM —porque una llamada anónima no es información, es ruido.
+        </p>
+        <ol class="pillar-list">
+          <li>Numeración fija o móvil en cualquier provincia.</li>
+          <li>IVR multinivel con horarios y festivos editables.</li>
+          <li>Grabación + transcripción automática.</li>
+          <li>Webhook directo al CRM con metadatos.</li>
+        </ol>
+        <a class="link-red" href="#">→ Leer más</a>
+      </article>
+
+      <div class="vrule" aria-hidden="true"></div>
+
+      <article class="pillar-article reveal">
+        <header class="pillar-chapter">
+          <span class="roman">II.</span>
+          <span class="name">Agents</span>
+        </header>
+        <h3 class="pillar-title">Bots que entienden tu negocio.</h3>
+        <p class="pillar-body">
+          Agentes conversacionales en WhatsApp y web entrenados con tu catálogo, tus precios
+          y tu tono. No son chatbots de los que te piden disculpas en bucle: cualifican
+          oportunidades, agendan visitas y escalan a humano cuando toca, con un protocolo
+          editorial de confianza más cercano al periodismo que al call center.
+        </p>
+        <ol class="pillar-list">
+          <li>WhatsApp Business API + web embed.</li>
+          <li>Memoria de cliente y contexto persistente.</li>
+          <li>Handoff transparente al humano disponible.</li>
+          <li>Métricas semanales de conversación y leads.</li>
+        </ol>
+        <a class="link-red" href="#">→ Leer más</a>
+      </article>
+
+    </div>
+
+    <hr class="rule" />
+
+    <div class="pillars-grid" style="margin-top: 56px;">
+      <article class="pillar-article reveal">
+        <header class="pillar-chapter">
+          <span class="roman">III.</span>
+          <span class="name">CRM</span>
+        </header>
+        <h3 class="pillar-title">El expediente de cada cliente, ordenado.</h3>
+        <p class="pillar-body">
+          Un CRM operativo, no un escaparate de datos. Tickets, oportunidades, presupuestos
+          y entregas conviven en una misma ficha que se actualiza sola con lo que llega de
+          la centralita y los bots. Tus comerciales dejan de copiar y pegar; tú dejas de
+          preguntar “¿en qué punto está?”.
+        </p>
+        <ol class="pillar-list">
+          <li>Tickets con SLAs y alertas configurables.</li>
+          <li>Pipeline visual con kanban editorial.</li>
+          <li>Plantillas de presupuesto firmadas online.</li>
+          <li>Informes mensuales en PDF al inbox.</li>
+        </ol>
+        <a class="link-red" href="#">→ Leer más</a>
+      </article>
+
+      <div class="vrule" aria-hidden="true"></div>
+
+      <article class="pillar-article reveal">
+        <header class="pillar-chapter">
+          <span class="roman">IV.</span>
+          <span class="name">Postscript</span>
+        </header>
+        <h3 class="pillar-title">Hecho en casa, mantenido en casa.</h3>
+        <p class="pillar-body">
+          Cada módulo se monta, se entrena y se mantiene desde nuestro estudio en Lleida.
+          Nada de outsourcing en cascada ni soporte de tercer nivel en otro continente.
+          Quien escribe el código es quien atiende el ticket —y con frecuencia, también
+          quien recogió el primer briefing.
+        </p>
+        <ol class="pillar-list">
+          <li>Implantación guiada (2–4 semanas).</li>
+          <li>Soporte directo en horario laboral.</li>
+          <li>Roadmap mensual público para clientes.</li>
+          <li>Datos siempre tuyos, exportables, sin lock-in.</li>
+        </ol>
+        <a class="link-red" href="#">→ Leer más</a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONNECTED ============ -->
+<section class="connected">
+  <div class="wrap">
+    <div class="connected-pull reveal">
+      <span class="smallcaps">— Editorial —</span>
+      <h2>Tres módulos<br/>que <em>hablan</em><br/>entre ellos.</h2>
+    </div>
+
+    <div class="connected-flow reveal">
+      <div class="flow-step">
+        <span class="roman">I.</span>
+        <h4>Llamada.</h4>
+        <p>Entra en la centralita. Se enruta al equipo correcto y se transcribe en segundo plano sin que nadie pulse nada.</p>
+      </div>
+      <div class="flow-step">
+        <span class="roman">II.</span>
+        <h4>Bot.</h4>
+        <p>Si el cliente prefiere texto, el agente responde en WhatsApp con el mismo contexto: ya sabe quién es y de qué venía.</p>
+      </div>
+      <div class="flow-step">
+        <span class="roman">III.</span>
+        <h4>Lead.</h4>
+        <p>El CRM crea o actualiza la ficha automáticamente, etiqueta el caso y lo coloca en el pipeline correspondiente.</p>
+      </div>
+      <div class="flow-step">
+        <span class="roman">IV.</span>
+        <h4>Humano.</h4>
+        <p>Cuando hace falta criterio, se escala al responsable con todo el hilo a un clic. El bot da un paso atrás, no desaparece.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURED CASE ============ -->
+<section id="case">
+  <div class="wrap">
+    <div class="case-eyebrow reveal">
+      <span class="smallcaps">Ensayo No. 01 — iReparo</span>
+      <span class="mono" style="margin-left:auto">Servicio técnico · Lleida · 2025–2026</span>
+    </div>
+
+    <h2 class="case-pull reveal">
+      <span class="open">“</span>Antes perdíamos llamadas; ahora perdemos clientes <em>menos veces</em>. El CRM y la centralita ya no son dos herramientas: son la misma cosa.<span class="close">”</span>
+    </h2>
+
+    <p class="case-attrib reveal">— Edgar M., responsable de operaciones · iReparo</p>
+
+    <div class="case-cols reveal">
+      <p>
+        Antes de TriaClaw, iReparo gestionaba reparaciones de electrónica con una mezcla
+        de hojas de cálculo, un teléfono de empresa y un grupo de WhatsApp donde se mezclaban
+        clientes con proveedores. Los tickets se perdían, los presupuestos se enviaban tarde
+        y el equipo dedicaba dos horas diarias a tareas que ningún cliente apreciaba: copiar
+        datos de un sitio a otro.
+      </p>
+      <p>
+        En seis semanas montamos centralita IP con IVR por tipo de avería, bot de WhatsApp
+        que cualifica el dispositivo y un CRM con plantillas de presupuesto firmables online.
+        Los tres módulos se integraron contra el mismo bus de eventos: una llamada genera
+        ticket, una conversación de bot enriquece la ficha, un cierre dispara el SLA y la
+        encuesta posterior.
+      </p>
+      <p>
+        El resultado, medido en producción durante el primer trimestre, no fue solo eficiencia:
+        fue una sensación nueva de que el negocio iba <em>al ritmo del equipo</em>, no al
+        ritmo del último mensaje sin contestar. Hoy iReparo recibe más solicitudes que nunca
+        y, paradójicamente, su equipo termina antes la jornada.
+      </p>
+    </div>
+
+    <div class="case-metrics reveal">
+      <div class="metric">
+        <span class="num">78%</span>
+        <span class="lbl">Reducción de llamadas perdidas durante horario comercial.</span>
+      </div>
+      <div class="metric">
+        <span class="num">34%</span>
+        <span class="lbl">Más leads cualificados desde WhatsApp el primer trimestre.</span>
+      </div>
+      <div class="metric">
+        <span class="num">3h</span>
+        <span class="lbl">Ahorro diario de tareas administrativas por persona del equipo.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing" class="pricing tight">
+  <div class="wrap">
+    <div class="pricing-head reveal">
+      <h2>Precios.</h2>
+      <span class="sub">— Tabla de contenidos · Sin permanencia · IVA no incluido —</span>
+    </div>
+    <div class="pricing-toc reveal">
+      <div class="toc-row">
+        <span class="roman">I.</span>
+        <div>
+          <div class="module">Centralita.</div>
+        </div>
+        <div class="desc">Numeración, IVR, grabación y transcripción. Hasta 5 extensiones.</div>
+        <div class="price">39<small>€ / mes / extensión</small></div>
+      </div>
+      <div class="toc-row">
+        <span class="roman">II.</span>
+        <div>
+          <div class="module">Agents.</div>
+        </div>
+        <div class="desc">Bot WhatsApp + web entrenado, handoff humano y métricas.</div>
+        <div class="price">120<small>€ / mes / canal</small></div>
+      </div>
+      <div class="toc-row">
+        <span class="roman">III.</span>
+        <div>
+          <div class="module">CRM.</div>
+        </div>
+        <div class="desc">Pipeline, tickets, presupuestos online e integraciones del kit.</div>
+        <div class="price">19<small>€ / mes / usuario</small></div>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top:48px;" class="reveal">
+      <a class="link-red" href="#cta">→ Configurar mi suscripción editorial</a>
+    </p>
+  </div>
+</section>
+
+<!-- ============ CTA FINAL ============ -->
+<section id="cta" class="cta-final">
+  <div class="wrap">
+    <h2 class="reveal">¿Y si tu pyme<br/>funcionara como una <em>buena edición</em>?</h2>
+    <div class="cta-row reveal">
+      <a class="btn btn-red" href="https://wa.me/34000000000">Habla por WhatsApp</a>
+      <a class="link-ink" href="#pricing">Pedir demo guiada</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="footer" class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col foot-brand">
+        <img src="/logo-triaclaw.png" alt="TriaClaw" />
+        <p>Centralita, agents i CRM<br/>per a pimes que parlen.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Producto</h5>
+        <ul>
+          <li><a href="#pillars">Centralita</a></li>
+          <li><a href="#pillars">Agents</a></li>
+          <li><a href="#pillars">CRM</a></li>
+          <li><a href="#pricing">Precios</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Editorial</h5>
+        <ul>
+          <li><a href="#case">Casos</a></li>
+          <li><a href="#">Notas de campo</a></li>
+          <li><a href="#">Roadmap</a></li>
+          <li><a href="#">Estado del servicio</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Estudio</h5>
+        <ul>
+          <li><a href="#">Sobre nosotros</a></li>
+          <li><a href="#">Partners</a></li>
+          <li><a href="#">Trabaja con nosotros</a></li>
+          <li><a href="#">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="#">Aviso legal</a></li>
+          <li><a href="#">Privacidad</a></li>
+          <li><a href="#">Cookies</a></li>
+          <li><a href="#">DPA</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© TriaClaw Solutions S.L.</span>
+      <span class="roman">Made in Lleida · MMXXVI</span>
+      <span>Edition № 01 / Vol. 1</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>

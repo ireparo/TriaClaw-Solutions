@@ -1,62 +1,141 @@
 ---
-import Container from './Container.astro';
 import { getLocaleFromUrl, t, localizedHref, type Locale } from '../../i18n';
 const locale: Locale = getLocaleFromUrl(Astro.url);
 const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="sticky top-0 z-50 bg-white/85 backdrop-blur border-b border-line">
-  <Container class="flex items-center justify-between py-4">
-    <a
-      href={localizedHref(locale, '/')}
-      class="flex items-center gap-2.5 font-extrabold text-navy text-lg"
+<header class="tcw-header">
+  <a class="tcw-header__brand" href={localizedHref(locale, '/')} aria-label="TriaClaw">
+    <img src="/logo-triaclaw.png" alt="TriaClaw" />
+  </a>
+  <nav class="tcw-header__nav">
+    <a href={localizedHref(locale, '/centralita')}>{t(locale, 'nav.centralita')}</a>
+    <a href={localizedHref(locale, '/agents')}>{t(locale, 'nav.agents')}</a>
+    <a href={localizedHref(locale, '/crm')}>{t(locale, 'nav.crm')}</a>
+    <span class="tcw-header__sep">|</span>
+    <a href={localizedHref(locale, '/precios')}>{t(locale, 'nav.pricing')}</a>
+    <a href={localizedHref(locale, '/casos')}>{t(locale, 'nav.cases')}</a>
+    <span class="tcw-header__sep">|</span>
+    <a href={localizedHref(locale, '/partners')}>{t(locale, 'nav.partners')}</a>
+    <a href={localizedHref(locale, '/contacto')}>{t(locale, 'nav.contact')}</a>
+  </nav>
+  <div class="tcw-header__lang mono">
+    <a href={localizedHref('es', currentPath)} class={locale === 'es' ? 'on' : ''}>ES</a>
+    <a href={localizedHref('ca', currentPath)} class={locale === 'ca' ? 'on' : ''}>CA</a>
+  </div>
+  <a href={wa} class="tcw-header__cta">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
+      ><path
+        d="M20.52 3.48A11.94 11.94 0 0 0 12.07 0C5.5 0 .15 5.34.15 11.92c0 2.1.55 4.15 1.6 5.96L0 24l6.32-1.66a11.93 11.93 0 0 0 5.74 1.46h.01c6.58 0 11.92-5.34 11.92-11.92 0-3.18-1.24-6.18-3.47-8.4ZM12.07 21.8h-.01a9.86 9.86 0 0 1-5.03-1.38l-.36-.21-3.75.98 1-3.65-.24-.38a9.85 9.85 0 0 1-1.51-5.24c0-5.46 4.44-9.9 9.9-9.9 2.65 0 5.13 1.03 7 2.9a9.83 9.83 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88Z"
+      ></path></svg
     >
-      <span
-        class="relative w-8 h-8 rounded-lg gradient-brand flex items-center justify-center text-white"
-        >🤖</span
-      >
-      TriaClaw <span class="font-medium text-[11px] text-muted uppercase tracking-wider"
-        >Solutions</span
-      >
-    </a>
-    <nav class="hidden md:flex gap-7 text-sm text-muted font-medium">
-      <a href={localizedHref(locale, '/centralita')} class="hover:text-navy"
-        >{t(locale, 'nav.centralita')}</a
-      >
-      <a href={localizedHref(locale, '/agents')} class="hover:text-navy"
-        >{t(locale, 'nav.agents')}</a
-      >
-      <a href={localizedHref(locale, '/crm')} class="hover:text-navy">{t(locale, 'nav.crm')}</a>
-      <span class="opacity-30">·</span>
-      <a href={localizedHref(locale, '/precios')} class="hover:text-navy"
-        >{t(locale, 'nav.pricing')}</a
-      >
-      <a href={localizedHref(locale, '/casos')} class="hover:text-navy">{t(locale, 'nav.cases')}</a>
-      <span class="opacity-30">·</span>
-      <a href={localizedHref(locale, '/partners')} class="hover:text-navy"
-        >{t(locale, 'nav.partners')}</a
-      >
-      <a href={localizedHref(locale, '/contacto')} class="hover:text-navy"
-        >{t(locale, 'nav.contact')}</a
-      >
-    </nav>
-    <div class="flex items-center gap-3">
-      <div class="flex border border-line rounded-md overflow-hidden text-xs font-semibold">
-        <a
-          href={localizedHref('es', currentPath)}
-          class={`px-2.5 py-1.5 ${locale === 'es' ? 'bg-navy text-white' : 'text-muted'}`}>ES</a
-        >
-        <a
-          href={localizedHref('ca', currentPath)}
-          class={`px-2.5 py-1.5 ${locale === 'ca' ? 'bg-navy text-white' : 'text-muted'}`}>CA</a
-        >
-      </div>
-      <a
-        href={wa}
-        class="inline-flex items-center gap-1.5 bg-cyan-brand text-navy font-semibold px-4 py-2 rounded-lg text-sm"
-        >💬 WhatsApp</a
-      >
-    </div>
-  </Container>
+    {t(locale, 'hero.cta_whatsapp')}
+  </a>
 </header>
+
+<style>
+  .tcw-header {
+    position: sticky;
+    top: 14px;
+    z-index: 50;
+    margin: 14px auto 0;
+    max-width: 1240px;
+    width: calc(100% - 28px);
+    padding: 12px 22px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: rgba(15, 12, 40, 0.55);
+    backdrop-filter: blur(24px) saturate(1.6);
+    -webkit-backdrop-filter: blur(24px) saturate(1.6);
+    border: var(--glass-border);
+    border-radius: 999px;
+    box-shadow: var(--glass-shadow);
+  }
+  .tcw-header__brand {
+    display: flex;
+    align-items: center;
+  }
+  .tcw-header__brand img {
+    height: 38px;
+    width: auto;
+    display: block;
+  }
+  .tcw-header__nav {
+    display: none;
+    gap: 4px;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+  }
+  @media (min-width: 920px) {
+    .tcw-header__nav {
+      display: flex;
+    }
+  }
+  .tcw-header__nav a {
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 14px;
+    color: var(--muted);
+    transition: 0.2s;
+    text-decoration: none;
+  }
+  .tcw-header__nav a:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--ink);
+  }
+  .tcw-header__sep {
+    color: rgba(255, 255, 255, 0.18);
+    font-size: 12px;
+    padding: 0 4px;
+    user-select: none;
+  }
+  .tcw-header__lang {
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.05);
+    border: var(--glass-border);
+    border-radius: 999px;
+    padding: 3px;
+    font-size: 12px;
+  }
+  .tcw-header__lang a {
+    padding: 5px 10px;
+    border-radius: 999px;
+    color: var(--dim);
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  .tcw-header__lang a.on {
+    background: var(--grad-button);
+    color: #0b0a1f;
+  }
+  .tcw-header__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: var(--grad-button);
+    color: #0b0a1f;
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 0 0 30px -8px rgba(34, 211, 238, 0.7);
+    transition: 0.25s;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .tcw-header__cta:hover {
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: 0 0 40px -6px rgba(167, 139, 250, 0.8);
+  }
+  /* hide CTA label on tiny screens, keep icon only */
+  @media (max-width: 520px) {
+    .tcw-header {
+      padding: 10px 14px;
+      gap: 10px;
+    }
+  }
+</style>

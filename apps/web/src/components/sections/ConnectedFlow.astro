@@ -3,41 +3,135 @@ import Container from '../layout/Container.astro';
 import { getLocaleFromUrl, t, type Locale } from '../../i18n';
 const locale: Locale = getLocaleFromUrl(Astro.url);
 const nodes = [
-  { icon: '📞', label: t(locale, 'connected.node_call') },
-  { icon: '🤖', label: t(locale, 'connected.node_bot') },
-  { icon: '📋', label: t(locale, 'connected.node_crm') },
-  { icon: '✅', label: t(locale, 'connected.node_human') },
+  { tag: '/call', title: t(locale, 'connected.node_call'), pos: 'n1' },
+  { tag: '/bot', title: t(locale, 'connected.node_bot'), pos: 'n2' },
+  { tag: '/crm', title: t(locale, 'connected.node_crm'), pos: 'n3' },
+  { tag: '/human', title: t(locale, 'connected.node_human'), pos: 'n4' },
 ];
 ---
 
-<section class="bg-navy text-white relative overflow-hidden py-24">
-  <div
-    class="absolute inset-0"
-    style="background:radial-gradient(600px 300px at 50% 0%, rgba(34,211,238,.18), transparent 70%)"
-  >
-  </div>
-  <Container class="relative z-10 text-center">
-    <span
-      class="inline-block px-3.5 py-1.5 bg-cyan-brand/[12%] text-cyan-brand rounded-full text-xs font-semibold tracking-wide mb-3"
-      >{t(locale, 'connected.eyebrow')}</span
-    >
-    <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-3">
-      {t(locale, 'connected.title')}
-    </h2>
-    <p class="text-lg text-white/70 max-w-2xl mx-auto leading-relaxed mb-12">
-      {t(locale, 'connected.lead')}
-    </p>
-    <div class="flex items-center justify-center gap-4 flex-wrap">
+<section class="tcw-section" id="flow">
+  <Container>
+    <div class="tcw-section-head reveal">
+      <span class="eyebrow mono">{t(locale, 'connected.eyebrow')}</span>
+      <h2 class="tcw-h2 grad-text">{t(locale, 'connected.title')}</h2>
+      <p class="tcw-section-head__lead">{t(locale, 'connected.lead')}</p>
+    </div>
+
+    <div class="tcw-flow reveal">
+      <svg class="tcw-flow__lines" viewBox="0 0 1000 340" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="tcw-gline" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#22d3ee"></stop>
+            <stop offset="50%" stop-color="#a78bfa"></stop>
+            <stop offset="100%" stop-color="#f0abfc"></stop>
+          </linearGradient>
+        </defs>
+        <path d="M150,90 C 280,90 280,240 410,240" stroke="url(#tcw-gline)"></path>
+        <path d="M410,240 C 540,240 540,90 700,90" stroke="url(#tcw-gline)"></path>
+        <path d="M700,90 C 820,90 820,240 920,240" stroke="url(#tcw-gline)"></path>
+      </svg>
+
       {
-        nodes.map((n, i) => (
-          <>
-            <div class="px-6 py-4 bg-cyan-brand/[8%] border border-cyan-brand/[35%] rounded-2xl text-[14.5px] backdrop-blur flex items-center gap-2.5">
-              <span class="text-xl">{n.icon}</span> {n.label}
-            </div>
-            {i < nodes.length - 1 && <span class="text-2xl text-cyan-brand/60">→</span>}
-          </>
+        nodes.map((n) => (
+          <div class={`tcw-flow__node ${n.pos}`}>
+            <span class="tcw-flow__tag mono">{n.tag}</span>
+            <h4>{n.title}</h4>
+          </div>
         ))
       }
     </div>
   </Container>
 </section>
+
+<style>
+  .tcw-flow {
+    position: relative;
+    margin-top: 60px;
+    height: 340px;
+  }
+  .tcw-flow__lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .tcw-flow__lines path {
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-dasharray: 6 8;
+    animation: dash 3.2s linear infinite;
+  }
+  .tcw-flow__node {
+    position: absolute;
+    padding: 18px 22px;
+    border-radius: 18px;
+    text-align: center;
+    min-width: 140px;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    animation: nodeFloat 6s ease-in-out infinite;
+  }
+  .tcw-flow__node h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .tcw-flow__tag {
+    font-size: 11px;
+    color: var(--neon-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .tcw-flow__node.n1 {
+    top: 14%;
+    left: 6%;
+    animation-delay: 0s;
+  }
+  .tcw-flow__node.n2 {
+    top: 62%;
+    left: 30%;
+    animation-delay: 1.2s;
+  }
+  .tcw-flow__node.n3 {
+    top: 14%;
+    right: 30%;
+    animation-delay: 2.4s;
+  }
+  .tcw-flow__node.n4 {
+    top: 62%;
+    right: 6%;
+    animation-delay: 3.6s;
+  }
+  .tcw-flow__node.n2 .tcw-flow__tag,
+  .tcw-flow__node.n4 .tcw-flow__tag {
+    color: var(--neon-violet);
+  }
+  .tcw-flow__node.n3 .tcw-flow__tag {
+    color: var(--neon-pink);
+  }
+  @media (max-width: 760px) {
+    .tcw-flow {
+      height: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .tcw-flow__lines {
+      display: none;
+    }
+    .tcw-flow__node {
+      position: static;
+      animation: none;
+    }
+  }
+</style>

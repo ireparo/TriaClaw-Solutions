@@ -11,21 +11,69 @@ interface Props {
 const { title, features } = Astro.props;
 ---
 
-<section class="py-24">
-  <div class="mx-auto max-w-[1200px] px-8">
-    <h2 class="text-3xl md:text-4xl font-extrabold text-navy tracking-tight mb-10 text-center">
-      {title}
-    </h2>
-    <div class="grid md:grid-cols-3 gap-5">
+<section class="tcw-section">
+  <div class="tcw-pillar-features__wrap">
+    <h2 class="tcw-h2 grad-text tcw-pillar-features__title">{title}</h2>
+    <div class="tcw-pillar-features__grid">
       {
         features.map((f) => (
-          <div class="bg-white border border-line rounded-2xl p-6">
-            <div class="text-3xl mb-3">{f.icon}</div>
-            <h3 class="text-lg font-bold text-navy mb-2">{f.title}</h3>
-            <p class="text-[14px] text-muted leading-relaxed">{f.desc}</p>
+          <div class="glass tcw-pillar-features__card reveal">
+            <div class="tcw-pillar-features__icon">{f.icon}</div>
+            <h3 class="tcw-pillar-features__h3">{f.title}</h3>
+            <p class="tcw-pillar-features__desc">{f.desc}</p>
           </div>
         ))
       }
     </div>
   </div>
 </section>
+
+<style>
+  .tcw-pillar-features__wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .tcw-pillar-features__title {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .tcw-pillar-features__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  @media (max-width: 900px) {
+    .tcw-pillar-features__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .tcw-pillar-features__card {
+    border-radius: var(--r-lg);
+    padding: 28px;
+  }
+  .tcw-pillar-features__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--grad-button);
+    color: #0b0a1f;
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+    margin-bottom: 16px;
+    box-shadow: 0 0 30px -8px rgba(34, 211, 238, 0.6);
+  }
+  .tcw-pillar-features__h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .tcw-pillar-features__desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+</style>

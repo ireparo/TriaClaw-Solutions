@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TriaClaw // 5 font systems — pick one</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500&family=JetBrains+Mono:wght@400;500;600;700&family=Cabinet+Grotesk:wght@500;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Onest:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *,*:before,*:after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#050a18;
+    --bg-2:#070f24;
+    --surface:#0d1530;
+    --surface-raised:#111a3a;
+    --line:rgba(255,255,255,.08);
+    --line-strong:rgba(34,211,238,.22);
+    --ink:#e2e8f0;
+    --muted:#94a3b8;
+    --dim:#64748b;
+    --cyan:#22d3ee;
+    --cyan-soft:#67e8f9;
+    --green:#00ffaa;
+    --amber:#fbbf24;
+    --whatsapp:#25d366;
+
+    /* Switchable typography (default = V1 Geist Pure) */
+    --display:"Geist", ui-sans-serif, system-ui, sans-serif;
+    --sans:"Geist", ui-sans-serif, system-ui, sans-serif;
+    --mono:"Geist Mono", ui-monospace, monospace;
+    --display-weight:700;
+    --display-style:normal;
+    --display-tracking:-.02em;
+    --display-size-h1:clamp(54px,7vw,100px);
+    --display-size-h2:clamp(40px,5vw,64px);
+  }
+
+  html,body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{font-feature-settings:"ss01","ss02"}
+  a{color:inherit;text-decoration:none}
+
+  /* Backdrop layers */
+  .bg-aurora,.bg-grid,.bg-noise{position:fixed;inset:0;pointer-events:none;z-index:0}
+  .bg-aurora{background:
+    radial-gradient(900px 600px at 80% -10%, rgba(34,211,238,.18), transparent 70%),
+    radial-gradient(700px 500px at 10% 30%, rgba(0,255,170,.06), transparent 70%),
+    radial-gradient(1100px 700px at 50% 110%, rgba(34,211,238,.10), transparent 70%);
+    animation:aurora 22s ease-in-out infinite alternate}
+  @keyframes aurora{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2%,-1%,0)}100%{transform:translate3d(-1%,1%,0)}}
+  .bg-grid{background-image:
+    linear-gradient(to right, rgba(148,163,184,.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148,163,184,.04) 1px, transparent 1px);
+    background-size:48px 48px;
+    mask:radial-gradient(ellipse at center, black 30%, transparent 80%);
+    opacity:.6}
+  .scanline{position:fixed;left:0;right:0;top:-2px;height:2px;background:linear-gradient(90deg,transparent,rgba(34,211,238,.45),transparent);pointer-events:none;z-index:1;animation:scan 9s linear infinite;opacity:0}
+  @keyframes scan{0%{top:-2px;opacity:0}8%{opacity:1}50%{opacity:1}92%{opacity:0}100%{top:100%;opacity:0}}
+
+  /* Variant switcher (sticky top bar) */
+  .switcher{position:sticky;top:0;z-index:60;background:rgba(5,10,24,.95);backdrop-filter:blur(20px) saturate(1.4);border-bottom:1px solid var(--cyan)}
+  .switcher .row{max-width:1240px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:11.5px}
+  .switcher .lbl{color:var(--cyan);text-transform:uppercase;letter-spacing:.15em;font-weight:600}
+  .switcher .lbl::before{content:"⌘ "}
+  .v-btn{padding:8px 14px;border:1px solid var(--line);border-radius:6px;background:transparent;color:var(--muted);cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.04em;transition:all .15s;display:flex;align-items:center;gap:8px}
+  .v-btn:hover{border-color:var(--cyan);color:var(--ink)}
+  .v-btn.active{background:var(--cyan);color:var(--bg);border-color:var(--cyan);font-weight:600}
+  .v-btn .num{font-weight:600;opacity:.6}
+  .v-btn.active .num{opacity:1}
+  .v-meta{margin-left:auto;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;font-size:10.5px}
+  .v-meta b{color:var(--cyan);font-weight:500}
+
+  /* Layout */
+  .container{max-width:1240px;margin:0 auto;padding:0 32px;position:relative;z-index:2}
+  section{position:relative;z-index:2}
+
+  /* Section labels */
+  .section-label{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.18em;margin-bottom:24px}
+  .section-label::before{content:"";display:block;width:24px;height:1px;background:var(--cyan);opacity:.6}
+  .section-label .num{color:var(--cyan)}
+
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;gap:10px;border-radius:6px;padding:14px 22px;font-family:var(--sans);font-weight:600;font-size:14.5px;cursor:pointer;border:0;transition:all .2s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+  .btn-cyan{background:var(--cyan);color:var(--bg)}
+  .btn-cyan:hover{box-shadow:0 0 0 1px var(--cyan), 0 12px 40px rgba(34,211,238,.35);transform:translateY(-1px)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--line-strong);background:rgba(34,211,238,.05)}
+  .btn-mono{font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em;font-size:12px}
+
+  /* HEADER */
+  header{position:sticky;top:48px;z-index:50;background:rgba(5,10,24,.7);backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand .mark{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#0F2A5C,#22d3ee);position:relative;display:flex;align-items:center;justify-content:center}
+  .brand .mark::before{content:"";position:absolute;top:-3px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+  .brand .mark::after{content:"";position:absolute;inset:6px;border:1.5px solid rgba(255,255,255,.85);border-radius:4px;background:#050a18}
+  .brand .eyes{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;gap:6px;z-index:1}
+  .brand .eyes::before,.brand .eyes::after{content:"";width:4px;height:4px;border-radius:50%;background:#fff}
+  .brand-name{font-weight:700;font-size:17px;letter-spacing:-.02em;display:flex;align-items:baseline;gap:6px}
+  .brand-name .tld{font-family:var(--mono);font-size:11px;color:var(--cyan);font-weight:400;letter-spacing:.05em}
+  nav.menu{display:none;gap:6px}
+  nav.menu a{padding:8px 14px;font-size:14px;color:var(--muted);transition:color .15s}
+  nav.menu a:hover{color:var(--ink)}
+  nav.menu .sep{color:var(--dim);padding:8px 0;font-family:var(--mono);font-size:12px}
+  @media(min-width:880px){nav.menu{display:flex}}
+  .header-right{display:flex;align-items:center;gap:14px}
+  .lang{display:flex;border:1px solid var(--line);border-radius:5px;overflow:hidden;font-family:var(--mono);font-size:11px;font-weight:500}
+  .lang span{padding:6px 9px;color:var(--dim);cursor:pointer;letter-spacing:.05em}
+  .lang span.active{background:var(--cyan);color:var(--bg)}
+
+  /* Display heading util */
+  .display{
+    font-family:var(--display);
+    font-weight:var(--display-weight);
+    font-style:var(--display-style);
+    letter-spacing:var(--display-tracking);
+    line-height:.98;
+  }
+
+  /* HERO */
+  .hero{padding:80px 0 120px;position:relative}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:64px;align-items:start;position:relative}
+  @media(min-width:1024px){.hero-grid{grid-template-columns:1.05fr 1fr;gap:80px}}
+  .hero-eyebrow{font-family:var(--mono);font-size:12px;color:var(--cyan);text-transform:uppercase;letter-spacing:.18em;margin-bottom:32px;display:flex;align-items:center;gap:10px}
+  .hero-eyebrow::before{content:"";width:34px;height:1px;background:var(--cyan)}
+  .hero h1{font-family:var(--display);font-weight:var(--display-weight);font-style:var(--display-style);font-size:var(--display-size-h1);line-height:.96;letter-spacing:var(--display-tracking);margin-bottom:24px}
+  .hero h1 .accent{color:var(--cyan)}
+  .hero h1 .nrm{font-family:var(--sans);font-style:normal;font-weight:300;font-size:.62em;display:block;color:var(--muted);margin-top:14px;letter-spacing:-.01em;line-height:1.05}
+  .hero p.lead{font-size:17px;color:var(--muted);max-width:520px;line-height:1.6;margin:32px 0 36px}
+  .hero .ctas{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .hero .meta-line{margin-top:48px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.12em}
+  .hero .meta-line span::before{content:"●";color:var(--green);margin-right:8px;font-size:8px;vertical-align:middle}
+
+  /* Console panel */
+  .console{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 32px 80px -20px rgba(0,0,0,.7), 0 0 0 1px var(--line-strong);position:relative}
+  .console::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(34,211,238,.03),transparent 30%);pointer-events:none}
+  .console-bar{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02);font-family:var(--mono);font-size:11.5px}
+  .console-bar .dot{width:9px;height:9px;border-radius:50%}
+  .console-bar .dot.r{background:#ff5f56}
+  .console-bar .dot.y{background:#ffbd2e}
+  .console-bar .dot.g{background:#27c93f}
+  .console-bar .title{margin-left:auto;color:var(--dim);letter-spacing:.05em}
+  .console-bar .title .live{color:var(--green);margin-left:8px}
+  .console-bar .title .live::before{content:"● "}
+  .console-body{padding:22px;font-family:var(--mono);font-size:13px;line-height:1.65;color:var(--muted)}
+  .log{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;opacity:0;animation:logIn .5s cubic-bezier(.2,.7,.4,1) forwards}
+  .log:nth-child(1){animation-delay:.4s}
+  .log:nth-child(2){animation-delay:1.6s}
+  .log:nth-child(3){animation-delay:2.8s}
+  .log:nth-child(4){animation-delay:4.0s}
+  .log:nth-child(5){animation-delay:5.0s}
+  @keyframes logIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .log .ts{color:var(--dim);min-width:78px;font-size:12px}
+  .log .src{color:var(--cyan);min-width:74px;font-weight:500}
+  .log .src.bot{color:var(--green)}
+  .log .src.crm{color:var(--amber)}
+  .log .msg{color:var(--ink);flex:1}
+  .log .msg b{color:var(--cyan);font-weight:500}
+  .log .msg em{color:var(--green);font-style:normal}
+  .log .ok{color:var(--green);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em}
+  .console-footer{padding:12px 22px;border-top:1px solid var(--line);background:rgba(255,255,255,.015);display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}
+  .console-footer .ok{color:var(--green)}
+
+  /* LOGOBAR */
+  .logobar{padding:48px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(255,255,255,.01)}
+  .logobar-grid{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:32px}
+  .logobar-label{font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.18em}
+  .logobar-list{display:flex;gap:48px;flex-wrap:wrap;align-items:center}
+  .clogo{font-weight:600;font-size:16px;color:var(--ink);opacity:.7;letter-spacing:-.01em}
+  .clogo.italic{font-style:italic;font-weight:400;font-size:18px}
+  .clogo.mono{font-family:var(--mono);font-size:13px;font-weight:400;letter-spacing:.05em;text-transform:uppercase;opacity:.55}
+
+  /* PILLARS */
+  .pillars{padding:128px 0}
+  .pillars-head{display:grid;grid-template-columns:1fr;gap:32px;align-items:end;margin-bottom:64px}
+  @media(min-width:880px){.pillars-head{grid-template-columns:1fr 1fr}}
+  .h2{font-family:var(--display);font-weight:var(--display-weight);font-style:var(--display-style);font-size:var(--display-size-h2);line-height:1;letter-spacing:var(--display-tracking)}
+  .h2 .accent{color:var(--cyan)}
+  .pillars-lead{color:var(--muted);font-size:16px;line-height:1.6;max-width:480px}
+  .pillars-grid{display:grid;grid-template-columns:1fr;gap:18px}
+  @media(min-width:880px){.pillars-grid{grid-template-columns:repeat(3,1fr)}}
+  .pillar{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:30px;position:relative;transition:all .25s ease;overflow:hidden}
+  .pillar:hover{transform:translateY(-3px);border-color:var(--line-strong);box-shadow:0 24px 60px -20px rgba(34,211,238,.18)}
+  .pillar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+  .pillar-id{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+  .pillar-status{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--green);text-transform:uppercase;letter-spacing:.12em}
+  .pillar-status .led{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,255,170,.55)}70%{box-shadow:0 0 0 8px rgba(0,255,170,0)}100%{box-shadow:0 0 0 0 rgba(0,255,170,0)}}
+  .pillar-icon{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(34,211,238,.07);border:1px solid var(--line-strong);margin-bottom:18px;font-size:22px}
+  .pillar h3{font-family:var(--display);font-weight:var(--display-weight);font-style:var(--display-style);font-size:30px;color:var(--ink);margin-bottom:12px;line-height:1.05;letter-spacing:var(--display-tracking)}
+  .pillar p{color:var(--muted);font-size:14.5px;line-height:1.55;margin-bottom:18px}
+  .pillar ul{list-style:none;font-family:var(--mono);font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;line-height:2}
+  .pillar ul li{padding-left:14px;position:relative}
+  .pillar ul li::before{content:"+";position:absolute;left:0;color:var(--cyan)}
+  .pillar a.more{margin-top:24px;display:inline-flex;gap:8px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--cyan);text-transform:uppercase;letter-spacing:.1em;font-weight:500}
+  .pillar a.more::after{content:"→";transition:transform .2s}
+  .pillar a.more:hover::after{transform:translateX(3px)}
+
+  /* CASE FEATURED */
+  .case-featured{padding:128px 0;border-top:1px solid var(--line)}
+  .case-grid{display:grid;grid-template-columns:1fr;gap:64px;align-items:center}
+  @media(min-width:1024px){.case-grid{grid-template-columns:1.1fr 1fr}}
+  .case-quote{font-family:var(--display);font-weight:var(--display-weight);font-style:var(--display-style);font-size:clamp(28px,3vw,40px);line-height:1.15;color:var(--ink);margin:32px 0;letter-spacing:var(--display-tracking)}
+  .case-quote::before{content:"\201C";color:var(--cyan);display:block;font-size:1.4em;line-height:0;margin-bottom:.4em}
+  .case-text{color:var(--muted);font-size:15.5px;line-height:1.65;margin-bottom:36px}
+  .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:32px}
+  .metric{padding:20px 0;border-top:1px solid var(--line);position:relative}
+  .metric::before{content:"";position:absolute;top:-1px;left:0;width:32px;height:1px;background:var(--cyan)}
+  .metric .v{font-family:var(--display);font-weight:var(--display-weight);font-style:var(--display-style);font-size:48px;color:var(--ink);line-height:1;letter-spacing:var(--display-tracking)}
+  .metric .l{font-family:var(--mono);font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-top:10px}
+  .case-cta{font-family:var(--mono);font-size:12px;color:var(--cyan);text-transform:uppercase;letter-spacing:.12em;display:inline-flex;gap:8px;align-items:center}
+  .case-cta::after{content:"→";transition:transform .2s}
+  .case-cta:hover::after{transform:translateX(3px)}
+  .case-frame{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:32px;display:flex;flex-direction:column;gap:18px}
+  .case-frame-head{font-family:var(--mono);font-size:11px;color:var(--cyan);text-transform:uppercase;letter-spacing:.12em;display:flex;justify-content:space-between;align-items:center}
+  .case-frame-head .live{color:var(--green)}
+  .case-frame-head .live::before{content:"● "}
+  .case-frame .row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:13px}
+  .case-frame .row:last-child{border-bottom:0}
+  .case-frame .row .k{color:var(--dim);text-transform:uppercase;font-size:10.5px;letter-spacing:.1em}
+  .case-frame .row .v{color:var(--ink);font-weight:500}
+  .case-frame .row .v.up{color:var(--green)}
+  .case-frame .bar{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}
+  .case-frame .bar .track{flex:1;height:4px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden}
+  .case-frame .bar .fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));width:88%;animation:fillGrow 1.6s ease-out forwards}
+  @keyframes fillGrow{from{width:0}to{width:88%}}
+
+  /* CTA FINAL */
+  .cta-final{padding:140px 0;text-align:center;position:relative;overflow:hidden;border-top:1px solid var(--line)}
+  .cta-final::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(800px 500px at 50% 0%, rgba(34,211,238,.15), transparent 60%),
+    radial-gradient(600px 400px at 50% 100%, rgba(0,255,170,.06), transparent 60%);
+    pointer-events:none}
+  .cta-final h2{font-family:var(--display);font-weight:var(--display-weight);font-style:var(--display-style);font-size:clamp(42px,5.5vw,72px);line-height:1.04;letter-spacing:var(--display-tracking);margin-bottom:18px}
+  .cta-final h2 .accent{color:var(--cyan)}
+  .cta-final p{color:var(--muted);font-size:17px;margin-bottom:36px;max-width:540px;margin-left:auto;margin-right:auto;line-height:1.6}
+  .cta-final .ctas{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+
+  /* Selection */
+  ::selection{background:var(--cyan);color:var(--bg)}
+</style>
+</head>
+<body>
+
+<div class="bg-aurora" aria-hidden="true"></div>
+<div class="bg-grid" aria-hidden="true"></div>
+<div class="scanline" aria-hidden="true"></div>
+
+<!-- VARIANT SWITCHER -->
+<div class="switcher">
+  <div class="row">
+    <span class="lbl">font system</span>
+    <button class="v-btn active" data-v="1"><span class="num">01</span> Geist Pure</button>
+    <button class="v-btn" data-v="2"><span class="num">02</span> JetBrains Code</button>
+    <button class="v-btn" data-v="3"><span class="num">03</span> Cabinet</button>
+    <button class="v-btn" data-v="4"><span class="num">04</span> Bricolage</button>
+    <button class="v-btn" data-v="5"><span class="num">05</span> Onest Modern</button>
+    <span class="v-meta">display · <b id="meta-display">Geist</b> // sans · <b id="meta-sans">Geist</b> // mono · <b id="meta-mono">Geist Mono</b></span>
+  </div>
+</div>
+
+<header>
+  <div class="container nav">
+    <a href="/" class="brand">
+      <div class="mark"><div class="eyes"></div></div>
+      <div class="brand-name">TriaClaw <span class="tld">/v2-fonts</span></div>
+    </a>
+    <nav class="menu">
+      <a>Centralita</a><a>Agents</a><a>CRM</a>
+      <span class="sep">/</span>
+      <a>Precios</a><a>Casos</a>
+      <span class="sep">/</span>
+      <a>Partners</a><a>Contacto</a>
+    </nav>
+    <div class="header-right">
+      <div class="lang"><span class="active">ES</span><span>CA</span></div>
+      <a class="btn btn-cyan btn-mono">Habla → WhatsApp</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">SISTEMA OPERATIVO PARA PYMES // v1.0</div>
+        <h1>
+          <span class="accent">Tria</span> el teu agent.
+          <span class="nrm">Centralita, bots i CRM que parlen entre ells.</span>
+        </h1>
+        <p class="lead">Una sola plataforma que recibe la llamada, atiende el WhatsApp y deja el lead en el CRM. Sin que pierdas ni una. <strong style="color:var(--ink);font-weight:500">Lleida-made</strong>, integrado de fábrica.</p>
+        <div class="ctas">
+          <a class="btn btn-cyan">Habla por WhatsApp <span style="font-family:var(--mono);font-size:11px;opacity:.7;">→</span></a>
+          <a class="btn btn-ghost btn-mono">[ pedir demo ]</a>
+        </div>
+        <div class="meta-line">
+          <span>Sin permanencia</span><span>Setup en 7 días</span><span>RGPD-compliant</span>
+        </div>
+      </div>
+
+      <div class="console">
+        <div class="console-bar">
+          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+          <div class="title">triaclaw://operations<span class="live">LIVE</span></div>
+        </div>
+        <div class="console-body">
+          <div class="log"><div class="ts">10:42:18</div><div class="src">CALL_IN</div><div class="msg">Llamada de <b>+34 669 ··· 412</b> → IVR opc. 2 (Reparaciones)</div></div>
+          <div class="log"><div class="ts">10:42:24</div><div class="src bot">BOT.WA</div><div class="msg">"Hola Marta, tu envío con seguimiento <b>SP1124</b> está en reparto." <em>auto-reply OK</em></div></div>
+          <div class="log"><div class="ts">10:42:31</div><div class="src crm">CRM</div><div class="msg">Nuevo lead → <b>Centralita Pro</b> · pyme inmobiliaria · etiqueta <b>warm</b></div></div>
+          <div class="log"><div class="ts">10:42:39</div><div class="src bot">BOT.WA</div><div class="msg">Cualifica → "¿Cuántas extensiones necesitas?" · respuesta esperada · <em>5min</em></div></div>
+          <div class="log"><div class="ts">10:42:47</div><div class="src">CALL_IN</div><div class="msg">Llamada de <b>+34 695 ··· 071</b> → IVR opc. 1 <span class="ok">✓ atendida 1.2s</span></div></div>
+        </div>
+        <div class="console-footer">
+          <span>uptime 99.97%</span>
+          <span class="ok">● 4 agents online</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOBAR -->
+<section class="logobar">
+  <div class="container logobar-grid">
+    <div class="logobar-label">Operating for // Pymes en producción</div>
+    <div class="logobar-list">
+      <div class="clogo">iReparo</div>
+      <div class="clogo italic">Falcon Cat</div>
+      <div class="clogo">Ilercasa</div>
+      <div class="clogo mono">[ Comerc. energía ]</div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars">
+  <div class="container">
+    <div class="section-label"><span class="num">02</span> MODULES</div>
+    <div class="pillars-head">
+      <h2 class="h2">Tres módulos.<br/>Una <span class="accent">plataforma</span>.</h2>
+      <p class="pillars-lead">Empieza por uno. Combina los tres y rebaja un 15%. Los datos viajan entre módulos sin que tengas que tocar nada.</p>
+    </div>
+    <div class="pillars-grid">
+      <article class="pillar">
+        <div class="pillar-head"><span class="pillar-id">module.01 — centralita</span><span class="pillar-status"><span class="led"></span>online</span></div>
+        <div class="pillar-icon">📞</div>
+        <h3>Centralita</h3>
+        <p>PBX virtual con IVR, transferencias y panel de supervisión. Conecta cualquier teléfono SIP — no te ata al hardware.</p>
+        <ul><li>multi-extensión y multi-sede</li><li>grabación y panel supervisor</li><li>SIP estándar — Telnyx + genéricos</li></ul>
+        <a class="more">acceder al módulo</a>
+      </article>
+      <article class="pillar">
+        <div class="pillar-head"><span class="pillar-id">module.02 — agents</span><span class="pillar-status"><span class="led"></span>online</span></div>
+        <div class="pillar-icon">🤖</div>
+        <h3>Agents &amp; Bots</h3>
+        <p>Bots de WhatsApp y agentes IA conversacionales con contexto del CRM. Cualifican, agendan y transfieren cuando hace falta humano.</p>
+        <ul><li>WhatsApp Business + IA contextual</li><li>plantillas: envíos, ventas, soporte</li><li>integración nativa con tu CRM</li></ul>
+        <a class="more">acceder al módulo</a>
+      </article>
+      <article class="pillar">
+        <div class="pillar-head"><span class="pillar-id">module.03 — crm</span><span class="pillar-status"><span class="led"></span>online</span></div>
+        <div class="pillar-icon">📋</div>
+        <h3>CRM &amp; Gestión</h3>
+        <p>Verticales hechos a medida del sector — SAT, energía, inmobiliaria, gestión de proyectos. Custom para tu flujo concreto.</p>
+        <ul><li>SAT · energía · inmo · proyectos</li><li>integrado con centralita y agents</li><li>custom fields y flows</li></ul>
+        <a class="more">acceder al módulo</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CASE FEATURED -->
+<section class="case-featured">
+  <div class="container">
+    <div class="case-grid">
+      <div>
+        <div class="section-label"><span class="num">04</span> CASE STUDY · IREPARO</div>
+        <p class="case-quote">Antes perdíamos 1 de cada 4 llamadas. Ahora cero. Y los WhatsApps de envíos se contestan solos.</p>
+        <p class="case-text">Centralita virtual + bot WhatsApp para envíos + CRM SAT integrados. Cada llamada se convierte en ficha. Cada WhatsApp en ticket. Cada lead se atiende.</p>
+        <div class="metrics">
+          <div class="metric"><div class="v">−78%</div><div class="l">Llamadas perdidas</div></div>
+          <div class="metric"><div class="v">+34%</div><div class="l">Leads cualificados</div></div>
+          <div class="metric"><div class="v">−3h</div><div class="l">Admin / día</div></div>
+        </div>
+        <a class="case-cta">Leer caso completo</a>
+      </div>
+      <div class="case-frame">
+        <div class="case-frame-head"><span>SAT iReparo · panel</span><span class="live">LIVE</span></div>
+        <div class="row"><span class="k">Tickets abiertos</span><span class="v">142</span></div>
+        <div class="row"><span class="k">Nuevos hoy</span><span class="v up">+18</span></div>
+        <div class="row"><span class="k">SLA 24h</span><span class="v up">96.4%</span></div>
+        <div class="row"><span class="k">Revisión taller</span><span class="v">7</span></div>
+        <div class="row"><span class="k">Pendiente recogida</span><span class="v">23</span></div>
+        <div class="bar"><span>capacidad</span><div class="track"><div class="fill"></div></div><span style="color:var(--green)">88%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <div class="container">
+    <h2>¿Listo para que tu pyme<br/><span class="accent">conteste sola</span>?</h2>
+    <p>15 minutos por WhatsApp. Sin compromiso. Te enseñamos los tres módulos en 1 demo en vivo.</p>
+    <div class="ctas">
+      <a class="btn btn-cyan">Hablar por WhatsApp →</a>
+      <a class="btn btn-ghost btn-mono">[ pedir demo ]</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const VARIANTS = {
+    "1": {
+      name: "Geist Pure",
+      display: "Geist",
+      sans: "Geist",
+      mono: "Geist Mono",
+      weight: 700,
+      style: "normal",
+      tracking: "-.02em",
+      h1: "clamp(54px,7vw,100px)",
+      h2: "clamp(40px,5vw,64px)"
+    },
+    "2": {
+      name: "JetBrains Code",
+      display: "JetBrains Mono",
+      sans: "JetBrains Mono",
+      mono: "JetBrains Mono",
+      weight: 700,
+      style: "normal",
+      tracking: "-.04em",
+      h1: "clamp(44px,5.4vw,80px)",
+      h2: "clamp(34px,4vw,52px)"
+    },
+    "3": {
+      name: "Cabinet",
+      display: "Cabinet Grotesk",
+      sans: "Geist",
+      mono: "JetBrains Mono",
+      weight: 800,
+      style: "normal",
+      tracking: "-.025em",
+      h1: "clamp(58px,7.6vw,108px)",
+      h2: "clamp(42px,5.2vw,68px)"
+    },
+    "4": {
+      name: "Bricolage",
+      display: "Bricolage Grotesque",
+      sans: "Geist",
+      mono: "Geist Mono",
+      weight: 800,
+      style: "normal",
+      tracking: "-.025em",
+      h1: "clamp(58px,7.4vw,104px)",
+      h2: "clamp(42px,5.2vw,66px)"
+    },
+    "5": {
+      name: "Onest Modern",
+      display: "Onest",
+      sans: "Onest",
+      mono: "IBM Plex Mono",
+      weight: 700,
+      style: "normal",
+      tracking: "-.025em",
+      h1: "clamp(54px,7vw,98px)",
+      h2: "clamp(40px,5vw,62px)"
+    }
+  };
+
+  function applyVariant(id){
+    const v = VARIANTS[id];
+    if(!v) return;
+    const root = document.documentElement.style;
+    root.setProperty('--display', `"${v.display}", ui-sans-serif, system-ui, sans-serif`);
+    root.setProperty('--sans', `"${v.sans}", ui-sans-serif, system-ui, sans-serif`);
+    root.setProperty('--mono', `"${v.mono}", ui-monospace, monospace`);
+    root.setProperty('--display-weight', v.weight);
+    root.setProperty('--display-style', v.style);
+    root.setProperty('--display-tracking', v.tracking);
+    root.setProperty('--display-size-h1', v.h1);
+    root.setProperty('--display-size-h2', v.h2);
+
+    document.getElementById('meta-display').textContent = v.display;
+    document.getElementById('meta-sans').textContent = v.sans;
+    document.getElementById('meta-mono').textContent = v.mono;
+
+    document.querySelectorAll('.v-btn').forEach(b=>{
+      b.classList.toggle('active', b.dataset.v === id);
+    });
+
+    history.replaceState(null,'',`?v=${id}`);
+  }
+
+  document.querySelectorAll('.v-btn').forEach(b=>{
+    b.addEventListener('click', ()=> applyVariant(b.dataset.v));
+  });
+
+  // Initial: read query param
+  const urlV = new URLSearchParams(location.search).get('v') || '1';
+  applyVariant(urlV);
+</script>
+
+</body>
+</html>

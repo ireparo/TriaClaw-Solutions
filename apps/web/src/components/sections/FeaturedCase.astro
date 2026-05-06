@@ -4,68 +4,294 @@ import { getLocaleFromUrl, t, localizedHref, type Locale } from '../../i18n';
 const locale: Locale = getLocaleFromUrl(Astro.url);
 ---
 
-<section class="bg-[#fafbfd] py-24">
-  <Container class="grid md:grid-cols-2 gap-16 items-center">
-    <div>
-      <span class="text-[11px] tracking-[2px] text-cyan-brand uppercase font-semibold mb-3 block"
-        >{t(locale, 'case_featured.eyebrow')}</span
-      >
-      <p
-        class="text-3xl md:text-4xl font-bold text-navy tracking-tight leading-tight mb-5 before:content-['\201C'] before:block before:text-6xl before:text-cyan-brand before:leading-none before:mb-3"
-      >
-        {t(locale, 'case_featured.quote')}
-      </p>
-      <p class="text-base text-muted leading-relaxed mb-7">
-        {t(locale, 'case_featured.body')}
-      </p>
-      <div class="flex gap-9 mb-7">
-        <div>
-          <div class="text-3xl md:text-4xl font-extrabold text-navy tracking-tight">−78%</div><div
-            class="text-xs text-muted mt-1.5"
-          >
-            {t(locale, 'case_featured.metric1_label')}
+<section class="tcw-section tcw-case" id="case">
+  <Container>
+    <div class="tcw-case__grid">
+      <div class="reveal">
+        <span class="tcw-case__pill mono">{t(locale, 'case_featured.eyebrow')}</span>
+        <h2 class="tcw-case__quote">
+          <span class="tcw-case__open-quote">"</span>{t(locale, 'case_featured.quote')}
+        </h2>
+        <p class="tcw-case__body">{t(locale, 'case_featured.body')}</p>
+        <div class="tcw-case__metrics">
+          <div class="tcw-case__metric glass">
+            <div class="tcw-case__num grad-text">−78%</div>
+            <span class="tcw-case__lbl mono">{t(locale, 'case_featured.metric1_label')}</span>
+          </div>
+          <div class="tcw-case__metric glass">
+            <div class="tcw-case__num grad-text">+34%</div>
+            <span class="tcw-case__lbl mono">{t(locale, 'case_featured.metric2_label')}</span>
+          </div>
+          <div class="tcw-case__metric glass">
+            <div class="tcw-case__num grad-text">−3h</div>
+            <span class="tcw-case__lbl mono">{t(locale, 'case_featured.metric3_label')}</span>
           </div>
         </div>
-        <div>
-          <div class="text-3xl md:text-4xl font-extrabold text-navy tracking-tight">+34%</div><div
-            class="text-xs text-muted mt-1.5"
-          >
-            {t(locale, 'case_featured.metric2_label')}
-          </div>
-        </div>
-        <div>
-          <div class="text-3xl md:text-4xl font-extrabold text-navy tracking-tight">
-            3 h/día
-          </div><div class="text-xs text-muted mt-1.5">
-            {t(locale, 'case_featured.metric3_label')}
-          </div>
-        </div>
+        <a class="tcw-case__cta" href={localizedHref(locale, '/casos/ireparo')}
+          >{t(locale, 'case_featured.cta')}</a
+        >
       </div>
-      <a href={localizedHref(locale, '/casos/ireparo')} class="text-navy font-semibold text-sm"
-        >{t(locale, 'case_featured.cta')}</a
-      >
-    </div>
-    <div
-      class="aspect-[4/3] rounded-2xl bg-gradient-to-br from-blue-100 to-cyan-100 relative overflow-hidden shadow-lg"
-    >
-      <div class="absolute inset-6 bg-white rounded-xl p-5 shadow-md flex flex-col gap-2.5">
-        <div class="flex justify-between items-center mb-1">
-          <strong class="text-[13px] text-navy">SAT iReparo</strong><span
-            class="text-[10px] bg-cyan-brand text-navy px-2 py-0.5 rounded-full font-bold"
-            >LIVE</span
-          >
+
+      <div class="tcw-dash glass reveal">
+        <div class="tcw-dash__head">
+          <div class="tcw-dash__dots">
+            <i></i><i></i><i></i>
+          </div>
+          <span class="tcw-dash__title mono">ireparo · last 30d</span>
+          <span class="tcw-dash__badge mono">LIVE</span>
         </div>
-        <div class="h-2 rounded bg-navy w-3/5"></div>
-        <div class="h-2 rounded bg-line w-4/5"></div>
-        <div class="h-2 rounded bg-cyan-brand w-2/5"></div>
-        <div class="grid grid-cols-3 gap-2 mt-1.5">
-          <div class="h-10 rounded bg-slate-100"></div>
-          <div class="h-10 rounded gradient-brand"></div>
-          <div class="h-10 rounded bg-slate-100"></div>
+
+        <div class="tcw-dash__kpis">
+          <div class="tcw-kpi">
+            <span class="tcw-kpi__lbl mono">Conversaciones</span>
+            <div class="tcw-kpi__val">2.847</div>
+            <span class="tcw-kpi__delta mono">▲ 24%</span>
+          </div>
+          <div class="tcw-kpi tcw-kpi--alt">
+            <span class="tcw-kpi__lbl mono">Auto-resolved</span>
+            <div class="tcw-kpi__val grad-text">71.4%</div>
+            <span class="tcw-kpi__delta mono">▲ 9pp</span>
+          </div>
         </div>
-        <div class="h-2 rounded bg-line w-4/5 mt-1.5"></div>
-        <div class="h-2 rounded bg-line w-1/2"></div>
+
+        <div class="tcw-spark">
+          <div class="tcw-spark__lbl mono">
+            <span>Calls handled</span><b>+312 today</b>
+          </div>
+          <svg viewBox="0 0 200 50" width="100%" height="46" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="tcw-gsp" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#22d3ee" stop-opacity=".7"></stop>
+                <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"></stop>
+              </linearGradient>
+            </defs>
+            <path
+              d="M0,40 L20,32 L40,36 L60,22 L80,28 L100,18 L120,24 L140,12 L160,18 L180,8 L200,14 L200,50 L0,50 Z"
+              fill="url(#tcw-gsp)"></path>
+            <path
+              d="M0,40 L20,32 L40,36 L60,22 L80,28 L100,18 L120,24 L140,12 L160,18 L180,8 L200,14"
+              fill="none"
+              stroke="#22d3ee"
+              stroke-width="2"></path>
+          </svg>
+        </div>
+
+        <div class="tcw-spark">
+          <div class="tcw-spark__lbl mono">
+            <span>Lead conversion</span><b>34.6%</b>
+          </div>
+          <svg viewBox="0 0 200 50" width="100%" height="46" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="tcw-gsp2" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#a78bfa" stop-opacity=".7"></stop>
+                <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"></stop>
+              </linearGradient>
+            </defs>
+            <path
+              d="M0,38 L25,30 L50,34 L75,20 L100,26 L125,14 L150,18 L175,10 L200,6 L200,50 L0,50 Z"
+              fill="url(#tcw-gsp2)"></path>
+            <path
+              d="M0,38 L25,30 L50,34 L75,20 L100,26 L125,14 L150,18 L175,10 L200,6"
+              fill="none"
+              stroke="#a78bfa"
+              stroke-width="2"></path>
+          </svg>
+        </div>
+
+        <div class="tcw-status-row">
+          <span class="tcw-status ok mono">● centralita ok</span>
+          <span class="tcw-status ok mono">● bot online</span>
+          <span class="tcw-status go mono">● 4 agents</span>
+          <span class="tcw-status mono">● eu-west-1</span>
+        </div>
       </div>
     </div>
   </Container>
 </section>
+
+<style>
+  .tcw-case__grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .tcw-case__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .tcw-case__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(167, 139, 250, 0.18);
+    border: 1px solid rgba(167, 139, 250, 0.4);
+    font-size: 12px;
+    font-weight: 600;
+    color: #ddd6fe;
+  }
+  .tcw-case__quote {
+    margin: 16px 0 18px;
+    font-size: clamp(28px, 3.6vw, 44px);
+    font-family: var(--font-sans);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+  .tcw-case__open-quote {
+    color: var(--neon-cyan);
+    font-weight: 800;
+    margin-right: 4px;
+  }
+  .tcw-case__body {
+    color: var(--muted);
+    font-size: 17px;
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+  .tcw-case__metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .tcw-case__metric {
+    padding: 18px 16px;
+    border-radius: 16px;
+    text-align: center;
+  }
+  .tcw-case__num {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .tcw-case__lbl {
+    font-size: 11px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 6px;
+    display: block;
+  }
+  .tcw-case__cta {
+    color: var(--neon-cyan);
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+  }
+  .tcw-case__cta:hover {
+    color: var(--neon-violet);
+  }
+
+  /* dashboard preview */
+  .tcw-dash {
+    padding: 22px;
+    border-radius: var(--r-xl);
+  }
+  .tcw-dash__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .tcw-dash__dots {
+    display: flex;
+    gap: 6px;
+  }
+  .tcw-dash__dots i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+  }
+  .tcw-dash__title {
+    font-size: 12px;
+    color: var(--dim);
+  }
+  .tcw-dash__badge {
+    margin-left: auto;
+    font-size: 10px;
+    color: var(--soft-cyan);
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: rgba(34, 211, 238, 0.12);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+  }
+  .tcw-dash__kpis {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .tcw-kpi {
+    padding: 14px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .tcw-kpi__lbl {
+    font-size: 10px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .tcw-kpi__val {
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 4px;
+    color: var(--ink);
+  }
+  .tcw-kpi__delta {
+    font-size: 11px;
+    color: var(--soft-cyan);
+  }
+  .tcw-spark {
+    padding: 14px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 12px;
+  }
+  .tcw-spark__lbl {
+    font-size: 10px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .tcw-spark__lbl b {
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-weight: 700;
+  }
+  .tcw-status-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tcw-status {
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--muted);
+  }
+  .tcw-status.ok {
+    color: var(--soft-cyan);
+    border-color: rgba(103, 232, 249, 0.4);
+    background: rgba(103, 232, 249, 0.08);
+  }
+  .tcw-status.go {
+    color: var(--neon-violet);
+    border-color: rgba(167, 139, 250, 0.4);
+    background: rgba(167, 139, 250, 0.08);
+  }
+</style>

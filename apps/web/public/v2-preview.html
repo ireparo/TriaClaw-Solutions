@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TriaClaw // Operations Console — preview v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *,*:before,*:after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#050a18;
+    --bg-2:#070f24;
+    --surface:#0d1530;
+    --surface-raised:#111a3a;
+    --line:rgba(255,255,255,.08);
+    --line-strong:rgba(34,211,238,.22);
+    --ink:#e2e8f0;
+    --muted:#94a3b8;
+    --dim:#64748b;
+    --cyan:#22d3ee;
+    --cyan-soft:#67e8f9;
+    --green:#00ffaa;
+    --amber:#fbbf24;
+    --whatsapp:#25d366;
+    --serif:"Instrument Serif", Georgia, serif;
+    --sans:"Geist", ui-sans-serif, system-ui, sans-serif;
+    --mono:"Geist Mono", ui-monospace, "SFMono-Regular", monospace;
+  }
+
+  html,body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{font-feature-settings:"ss01","ss02"}
+  a{color:inherit;text-decoration:none}
+
+  /* Backdrop layers */
+  .bg-aurora,.bg-grid,.bg-noise,.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0}
+  .bg-aurora{background:
+    radial-gradient(900px 600px at 80% -10%, rgba(34,211,238,.18), transparent 70%),
+    radial-gradient(700px 500px at 10% 30%, rgba(0,255,170,.06), transparent 70%),
+    radial-gradient(1100px 700px at 50% 110%, rgba(34,211,238,.10), transparent 70%);
+    animation:aurora 22s ease-in-out infinite alternate}
+  @keyframes aurora{
+    0%{transform:translate3d(0,0,0)}
+    50%{transform:translate3d(2%,-1%,0)}
+    100%{transform:translate3d(-1%,1%,0)}
+  }
+  .bg-grid{background-image:
+    linear-gradient(to right, rgba(148,163,184,.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148,163,184,.04) 1px, transparent 1px);
+    background-size:48px 48px;
+    mask:radial-gradient(ellipse at center, black 30%, transparent 80%);
+    opacity:.6}
+  .bg-noise{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>");
+    mix-blend-mode:overlay;opacity:.5}
+  .scanline{position:fixed;left:0;right:0;top:-2px;height:2px;background:linear-gradient(90deg,transparent,rgba(34,211,238,.45),transparent);pointer-events:none;z-index:1;animation:scan 9s linear infinite;opacity:0}
+  @keyframes scan{
+    0%{top:-2px;opacity:0}
+    8%{opacity:1}
+    50%{opacity:1}
+    92%{opacity:0}
+    100%{top:100%;opacity:0}
+  }
+
+  /* Layout */
+  .container{max-width:1240px;margin:0 auto;padding:0 32px;position:relative;z-index:2}
+  section{position:relative;z-index:2}
+
+  /* Section labels — small monospace numbers */
+  .section-label{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.18em;margin-bottom:24px}
+  .section-label::before{content:"";display:block;width:24px;height:1px;background:var(--cyan);opacity:.6}
+  .section-label .num{color:var(--cyan)}
+
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;gap:10px;border-radius:6px;padding:14px 22px;font-family:var(--sans);font-weight:600;font-size:14.5px;cursor:pointer;border:0;transition:all .2s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+  .btn-cyan{background:var(--cyan);color:var(--bg)}
+  .btn-cyan:hover{box-shadow:0 0 0 1px var(--cyan), 0 12px 40px rgba(34,211,238,.35);transform:translateY(-1px)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--line-strong);background:rgba(34,211,238,.05)}
+  .btn-mono{font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em;font-size:12px}
+
+  /* Status pill */
+  .status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;color:var(--green);text-transform:uppercase;letter-spacing:.12em}
+  .status .led{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 var(--green);animation:pulse 2s infinite}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(0,255,170,.55)}
+    70%{box-shadow:0 0 0 8px rgba(0,255,170,0)}
+    100%{box-shadow:0 0 0 0 rgba(0,255,170,0)}
+  }
+
+  /* HEADER */
+  header{position:sticky;top:0;z-index:50;background:rgba(5,10,24,.7);backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand .mark{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#0F2A5C,#22d3ee);position:relative;display:flex;align-items:center;justify-content:center}
+  .brand .mark::before{content:"";position:absolute;top:-3px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+  .brand .mark::after{content:"";position:absolute;inset:6px;border:1.5px solid rgba(255,255,255,.85);border-radius:4px;background:#050a18}
+  .brand .eyes{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;gap:6px;z-index:1}
+  .brand .eyes::before,.brand .eyes::after{content:"";width:4px;height:4px;border-radius:50%;background:#fff}
+  .brand-name{font-weight:700;font-size:17px;letter-spacing:-.02em;display:flex;align-items:baseline;gap:6px}
+  .brand-name .tld{font-family:var(--mono);font-size:11px;color:var(--cyan);font-weight:400;letter-spacing:.05em}
+  nav.menu{display:none;gap:6px}
+  nav.menu a{padding:8px 14px;font-size:14px;color:var(--muted);transition:color .15s;position:relative}
+  nav.menu a:hover{color:var(--ink)}
+  nav.menu .sep{color:var(--dim);padding:8px 0;font-family:var(--mono);font-size:12px}
+  @media(min-width:880px){nav.menu{display:flex}}
+  .header-right{display:flex;align-items:center;gap:14px}
+  .lang{display:flex;border:1px solid var(--line);border-radius:5px;overflow:hidden;font-family:var(--mono);font-size:11px;font-weight:500}
+  .lang span{padding:6px 9px;color:var(--dim);cursor:pointer;letter-spacing:.05em}
+  .lang span.active{background:var(--cyan);color:var(--bg)}
+
+  /* HERO */
+  .hero{padding:96px 0 120px;position:relative}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:64px;align-items:start;position:relative}
+  @media(min-width:1024px){.hero-grid{grid-template-columns:1.05fr 1fr;gap:80px}}
+  .hero-stack > * + *{margin-top:0}
+  .hero-eyebrow{font-family:var(--mono);font-size:12px;color:var(--cyan);text-transform:uppercase;letter-spacing:.18em;margin-bottom:32px;display:flex;align-items:center;gap:10px}
+  .hero-eyebrow::before{content:"";width:34px;height:1px;background:var(--cyan)}
+  .hero h1{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(56px,7vw,100px);line-height:.95;letter-spacing:-.02em;margin-bottom:24px}
+  .hero h1 .accent{color:var(--cyan);font-style:italic}
+  .hero h1 .nrm{font-family:var(--sans);font-style:normal;font-weight:300;font-size:.62em;display:block;color:var(--muted);margin-top:14px;letter-spacing:-.01em}
+  .hero p.lead{font-size:17px;color:var(--muted);max-width:520px;line-height:1.6;margin:32px 0 36px}
+  .hero .ctas{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .hero .meta-line{margin-top:48px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.12em}
+  .hero .meta-line span::before{content:"●";color:var(--green);margin-right:8px;font-size:8px;vertical-align:middle}
+
+  /* Console panel (the live mockup) */
+  .console{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 32px 80px -20px rgba(0,0,0,.7), 0 0 0 1px var(--line-strong);position:relative}
+  .console::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(34,211,238,.03),transparent 30%);pointer-events:none}
+  .console-bar{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02);font-family:var(--mono);font-size:11.5px}
+  .console-bar .dot{width:9px;height:9px;border-radius:50%}
+  .console-bar .dot.r{background:#ff5f56}
+  .console-bar .dot.y{background:#ffbd2e}
+  .console-bar .dot.g{background:#27c93f}
+  .console-bar .title{margin-left:auto;color:var(--dim);letter-spacing:.05em}
+  .console-bar .title .live{color:var(--green);margin-left:8px}
+  .console-bar .title .live::before{content:"● "}
+  .console-body{padding:22px;font-family:var(--mono);font-size:13px;line-height:1.65;color:var(--muted)}
+  .log{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;opacity:0;animation:logIn .5s cubic-bezier(.2,.7,.4,1) forwards}
+  .log:nth-child(1){animation-delay:.4s}
+  .log:nth-child(2){animation-delay:1.6s}
+  .log:nth-child(3){animation-delay:2.8s}
+  .log:nth-child(4){animation-delay:4.0s}
+  .log:nth-child(5){animation-delay:5.0s}
+  @keyframes logIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .log .ts{color:var(--dim);min-width:78px;font-size:12px}
+  .log .src{color:var(--cyan);min-width:74px;font-weight:500}
+  .log .src.bot{color:var(--green)}
+  .log .src.crm{color:var(--amber)}
+  .log .msg{color:var(--ink);flex:1}
+  .log .msg b{color:var(--cyan);font-weight:500}
+  .log .msg em{color:var(--green);font-style:normal}
+  .log .ok{color:var(--green);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em}
+
+  .console-footer{padding:12px 22px;border-top:1px solid var(--line);background:rgba(255,255,255,.015);display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}
+  .console-footer .ok{color:var(--green)}
+
+  /* LOGOBAR */
+  .logobar{padding:48px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(255,255,255,.01)}
+  .logobar-grid{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:32px}
+  .logobar-label{font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.18em}
+  .logobar-list{display:flex;gap:48px;flex-wrap:wrap;align-items:center}
+  .clogo{font-weight:600;font-size:16px;color:var(--ink);opacity:.7;letter-spacing:-.01em}
+  .clogo.italic{font-family:var(--serif);font-style:italic;font-weight:400;font-size:18px}
+  .clogo.mono{font-family:var(--mono);font-size:13px;font-weight:400;letter-spacing:.05em;text-transform:uppercase;opacity:.55}
+
+  /* PILLARS */
+  .pillars{padding:128px 0}
+  .pillars-head{display:grid;grid-template-columns:1fr;gap:32px;align-items:end;margin-bottom:64px}
+  @media(min-width:880px){.pillars-head{grid-template-columns:1fr 1fr}}
+  .h2{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(40px,5vw,64px);line-height:1;letter-spacing:-.02em}
+  .h2 .accent{color:var(--cyan)}
+  .pillars-lead{color:var(--muted);font-size:16px;line-height:1.6;max-width:480px}
+  .pillars-grid{display:grid;grid-template-columns:1fr;gap:18px}
+  @media(min-width:880px){.pillars-grid{grid-template-columns:repeat(3,1fr)}}
+  .pillar{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:30px;position:relative;transition:all .25s ease;overflow:hidden}
+  .pillar::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(34,211,238,.03));pointer-events:none}
+  .pillar:hover{transform:translateY(-3px);border-color:var(--line-strong);box-shadow:0 24px 60px -20px rgba(34,211,238,.18)}
+  .pillar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+  .pillar-id{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+  .pillar-status{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--green);text-transform:uppercase;letter-spacing:.12em}
+  .pillar-status .led{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
+  .pillar-icon{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(34,211,238,.07);border:1px solid var(--line-strong);margin-bottom:18px;font-size:22px}
+  .pillar h3{font-family:var(--serif);font-style:italic;font-size:30px;color:var(--ink);margin-bottom:12px;line-height:1.05}
+  .pillar p{color:var(--muted);font-size:14.5px;line-height:1.55;margin-bottom:18px}
+  .pillar ul{list-style:none;font-family:var(--mono);font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;line-height:2}
+  .pillar ul li{padding-left:14px;position:relative}
+  .pillar ul li::before{content:"+";position:absolute;left:0;color:var(--cyan)}
+  .pillar a.more{margin-top:24px;display:inline-flex;gap:8px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--cyan);text-transform:uppercase;letter-spacing:.1em;font-weight:500}
+  .pillar a.more::after{content:"→";transition:transform .2s}
+  .pillar a.more:hover::after{transform:translateX(3px)}
+
+  /* CONNECTED */
+  .connected{padding:128px 0;background:linear-gradient(180deg,transparent,rgba(34,211,238,.04));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .flow{margin-top:64px;display:flex;flex-direction:column;gap:24px;max-width:880px;margin-left:auto;margin-right:auto}
+  @media(min-width:880px){.flow{flex-direction:row;align-items:stretch}}
+  .flow-node{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;position:relative;display:flex;flex-direction:column;gap:14px}
+  .flow-node .id{font-family:var(--mono);font-size:11px;color:var(--cyan);text-transform:uppercase;letter-spacing:.1em}
+  .flow-node h4{font-family:var(--serif);font-style:italic;font-size:22px;line-height:1.1}
+  .flow-node p{font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em}
+  .flow-arrow{display:flex;align-items:center;justify-content:center;color:var(--cyan);opacity:.5;font-family:var(--mono);font-size:18px}
+  @media(max-width:879px){.flow-arrow{transform:rotate(90deg)}}
+
+  /* CASE FEATURED */
+  .case-featured{padding:128px 0}
+  .case-grid{display:grid;grid-template-columns:1fr;gap:64px;align-items:center}
+  @media(min-width:1024px){.case-grid{grid-template-columns:1.1fr 1fr}}
+  .case-quote{font-family:var(--serif);font-style:italic;font-size:clamp(28px,3vw,40px);line-height:1.15;color:var(--ink);margin:32px 0;letter-spacing:-.01em}
+  .case-quote::before{content:"\201C";color:var(--cyan);display:block;font-size:1.4em;line-height:0;margin-bottom:.4em}
+  .case-text{color:var(--muted);font-size:15.5px;line-height:1.65;margin-bottom:36px}
+  .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:32px}
+  .metric{padding:20px 0;border-top:1px solid var(--line);position:relative}
+  .metric::before{content:"";position:absolute;top:-1px;left:0;width:32px;height:1px;background:var(--cyan)}
+  .metric .v{font-family:var(--serif);font-style:italic;font-size:48px;color:var(--ink);line-height:1;letter-spacing:-.02em}
+  .metric .l{font-family:var(--mono);font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-top:10px}
+  .case-cta{font-family:var(--mono);font-size:12px;color:var(--cyan);text-transform:uppercase;letter-spacing:.12em;display:inline-flex;gap:8px;align-items:center}
+  .case-cta::after{content:"→";transition:transform .2s}
+  .case-cta:hover::after{transform:translateX(3px)}
+
+  /* Right: client tag */
+  .case-frame{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:32px;position:relative;display:flex;flex-direction:column;gap:18px}
+  .case-frame-head{font-family:var(--mono);font-size:11px;color:var(--cyan);text-transform:uppercase;letter-spacing:.12em;display:flex;justify-content:space-between;align-items:center}
+  .case-frame-head .live{color:var(--green)}
+  .case-frame-head .live::before{content:"● "}
+  .case-frame .row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:13px}
+  .case-frame .row:last-child{border-bottom:0}
+  .case-frame .row .k{color:var(--dim);text-transform:uppercase;font-size:10.5px;letter-spacing:.1em}
+  .case-frame .row .v{color:var(--ink);font-weight:500}
+  .case-frame .row .v.up{color:var(--green)}
+  .case-frame .bar{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}
+  .case-frame .bar .track{flex:1;height:4px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden}
+  .case-frame .bar .fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));width:88%;animation:fillGrow 1.6s ease-out forwards}
+  @keyframes fillGrow{from{width:0}to{width:88%}}
+
+  /* PRICING TEASER */
+  .pricing-teaser{padding:128px 0;text-align:center}
+  .pricing-teaser .h2{margin-top:18px;margin-bottom:18px}
+  .pricing-teaser p.lead{color:var(--muted);font-size:16px;max-width:560px;margin:0 auto 48px;line-height:1.6}
+  .chips{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:32px;font-family:var(--mono);font-size:13px}
+  .chip{padding:14px 22px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--muted);display:flex;align-items:center;gap:14px;transition:all .2s}
+  .chip:hover{border-color:var(--line-strong);color:var(--ink)}
+  .chip .ic{font-size:16px}
+  .chip .name{color:var(--ink);font-weight:500;letter-spacing:.02em}
+  .chip .sep{color:var(--dim)}
+  .chip .price{color:var(--cyan)}
+  .pricing-note{font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-top:24px}
+
+  /* TESTIMONIALS */
+  .testimonials{padding:128px 0;border-top:1px solid var(--line)}
+  .testi-grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:48px}
+  @media(min-width:880px){.testi-grid{grid-template-columns:repeat(3,1fr)}}
+  .testi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:30px;display:flex;flex-direction:column;gap:24px;transition:border-color .2s}
+  .testi:hover{border-color:var(--line-strong)}
+  .testi p{font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.4;color:var(--ink)}
+  .testi .who{display:flex;align-items:center;gap:12px;border-top:1px solid var(--line);padding-top:18px;margin-top:auto}
+  .testi .who .av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0F2A5C,var(--cyan))}
+  .testi .who .n{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink)}
+  .testi .who .r{font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+
+  /* CTA FINAL */
+  .cta-final{padding:140px 0;text-align:center;position:relative;overflow:hidden}
+  .cta-final::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(800px 500px at 50% 0%, rgba(34,211,238,.15), transparent 60%),
+    radial-gradient(600px 400px at 50% 100%, rgba(0,255,170,.06), transparent 60%);
+    pointer-events:none}
+  .cta-final h2{font-family:var(--serif);font-style:italic;font-size:clamp(42px,5.5vw,72px);line-height:1.04;letter-spacing:-.02em;margin-bottom:18px}
+  .cta-final h2 .accent{color:var(--cyan)}
+  .cta-final p{color:var(--muted);font-size:17px;margin-bottom:36px;max-width:540px;margin-left:auto;margin-right:auto;line-height:1.6}
+  .cta-final .ctas{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);padding:64px 0 32px;background:rgba(255,255,255,.01)}
+  .foot-top{display:grid;grid-template-columns:1.5fr repeat(4,1fr);gap:32px;margin-bottom:48px}
+  @media(max-width:879px){.foot-top{grid-template-columns:1fr 1fr}}
+  .foot-col h5{font-family:var(--mono);font-size:11px;color:var(--cyan);text-transform:uppercase;letter-spacing:.12em;margin-bottom:18px}
+  .foot-col ul{list-style:none}
+  .foot-col li{padding:5px 0;font-size:13px;color:var(--muted)}
+  .foot-col li:hover{color:var(--ink)}
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:24px;font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;flex-wrap:wrap;gap:16px}
+  .foot-status{display:flex;align-items:center;gap:8px;color:var(--green)}
+  .foot-status .led{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2s infinite}
+
+  /* Floating WhatsApp */
+  .wa{position:fixed;bottom:28px;right:28px;width:52px;height:52px;border-radius:50%;background:var(--whatsapp);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;z-index:50;box-shadow:0 16px 40px rgba(37,211,102,.4);transition:transform .2s}
+  .wa:hover{transform:scale(1.08)}
+
+  /* Selection */
+  ::selection{background:var(--cyan);color:var(--bg)}
+
+  /* Reveal on scroll */
+  .reveal{opacity:0;transform:translateY(24px);transition:all .9s cubic-bezier(.2,.7,.4,1)}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<div class="bg-aurora" aria-hidden="true"></div>
+<div class="bg-grid" aria-hidden="true"></div>
+<div class="bg-noise" aria-hidden="true"></div>
+<div class="scanline" aria-hidden="true"></div>
+
+<header>
+  <div class="container nav">
+    <a href="/" class="brand">
+      <div class="mark">
+        <div class="eyes"></div>
+      </div>
+      <div class="brand-name">TriaClaw <span class="tld">/v2</span></div>
+    </a>
+    <nav class="menu">
+      <a>Centralita</a>
+      <a>Agents</a>
+      <a>CRM</a>
+      <span class="sep">/</span>
+      <a>Precios</a>
+      <a>Casos</a>
+      <span class="sep">/</span>
+      <a>Partners</a>
+      <a>Contacto</a>
+    </nav>
+    <div class="header-right">
+      <div class="lang"><span class="active">ES</span><span>CA</span></div>
+      <a class="btn btn-cyan btn-mono">Habla → WhatsApp</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-stack">
+        <div class="hero-eyebrow">SISTEMA OPERATIVO PARA PYMES // v1.0</div>
+        <h1>
+          <span class="accent">Tria</span> el teu <em>agent</em>.
+          <span class="nrm">Centralita, bots i CRM que parlen entre ells.</span>
+        </h1>
+        <p class="lead">Una sola plataforma que recibe la llamada, atiende el WhatsApp y deja el lead en el CRM. Sin que pierdas ni una. <strong style="color:var(--ink);font-weight:500">Lleida-made</strong>, integrado de fábrica.</p>
+        <div class="ctas">
+          <a class="btn btn-cyan">Habla por WhatsApp <span style="font-family:var(--mono);font-size:11px;opacity:.7;">→</span></a>
+          <a class="btn btn-ghost btn-mono">[ pedir demo ]</a>
+        </div>
+        <div class="meta-line">
+          <span>Sin permanencia</span>
+          <span>Setup en 7 días</span>
+          <span>RGPD-compliant</span>
+        </div>
+      </div>
+
+      <!-- Console panel -->
+      <div class="console reveal in">
+        <div class="console-bar">
+          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+          <div class="title">triaclaw://operations<span class="live">LIVE</span></div>
+        </div>
+        <div class="console-body">
+          <div class="log">
+            <div class="ts">10:42:18</div>
+            <div class="src">CALL_IN</div>
+            <div class="msg">Llamada de <b>+34 669 ··· 412</b> → IVR opc. 2 (Reparaciones)</div>
+          </div>
+          <div class="log">
+            <div class="ts">10:42:24</div>
+            <div class="src bot">BOT.WA</div>
+            <div class="msg">"Hola Marta, tu envío con seguimiento <b>SP1124</b> está en reparto." <em>auto-reply OK</em></div>
+          </div>
+          <div class="log">
+            <div class="ts">10:42:31</div>
+            <div class="src crm">CRM</div>
+            <div class="msg">Nuevo lead → <b>Centralita Pro</b> · pyme inmobiliaria · etiqueta <b>warm</b></div>
+          </div>
+          <div class="log">
+            <div class="ts">10:42:39</div>
+            <div class="src bot">BOT.WA</div>
+            <div class="msg">Cualifica → "¿Cuántas extensiones necesitas?" · respuesta esperada · <em>5min</em></div>
+          </div>
+          <div class="log">
+            <div class="ts">10:42:47</div>
+            <div class="src">CALL_IN</div>
+            <div class="msg">Llamada de <b>+34 695 ··· 071</b> → IVR opc. 1 (Presupuesto) <span class="ok">✓ atendida en 1.2s</span></div>
+          </div>
+        </div>
+        <div class="console-footer">
+          <span>uptime 99.97%</span>
+          <span class="ok">● 4 agents online</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOBAR -->
+<section class="logobar">
+  <div class="container logobar-grid">
+    <div class="logobar-label">Operating for // Pymes en producción</div>
+    <div class="logobar-list">
+      <div class="clogo">iReparo</div>
+      <div class="clogo italic">Falcon Cat</div>
+      <div class="clogo">Ilercasa</div>
+      <div class="clogo mono">[ Comerc. energía ]</div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars">
+  <div class="container">
+    <div class="section-label"><span class="num">02</span> MODULES</div>
+    <div class="pillars-head">
+      <h2 class="h2">Tres módulos.<br/>Una <span class="accent">plataforma</span>.</h2>
+      <p class="pillars-lead">Empieza por uno. Combina los tres y rebaja un 15%. Los datos viajan entre módulos sin que tengas que tocar nada — el bus de mensajes interno los pasa solos.</p>
+    </div>
+    <div class="pillars-grid">
+
+      <article class="pillar">
+        <div class="pillar-head">
+          <span class="pillar-id">module.01 — centralita</span>
+          <span class="pillar-status"><span class="led"></span>online</span>
+        </div>
+        <div class="pillar-icon">📞</div>
+        <h3>Centralita</h3>
+        <p>PBX virtual con IVR, transferencias y panel de supervisión. Conecta cualquier teléfono SIP — no te ata al hardware.</p>
+        <ul>
+          <li>multi-extensión y multi-sede</li>
+          <li>grabación y panel supervisor</li>
+          <li>SIP estándar — Telnyx + genéricos</li>
+        </ul>
+        <a class="more">acceder al módulo</a>
+      </article>
+
+      <article class="pillar">
+        <div class="pillar-head">
+          <span class="pillar-id">module.02 — agents</span>
+          <span class="pillar-status"><span class="led"></span>online</span>
+        </div>
+        <div class="pillar-icon">🤖</div>
+        <h3>Agents &amp; Bots</h3>
+        <p>Bots de WhatsApp y agentes IA conversacionales con contexto del CRM. Cualifican, agendan y transfieren cuando hace falta humano.</p>
+        <ul>
+          <li>WhatsApp Business + IA contextual</li>
+          <li>plantillas: envíos, ventas, soporte</li>
+          <li>integración nativa con tu CRM</li>
+        </ul>
+        <a class="more">acceder al módulo</a>
+      </article>
+
+      <article class="pillar">
+        <div class="pillar-head">
+          <span class="pillar-id">module.03 — crm</span>
+          <span class="pillar-status"><span class="led"></span>online</span>
+        </div>
+        <div class="pillar-icon">📋</div>
+        <h3>CRM &amp; Gestión</h3>
+        <p>Verticales hechos a medida del sector — SAT, energía, inmobiliaria, gestión de proyectos. Custom para tu flujo concreto.</p>
+        <ul>
+          <li>SAT · energía · inmo · proyectos</li>
+          <li>integrado con centralita y agents</li>
+          <li>custom fields y flows</li>
+        </ul>
+        <a class="more">acceder al módulo</a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONNECTED -->
+<section class="connected">
+  <div class="container">
+    <div class="section-label"><span class="num">03</span> DATAFLOW</div>
+    <h2 class="h2" style="max-width:780px">Tres módulos que <span class="accent">hablan</span> entre ellos.</h2>
+    <p style="color:var(--muted);font-size:16px;margin-top:18px;max-width:580px;line-height:1.6">Llamada → ficha CRM. WhatsApp → ticket. Bot agenda → calendario centralita. Sin Zapier, sin pegar APIs, sin que se te enfríe un lead.</p>
+
+    <div class="flow">
+      <div class="flow-node">
+        <span class="id">/call</span>
+        <h4>Llamada entrante</h4>
+        <p>+34 669 ··· 412</p>
+      </div>
+      <div class="flow-arrow">━━━▶</div>
+      <div class="flow-node">
+        <span class="id">/bot</span>
+        <h4>Bot pre-cualifica</h4>
+        <p>WhatsApp · 1.4s</p>
+      </div>
+      <div class="flow-arrow">━━━▶</div>
+      <div class="flow-node">
+        <span class="id">/crm</span>
+        <h4>Lead en CRM</h4>
+        <p>warm · vertical:inmo</p>
+      </div>
+      <div class="flow-arrow">━━━▶</div>
+      <div class="flow-node">
+        <span class="id">/human</span>
+        <h4>Humano cierra</h4>
+        <p>en 8m promedio</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE FEATURED -->
+<section class="case-featured">
+  <div class="container">
+    <div class="case-grid">
+      <div>
+        <div class="section-label"><span class="num">04</span> CASE STUDY · IREPARO</div>
+        <p class="case-quote">Antes perdíamos 1 de cada 4 llamadas. Ahora cero. Y los WhatsApps de envíos se contestan solos.</p>
+        <p class="case-text">Centralita virtual + bot WhatsApp para envíos + CRM SAT integrados. Cada llamada se convierte en ficha. Cada WhatsApp en ticket. Cada lead se atiende. El equipo deja de hacer de centralita y se concentra en reparar.</p>
+
+        <div class="metrics">
+          <div class="metric"><div class="v">−78%</div><div class="l">Llamadas perdidas</div></div>
+          <div class="metric"><div class="v">+34%</div><div class="l">Leads cualificados</div></div>
+          <div class="metric"><div class="v">−3h</div><div class="l">Admin / día</div></div>
+        </div>
+
+        <a class="case-cta">Leer caso completo</a>
+      </div>
+
+      <div class="case-frame">
+        <div class="case-frame-head"><span>SAT iReparo · panel</span><span class="live">LIVE</span></div>
+        <div class="row"><span class="k">Tickets abiertos</span><span class="v">142</span></div>
+        <div class="row"><span class="k">Nuevos hoy</span><span class="v up">+18</span></div>
+        <div class="row"><span class="k">SLA 24h</span><span class="v up">96.4%</span></div>
+        <div class="row"><span class="k">Revisión taller</span><span class="v">7</span></div>
+        <div class="row"><span class="k">Pendiente recogida</span><span class="v">23</span></div>
+        <div class="bar">
+          <span>capacidad</span>
+          <div class="track"><div class="fill"></div></div>
+          <span style="color:var(--green)">88%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-teaser">
+  <div class="container">
+    <div class="section-label" style="justify-content:center;margin:0 auto 32px;width:fit-content"><span class="num">05</span> PRICING</div>
+    <h2 class="h2">Sin sorpresas. <span class="accent">Sin permanencia.</span></h2>
+    <p class="lead">Empieza por uno. Combina dos módulos y rebaja un 15%. Cancela cuando quieras.</p>
+
+    <div class="chips">
+      <div class="chip"><span class="ic">📞</span><span class="name">centralita</span><span class="sep">··</span><span>desde</span><span class="price">29 €/mes</span></div>
+      <div class="chip"><span class="ic">🤖</span><span class="name">agents</span><span class="sep">··</span><span>desde</span><span class="price">49 €/mes</span></div>
+      <div class="chip"><span class="ic">📋</span><span class="name">crm</span><span class="sep">··</span><span>desde</span><span class="price">39 €/usr/mes</span></div>
+    </div>
+
+    <a class="btn btn-cyan btn-mono">Tabla completa →</a>
+    <p class="pricing-note">Setup incluido en planes Pro · IVA no incluido</p>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="container">
+    <div class="section-label"><span class="num">06</span> TESTIMONIALS</div>
+    <h2 class="h2">Pymes que <span class="accent">dejaron</span> de perder leads.</h2>
+
+    <div class="testi-grid">
+      <div class="testi">
+        <p>"Antes el técnico paraba lo que hacía cada vez que sonaba el teléfono. Ahora la centralita filtra y los leads llegan al CRM por sí solos."</p>
+        <div class="who"><div class="av"></div><div><div class="n">Edgar M.</div><div class="r">Founder · iReparo</div></div></div>
+      </div>
+      <div class="testi">
+        <p>"Pasamos de tener tareas dispersas en mil hojas Excel a un CRM que entiende cómo trabajamos. Y se conecta con WhatsApp."</p>
+        <div class="who"><div class="av" style="background:linear-gradient(135deg,var(--cyan),var(--green))"></div><div><div class="n">Cliente Falcon</div><div class="r">Director · Falcon Cat</div></div></div>
+      </div>
+      <div class="testi">
+        <p>"Lo que más me gusta: no tengo cinco proveedores. Centralita, bot y CRM, una sola persona si algo va mal."</p>
+        <div class="who"><div class="av" style="background:linear-gradient(135deg,#0F2A5C,var(--cyan))"></div><div><div class="n">Cliente Ilercasa</div><div class="r">Asesoría · Lleida</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <div class="container">
+    <h2>¿Listo para que tu pyme<br/><span class="accent">conteste sola</span>?</h2>
+    <p>15 minutos por WhatsApp. Sin compromiso. Te enseñamos los tres módulos en 1 demo en vivo.</p>
+    <div class="ctas">
+      <a class="btn btn-cyan">Hablar por WhatsApp →</a>
+      <a class="btn btn-ghost btn-mono">[ pedir demo ]</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-top">
+      <div>
+        <div class="brand" style="margin-bottom:14px">
+          <div class="mark"><div class="eyes"></div></div>
+          <div class="brand-name">TriaClaw</div>
+        </div>
+        <p style="color:var(--muted);font-size:13px;line-height:1.6">Una marca de iReparo.<br/>Lleida · Catalunya<br/><span style="color:var(--dim);font-family:var(--mono);font-size:11px">© 2026 · all systems operational</span></p>
+      </div>
+      <div class="foot-col">
+        <h5>Módulos</h5>
+        <ul><li>Centralita</li><li>Agents</li><li>CRM</li><li>Precios</li></ul>
+      </div>
+      <div class="foot-col">
+        <h5>Empresa</h5>
+        <ul><li>Sobre</li><li>Casos</li><li>Partners</li></ul>
+      </div>
+      <div class="foot-col">
+        <h5>Legal</h5>
+        <ul><li>Aviso</li><li>Privacidad</li><li>Cookies</li></ul>
+      </div>
+      <div class="foot-col">
+        <h5>Contacto</h5>
+        <ul><li>WhatsApp</li><li>hola@triaclaw.com</li></ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="foot-status"><span class="led"></span>operations.online · uptime 99.97%</span>
+      <span>made in Lleida // build 2026.05.06</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa" href="#" title="WhatsApp">💬</a>
+
+<script>
+  // Reveal-on-scroll
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }});
+  },{threshold:.12});
+  document.querySelectorAll('.pillar, .testi, .case-frame, .flow-node, .metric').forEach(el=>{el.classList.add('reveal'); io.observe(el)});
+</script>
+
+</body>
+</html>

@@ -1,67 +1,284 @@
 ---
 import Container from '../layout/Container.astro';
-import Button from '../ui/Button.astro';
 import { getLocaleFromUrl, t, tList, type Locale } from '../../i18n';
 const locale: Locale = getLocaleFromUrl(Astro.url);
 const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
 const metaArr = tList(locale, 'hero.meta');
+const dotClasses = ['', 'v', 'p'];
 ---
 
-<section class="relative gradient-brand text-white overflow-hidden py-24 md:py-28">
-  <div
-    class="absolute inset-0 [background-image:radial-gradient(rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:24px_24px] opacity-40"
-  >
-  </div>
-  <Container class="relative grid md:grid-cols-[1.4fr_1fr] gap-16 items-center">
-    <div>
-      <div class="text-[11px] tracking-[2px] text-cyan-brand uppercase mb-4 font-semibold">
-        {t(locale, 'hero.eyebrow')}
+<section class="tcw-hero">
+  <Container>
+    <div class="tcw-hero__grid">
+      <div class="tcw-hero__copy reveal">
+        <span class="eyebrow mono">{t(locale, 'hero.eyebrow')}</span>
+        <h1 class="tcw-hero__title">
+          <span class="grad-text">{t(locale, 'hero.title')}</span><br />
+          <span class="tcw-hero__subtitle">{t(locale, 'hero.subtitle')}</span>
+        </h1>
+        <p class="tcw-hero__lead">{t(locale, 'hero.lead')}</p>
+        <div class="tcw-hero__ctas">
+          <a class="tcw-btn tcw-btn--cyan" href={wa}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
+              ><path
+                d="M20.52 3.48A11.94 11.94 0 0 0 12.07 0C5.5 0 .15 5.34.15 11.92c0 2.1.55 4.15 1.6 5.96L0 24l6.32-1.66a11.93 11.93 0 0 0 5.74 1.46h.01c6.58 0 11.92-5.34 11.92-11.92 0-3.18-1.24-6.18-3.47-8.4Z"
+              ></path></svg
+            >
+            {t(locale, 'hero.cta_whatsapp')}
+          </a>
+          <a class="tcw-btn tcw-btn--ghost" href="#contacto">
+            {t(locale, 'hero.cta_demo')}
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"></path></svg
+            >
+          </a>
+        </div>
+        <div class="tcw-hero__pills">
+          {
+            metaArr.map((m, i) => (
+              <span class="tcw-pill mono">
+                <span class={`tcw-pill__dot ${dotClasses[i % 3]}`} />
+                {m}
+              </span>
+            ))
+          }
+        </div>
       </div>
-      <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.05] mb-5">
-        {t(locale, 'hero.title')}<br />
-        <span class="font-light text-cyan-100">{t(locale, 'hero.subtitle')}</span>
-      </h1>
-      <p class="text-lg text-white/85 max-w-xl mb-8 leading-relaxed">{t(locale, 'hero.lead')}</p>
-      <div class="flex gap-3 flex-wrap">
-        <Button variant="cyan" href={wa}>💬 {t(locale, 'hero.cta_whatsapp')}</Button>
-        <a
-          href="#contacto"
-          class="inline-flex items-center gap-2 rounded-lg px-5 py-3 font-semibold text-sm bg-transparent text-white border border-white/50 hover:bg-white/10"
-          >{t(locale, 'hero.cta_demo')} →</a
-        >
+
+      <div class="tcw-hero__console glass reveal">
+        <div class="tcw-hero__console-head">
+          <div class="tcw-hero__dots">
+            <i></i><i></i><i></i>
+          </div>
+          <span class="tcw-hero__console-title mono">agent.console</span>
+          <span class="tcw-hero__console-live mono">LIVE</span>
+        </div>
+
+        <div class="bubble in b1">
+          <span class="meta">cliente · whatsapp</span>
+          Hola, ¿tenéis cita esta semana para un corte y color?
+        </div>
+        <div class="bubble out b2">
+          <span class="meta">agent · gpt-4o</span>
+          ¡Claro! Tengo jueves 17:30 o viernes 11:00 con María. ¿Cuál te encaja?
+        </div>
+        <div class="bubble in b3">
+          <span class="meta">cliente · whatsapp</span>
+          Viernes 11h perfecto.
+        </div>
+        <div class="bubble out b4">
+          <span class="meta">agent · gpt-4o</span>
+          Reservado. Te envío recordatorio el jueves a las 19h.
+        </div>
+
+        <div class="tcw-hero__lead-card">
+          <div class="tcw-hero__lead-ic">+1</div>
+          <div class="tcw-hero__lead-txt">
+            <b>Lead creado en CRM</b>
+            <span class="mono">booking · 0:42s · auto-routed</span>
+          </div>
+        </div>
       </div>
-      <div class="mt-9 flex gap-7 text-[13px] text-white/70 flex-wrap">
-        {
-          metaArr.map((m) => (
-            <div>
-              <span class="text-cyan-brand font-bold">✓</span> {m}
-            </div>
-          ))
-        }
-      </div>
-    </div>
-    <div class="relative w-72 h-72 mx-auto hidden md:block">
-      <div class="absolute inset-[-20px] rounded-full border-2 border-cyan-brand/20 animate-ping">
-      </div>
-      <svg
-        viewBox="0 0 200 200"
-        class="relative z-10 w-full h-full drop-shadow-[0_20px_40px_rgba(34,211,238,0.4)]"
-      >
-        <defs>
-          <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stop-color="#0F2A5C"></stop>
-            <stop offset="1" stop-color="#22D3EE"></stop>
-          </linearGradient>
-        </defs>
-        <line x1="100" y1="20" x2="100" y2="40" stroke="#22D3EE" stroke-width="3"></line>
-        <circle cx="100" cy="18" r="6" fill="#22D3EE"></circle>
-        <path
-          d="M55 50 h90 a25 25 0 0 1 25 25 v40 a25 25 0 0 1 -25 25 h-25 l-15 18 v-18 h-50 a25 25 0 0 1 -25 -25 v-40 a25 25 0 0 1 25 -25 z"
-          fill="url(#g1)"></path>
-        <rect x="65" y="65" width="80" height="50" rx="14" fill="#0a1530"></rect>
-        <circle cx="88" cy="90" r="6" fill="#fff"></circle>
-        <circle cx="122" cy="90" r="6" fill="#fff"></circle>
-      </svg>
     </div>
   </Container>
 </section>
+
+<style>
+  .tcw-hero {
+    padding: 88px 0 60px;
+    position: relative;
+  }
+  .tcw-hero__grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 60px;
+    align-items: center;
+  }
+  @media (max-width: 980px) {
+    .tcw-hero__grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+  }
+  .tcw-hero__title {
+    font-family: var(--font-sans);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    font-size: clamp(42px, 6.5vw, 84px);
+    font-weight: 800;
+    margin: 18px 0 22px;
+    color: var(--ink);
+  }
+  .tcw-hero__subtitle {
+    color: var(--ink);
+    font-weight: 800;
+  }
+  .tcw-hero__lead {
+    font-size: 19px;
+    color: var(--muted);
+    max-width: 60ch;
+    line-height: 1.6;
+  }
+  .tcw-hero__ctas {
+    display: flex;
+    gap: 14px;
+    margin: 30px 0 22px;
+    flex-wrap: wrap;
+  }
+  .tcw-hero__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .tcw-pill {
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    border: var(--glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+  }
+  .tcw-pill__dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--neon-cyan);
+    margin-right: 8px;
+    box-shadow: 0 0 12px var(--neon-cyan);
+  }
+  .tcw-pill__dot.v {
+    background: var(--neon-violet);
+    box-shadow: 0 0 12px var(--neon-violet);
+  }
+  .tcw-pill__dot.p {
+    background: var(--neon-pink);
+    box-shadow: 0 0 12px var(--neon-pink);
+  }
+
+  /* console card */
+  .tcw-hero__console {
+    padding: 24px;
+    border-radius: var(--r-xl);
+    position: relative;
+    overflow: hidden;
+  }
+  .tcw-hero__console::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--r-xl);
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(34, 211, 238, 0.6),
+      rgba(167, 139, 250, 0.4),
+      rgba(240, 171, 252, 0.4)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .tcw-hero__console-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .tcw-hero__dots {
+    display: flex;
+    gap: 6px;
+  }
+  .tcw-hero__dots i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    display: block;
+  }
+  .tcw-hero__dots i:nth-child(1) {
+    background: #fb7185;
+  }
+  .tcw-hero__dots i:nth-child(2) {
+    background: #fbbf24;
+  }
+  .tcw-hero__dots i:nth-child(3) {
+    background: #34d399;
+  }
+  .tcw-hero__console-title {
+    font-size: 12px;
+    color: var(--dim);
+  }
+  .tcw-hero__console-live {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--soft-cyan);
+  }
+  .tcw-hero__console-live::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--soft-cyan);
+    box-shadow: 0 0 10px var(--soft-cyan);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  .tcw-hero__lead-card {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: linear-gradient(
+      135deg,
+      rgba(34, 211, 238, 0.12),
+      rgba(167, 139, 250, 0.08)
+    );
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: bubIn 0.6s ease-out 3.4s forwards;
+  }
+  .tcw-hero__lead-ic {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--grad-button);
+    display: grid;
+    place-items: center;
+    color: #0b0a1f;
+    font-weight: 800;
+    font-size: 13px;
+  }
+  .tcw-hero__lead-txt {
+    font-size: 13px;
+  }
+  .tcw-hero__lead-txt b {
+    display: block;
+    color: var(--ink);
+  }
+  .tcw-hero__lead-txt span {
+    color: var(--dim);
+    font-size: 11px;
+  }
+</style>

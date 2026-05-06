@@ -4,112 +4,167 @@ import { getLocaleFromUrl, t, localizedHref, type Locale } from '../../i18n';
 const locale: Locale = getLocaleFromUrl(Astro.url);
 ---
 
-<footer class="bg-[#0a1530] text-white/70 pt-16 pb-8 text-sm">
+<footer class="tcw-footer">
   <Container>
-    <div class="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr_1fr_1fr] gap-8 mb-12">
-      <div>
-        <div class="flex items-center gap-2 text-white font-extrabold mb-3">
-          <span
-            class="w-7 h-7 rounded-lg gradient-brand flex items-center justify-center text-white text-sm"
-            >🤖</span
+    <div class="tcw-footer__grid">
+      <div class="tcw-footer__brand">
+        <img src="/logo-triaclaw.png" alt="TriaClaw" />
+        <p>
+          {t(locale, 'footer.tagline')}<br /><span class="mono tcw-footer__city"
+            >{t(locale, 'footer.city')}</span
           >
-          TriaClaw
-        </div>
-        <p class="text-white/55 leading-relaxed text-[13px]">
-          {t(locale, 'footer.tagline')}<br />{t(locale, 'footer.city')}
         </p>
       </div>
       <div>
-        <h4 class="text-white text-[13px] font-bold uppercase tracking-wider mb-3.5">
-          {t(locale, 'footer_columns.product')}
-        </h4>
-        <ul class="space-y-1">
+        <h5 class="mono">{t(locale, 'footer_columns.product')}</h5>
+        <ul>
           <li>
-            <a href={localizedHref(locale, '/centralita')} class="hover:text-white"
-              >{t(locale, 'nav.centralita')}</a
-            >
+            <a href={localizedHref(locale, '/centralita')}>{t(locale, 'nav.centralita')}</a>
           </li>
-          <li>
-            <a href={localizedHref(locale, '/agents')} class="hover:text-white"
-              >{t(locale, 'nav.agents')}</a
-            >
-          </li>
-          <li>
-            <a href={localizedHref(locale, '/crm')} class="hover:text-white"
-              >{t(locale, 'nav.crm')}</a
-            >
-          </li>
-          <li>
-            <a href={localizedHref(locale, '/precios')} class="hover:text-white"
-              >{t(locale, 'nav.pricing')}</a
-            >
-          </li>
+          <li><a href={localizedHref(locale, '/agents')}>{t(locale, 'nav.agents')}</a></li>
+          <li><a href={localizedHref(locale, '/crm')}>{t(locale, 'nav.crm')}</a></li>
+          <li><a href={localizedHref(locale, '/precios')}>{t(locale, 'nav.pricing')}</a></li>
         </ul>
       </div>
       <div>
-        <h4 class="text-white text-[13px] font-bold uppercase tracking-wider mb-3.5">
-          {t(locale, 'footer_columns.company')}
-        </h4>
-        <ul class="space-y-1">
-          <li>
-            <a href={localizedHref(locale, '/sobre')} class="hover:text-white"
-              >{t(locale, 'footer_columns.about')}</a
-            >
-          </li>
-          <li>
-            <a href={localizedHref(locale, '/casos')} class="hover:text-white"
-              >{t(locale, 'nav.cases')}</a
-            >
-          </li>
-          <li>
-            <a href={localizedHref(locale, '/partners')} class="hover:text-white"
-              >{t(locale, 'nav.partners')}</a
-            >
-          </li>
+        <h5 class="mono">{t(locale, 'footer_columns.company')}</h5>
+        <ul>
+          <li><a href={localizedHref(locale, '/sobre')}>{t(locale, 'footer_columns.about')}</a></li>
+          <li><a href={localizedHref(locale, '/casos')}>{t(locale, 'nav.cases')}</a></li>
+          <li><a href={localizedHref(locale, '/partners')}>{t(locale, 'nav.partners')}</a></li>
         </ul>
       </div>
       <div>
-        <h4 class="text-white text-[13px] font-bold uppercase tracking-wider mb-3.5">
-          {t(locale, 'footer_columns.legal')}
-        </h4>
-        <ul class="space-y-1">
+        <h5 class="mono">{t(locale, 'footer_columns.legal')}</h5>
+        <ul>
           <li>
-            <a href={localizedHref(locale, '/legal/aviso')} class="hover:text-white"
+            <a href={localizedHref(locale, '/legal/aviso')}
               >{t(locale, 'footer_columns.legal_notice')}</a
             >
           </li>
           <li>
-            <a href={localizedHref(locale, '/legal/privacidad')} class="hover:text-white"
+            <a href={localizedHref(locale, '/legal/privacidad')}
               >{t(locale, 'footer_columns.privacy')}</a
             >
           </li>
           <li>
-            <a href={localizedHref(locale, '/legal/cookies')} class="hover:text-white"
+            <a href={localizedHref(locale, '/legal/cookies')}
               >{t(locale, 'footer_columns.cookies')}</a
             >
           </li>
         </ul>
       </div>
       <div>
-        <h4 class="text-white text-[13px] font-bold uppercase tracking-wider mb-3.5">
-          {t(locale, 'footer_columns.contact')}
-        </h4>
-        <ul class="space-y-1">
+        <h5 class="mono">{t(locale, 'footer_columns.contact')}</h5>
+        <ul>
           <li>
-            <a
-              href={`https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`}
-              class="hover:text-white">WhatsApp</a
-            >
+            <a href={`https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`}>WhatsApp</a>
           </li>
-          <li>
-            <a href="mailto:hola@triaclaw.com" class="hover:text-white">hola@triaclaw.com</a>
-          </li>
+          <li><a href="mailto:hola@triaclaw.com">hola@triaclaw.com</a></li>
         </ul>
       </div>
     </div>
-    <div class="pt-6 border-t border-white/10 flex justify-between text-xs text-white/50">
-      <div>{t(locale, 'footer.rights')} · iReparo</div>
-      <div>{t(locale, 'footer_columns.made_in')}</div>
+    <div class="tcw-footer__bottom mono">
+      <span>{t(locale, 'footer.rights')} · iReparo</span>
+      <span>{t(locale, 'footer_columns.made_in')}</span>
     </div>
   </Container>
 </footer>
+
+<style>
+  .tcw-footer {
+    margin-top: 80px;
+    background: rgba(10, 8, 30, 0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    overflow: hidden;
+    color: var(--muted);
+  }
+  .tcw-footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1px),
+      radial-gradient(rgba(167, 139, 250, 0.4) 1px, transparent 1px);
+    background-size:
+      90px 90px,
+      150px 150px;
+    background-position:
+      0 0,
+      30px 50px;
+    opacity: 0.18;
+    pointer-events: none;
+  }
+  .tcw-footer__grid {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(4, 1fr);
+    gap: 36px;
+    padding: 60px 0 36px;
+    position: relative;
+  }
+  @media (max-width: 900px) {
+    .tcw-footer__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+  }
+  .tcw-footer__brand img {
+    height: 40px;
+    margin-bottom: 14px;
+  }
+  .tcw-footer__brand p {
+    color: var(--muted);
+    font-size: 14px;
+    max-width: 32ch;
+    line-height: 1.55;
+  }
+  .tcw-footer__city {
+    color: var(--dim);
+    font-size: 12px;
+  }
+  .tcw-footer h5 {
+    font-size: 11px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .tcw-footer ul {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+  }
+  .tcw-footer ul a {
+    color: var(--muted);
+    font-size: 14px;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  .tcw-footer ul a:hover {
+    color: var(--ink);
+  }
+  .tcw-footer__bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 22px 0;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 11px;
+    color: var(--dim);
+    position: relative;
+  }
+  .tcw-footer__bottom a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .tcw-footer__bottom a:hover {
+    color: var(--ink);
+  }
+</style>

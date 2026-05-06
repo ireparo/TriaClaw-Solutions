@@ -10,35 +10,79 @@ interface Props {
   ctaSecondary: { text: string; href: string };
 }
 const { tone, eyebrow, title, subtitle, lead, ctaPrimary, ctaSecondary } = Astro.props;
-const bg =
+const accent =
   tone === 'navy'
-    ? 'bg-navy'
+    ? 'var(--neon-violet)'
     : tone === 'cyan'
-      ? 'bg-gradient-to-br from-navy via-navy-2 to-cyan-brand'
-      : 'bg-gradient-to-br from-navy to-teal-brand';
+      ? 'var(--neon-cyan)'
+      : 'var(--soft-cyan)';
 ---
 
-<section class={`${bg} text-white py-20`}>
-  <div class="mx-auto max-w-[1200px] px-8">
-    <div class="text-[11px] tracking-[2px] text-cyan-brand uppercase mb-4 font-semibold">
-      {eyebrow}
-    </div>
-    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.05] mb-4 max-w-3xl">
-      {title}
-    </h1>
-    <p class="text-xl text-white/85 max-w-2xl mb-3">{subtitle}</p>
-    <p class="text-base text-white/70 max-w-2xl mb-8">{lead}</p>
-    <div class="flex gap-3 flex-wrap">
-      <a
-        href={ctaPrimary.href}
-        class="inline-flex items-center gap-2 bg-cyan-brand text-navy font-semibold px-5 py-3 rounded-lg text-sm"
-        >{ctaPrimary.text}</a
-      >
-      <a
-        href={ctaSecondary.href}
-        class="inline-flex items-center gap-2 bg-transparent text-white border border-white/50 font-semibold px-5 py-3 rounded-lg text-sm hover:bg-white/10"
-        >{ctaSecondary.text}</a
-      >
+<section class="tcw-pillar-hero" style={`--accent:${accent}`}>
+  <div class="tcw-pillar-hero__inner">
+    <div class="reveal">
+      <span class="eyebrow mono">{eyebrow}</span>
+      <h1 class="tcw-pillar-hero__title">
+        <span class="grad-text">{title}</span>
+      </h1>
+      <p class="tcw-pillar-hero__subtitle">{subtitle}</p>
+      <p class="tcw-pillar-hero__lead">{lead}</p>
+      <div class="tcw-pillar-hero__ctas">
+        <a class="tcw-btn tcw-btn--cyan" href={ctaPrimary.href}>{ctaPrimary.text}</a>
+        <a class="tcw-btn tcw-btn--ghost" href={ctaSecondary.href}>{ctaSecondary.text}</a>
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  .tcw-pillar-hero {
+    padding: 88px 0 72px;
+    position: relative;
+  }
+  .tcw-pillar-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      900px 400px at 30% 0%,
+      color-mix(in srgb, var(--accent) 28%, transparent),
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: -1;
+  }
+  .tcw-pillar-hero__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .tcw-pillar-hero__title {
+    font-family: var(--font-sans);
+    font-size: clamp(42px, 6vw, 76px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin: 18px 0 22px;
+    max-width: 18ch;
+  }
+  .tcw-pillar-hero__subtitle {
+    font-size: 22px;
+    color: var(--ink);
+    max-width: 56ch;
+    margin-bottom: 14px;
+    line-height: 1.45;
+  }
+  .tcw-pillar-hero__lead {
+    color: var(--muted);
+    font-size: 17px;
+    max-width: 60ch;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+  .tcw-pillar-hero__ctas {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+</style>
