@@ -1,0 +1,71 @@
+---
+import Container from '../layout/Container.astro';
+import { getLocaleFromUrl, localizedHref, type Locale } from '../../i18n';
+const locale: Locale = getLocaleFromUrl(Astro.url);
+---
+
+<section class="bg-[#fafbfd] py-24">
+  <Container class="grid md:grid-cols-2 gap-16 items-center">
+    <div>
+      <span class="text-[11px] tracking-[2px] text-cyan-brand uppercase font-semibold mb-3 block"
+        >Caso destacado · iReparo</span
+      >
+      <p
+        class="text-3xl md:text-4xl font-bold text-navy tracking-tight leading-tight mb-5 before:content-['\201C'] before:block before:text-6xl before:text-cyan-brand before:leading-none before:mb-3"
+      >
+        Antes perdíamos 1 de cada 4 llamadas. Ahora cero. Y los WhatsApps de envíos se contestan
+        solos.
+      </p>
+      <p class="text-base text-muted leading-relaxed mb-7">
+        Centralita virtual + bot WhatsApp para envíos + CRM SAT integrados. Cada llamada se
+        convierte en ficha. Cada WhatsApp en ticket. Cada lead se atiende. El equipo deja de hacer
+        de centralita y se concentra en reparar.
+      </p>
+      <div class="flex gap-9 mb-7">
+        <div>
+          <div class="text-3xl md:text-4xl font-extrabold text-navy tracking-tight">−78%</div><div
+            class="text-xs text-muted mt-1.5"
+          >
+            llamadas perdidas
+          </div>
+        </div>
+        <div>
+          <div class="text-3xl md:text-4xl font-extrabold text-navy tracking-tight">+34%</div><div
+            class="text-xs text-muted mt-1.5"
+          >
+            leads cualificados
+          </div>
+        </div>
+        <div>
+          <div class="text-3xl md:text-4xl font-extrabold text-navy tracking-tight">
+            3 h/día
+          </div><div class="text-xs text-muted mt-1.5">menos admin</div>
+        </div>
+      </div>
+      <a href={localizedHref(locale, '/casos/ireparo')} class="text-navy font-semibold text-sm"
+        >Leer caso completo →</a
+      >
+    </div>
+    <div
+      class="aspect-[4/3] rounded-2xl bg-gradient-to-br from-blue-100 to-cyan-100 relative overflow-hidden shadow-lg"
+    >
+      <div class="absolute inset-6 bg-white rounded-xl p-5 shadow-md flex flex-col gap-2.5">
+        <div class="flex justify-between items-center mb-1">
+          <strong class="text-[13px] text-navy">SAT iReparo</strong><span
+            class="text-[10px] bg-cyan-brand text-navy px-2 py-0.5 rounded-full font-bold"
+            >LIVE</span>
+        </div>
+        <div class="h-2 rounded bg-navy w-3/5"></div>
+        <div class="h-2 rounded bg-line w-4/5"></div>
+        <div class="h-2 rounded bg-cyan-brand w-2/5"></div>
+        <div class="grid grid-cols-3 gap-2 mt-1.5">
+          <div class="h-10 rounded bg-slate-100"></div>
+          <div class="h-10 rounded gradient-brand"></div>
+          <div class="h-10 rounded bg-slate-100"></div>
+        </div>
+        <div class="h-2 rounded bg-line w-4/5 mt-1.5"></div>
+        <div class="h-2 rounded bg-line w-1/2"></div>
+      </div>
+    </div>
+  </Container>
+</section>
