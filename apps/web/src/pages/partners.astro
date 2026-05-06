@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro';
+import CTAFinal from '../components/sections/CTAFinal.astro';
+import WhatsAppFloat from '../components/sections/WhatsAppFloat.astro';
+
+const benefits = [
+  {
+    icon: '💰',
+    title: 'Comisión recurrente',
+    desc: '20% del MRR de cada cliente que traes, durante toda la vida del contrato.',
+  },
+  {
+    icon: '🛠️',
+    title: 'Implantación compartida',
+    desc: 'Tú llevas la relación; nosotros la parte técnica. O al revés. Tú decides.',
+  },
+  {
+    icon: '🏷️',
+    title: 'White-label opcional',
+    desc: 'Para integradores que quieran vender bajo su propia marca, con TriaClaw motor.',
+  },
+  {
+    icon: '📚',
+    title: 'Formación incluida',
+    desc: 'Sesiones técnicas y comerciales para tu equipo. Material y demos listas.',
+  },
+];
+---
+
+<Base
+  title="Partners · TriaClaw"
+  description="Programa de partners e integradores. Vende, implanta o integra TriaClaw con tu propio sello."
+>
+  <section class="py-20 gradient-brand text-white">
+    <div class="mx-auto max-w-[1200px] px-8">
+      <span
+        class="inline-block px-3.5 py-1.5 bg-cyan-brand/[12%] text-cyan-brand rounded-full text-xs font-semibold tracking-wide mb-3"
+        >Para integradores y consultoras</span
+      >
+      <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-4 leading-tight">
+        Vende e implanta TriaClaw a tus clientes.
+      </h1>
+      <p class="text-lg text-white/85 max-w-2xl mb-8">
+        Programa de partners para consultoras locales, integradores SIP/CRM y agencias. Comisión
+        recurrente, white-label opcional, soporte directo.
+      </p>
+    </div>
+  </section>
+  <section class="py-20">
+    <div class="mx-auto max-w-[1200px] px-8">
+      <h2 class="text-3xl font-extrabold text-navy tracking-tight mb-10 text-center">
+        Qué ofrecemos a partners
+      </h2>
+      <div class="grid md:grid-cols-2 gap-5">
+        {
+          benefits.map((b) => (
+            <div class="bg-white border border-line rounded-2xl p-7 flex gap-4">
+              <div class="text-3xl">{b.icon}</div>
+              <div>
+                <h3 class="text-lg font-bold text-navy mb-2">{b.title}</h3>
+                <p class="text-[14px] text-muted leading-relaxed">{b.desc}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <section class="py-16 bg-[#fafbfd]">
+    <div class="mx-auto max-w-3xl px-8 text-center">
+      <h2 class="text-3xl font-extrabold text-navy tracking-tight mb-4">¿Quieres ser partner?</h2>
+      <p class="text-lg text-muted mb-6">
+        Cuéntanos brevemente quién eres y a quién vendes. Te respondemos en 48 h.
+      </p>
+      <a
+        href="/contacto?topic=partner"
+        class="inline-flex items-center gap-2 bg-navy text-white font-semibold px-6 py-3 rounded-lg"
+        >Solicitar info partner →</a
+      >
+    </div>
+  </section>
+  <CTAFinal />
+  <WhatsAppFloat />
+</Base>
