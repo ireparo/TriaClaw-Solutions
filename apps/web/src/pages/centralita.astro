@@ -1,0 +1,94 @@
+---
+import Base from '../layouts/Base.astro';
+import PillarHero from '../components/sections/PillarHero.astro';
+import PillarFeatures from '../components/sections/PillarFeatures.astro';
+import PillarPlans from '../components/sections/PillarPlans.astro';
+import CTAFinal from '../components/sections/CTAFinal.astro';
+import WhatsAppFloat from '../components/sections/WhatsAppFloat.astro';
+
+const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
+
+const features = [
+  {
+    icon: '🌐',
+    title: 'IVR multinivel',
+    desc: 'Filtra llamadas por opción del menú. Configurable en minutos desde el panel.',
+  },
+  {
+    icon: '🔁',
+    title: 'Transferencias inteligentes',
+    desc: 'Cruza a la extensión correcta según horario, departamento o disponibilidad.',
+  },
+  {
+    icon: '🎙️',
+    title: 'Grabación y panel',
+    desc: 'Graba llamadas con consentimiento RGPD. Panel supervisor en tiempo real.',
+  },
+  {
+    icon: '🔌',
+    title: 'SIP estándar',
+    desc: 'Funciona con teléfonos SIP, softphones y números fijos/portados.',
+  },
+  {
+    icon: '📞',
+    title: 'Multi-sede',
+    desc: 'Una centralita, varias oficinas. Plan de marcación común y reglas por sede.',
+  },
+  {
+    icon: '🔗',
+    title: 'Integrada con CRM',
+    desc: 'Cada llamada genera ficha en el CRM TriaClaw. Click-to-call desde el CRM.',
+  },
+];
+
+const plans = [
+  {
+    pillarLabel: 'CENTRALITA',
+    planName: 'Inicio',
+    price: '29 €',
+    features: ['1 número', 'IVR básico (3 niveles)', '2 extensiones', 'Buzón de voz'],
+    ctaText: 'Empezar',
+    ctaHref: wa,
+    variant: 'default' as const,
+  },
+  {
+    pillarLabel: 'CENTRALITA',
+    planName: 'Pro',
+    price: '89 €',
+    features: ['Multi-extensión', 'Grabación de llamadas', 'Panel supervisor', 'Multi-sede'],
+    ctaText: 'Empezar',
+    ctaHref: wa,
+    variant: 'highlighted' as const,
+  },
+  {
+    pillarLabel: 'CENTRALITA',
+    planName: 'Custom',
+    price: 'Hablamos',
+    priceSuffix: '',
+    features: ['Multi-sede grande', 'Integraciones a medida', 'SLA dedicado'],
+    ctaText: 'Contactar',
+    ctaHref: wa,
+    variant: 'dark' as const,
+  },
+];
+---
+
+<Base
+  title="Centralita virtual · TriaClaw"
+  description="PBX virtual con IVR, transferencias, panel y grabación. SIP estándar, integrada con tu CRM."
+>
+  <PillarHero
+    tone="navy"
+    eyebrow="Pilar 1 · Centralita"
+    title="Una centralita que te pasa lo que importa."
+    subtitle="PBX virtual con IVR, panel supervisor y grabación. Integrada con tu CRM TriaClaw."
+    lead={'Despídete de teléfonos sonando sin parar y de "¿quién contesta?". Tu equipo solo recibe lo que tiene que recibir.'}
+    ctaPrimary={{ text: '💬 Habla por WhatsApp', href: wa }}
+    ctaSecondary={{ text: 'Ver planes', href: '#planes' }}
+  />
+  <PillarFeatures title="Lo que incluye" features={features} />
+  <div id="planes"></div>
+  <PillarPlans title="Planes Centralita" plans={plans} />
+  <CTAFinal />
+  <WhatsAppFloat />
+</Base>

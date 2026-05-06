@@ -1,0 +1,46 @@
+---
+type InputType = 'text' | 'email' | 'tel' | 'url' | 'password' | 'number' | 'search';
+interface Props {
+  type?: InputType;
+  name: string;
+  label: string;
+  placeholder?: string;
+  required?: boolean;
+  textarea?: boolean;
+  rows?: number;
+}
+const {
+  type = 'text',
+  name,
+  label,
+  placeholder = '',
+  required = false,
+  textarea = false,
+  rows = 4,
+} = Astro.props;
+---
+
+<label class="block">
+  <span class="block text-[13px] font-semibold text-navy mb-1.5"
+    >{label}{required && <span class="text-cyan-brand">*</span>}</span
+  >
+  {
+    textarea ? (
+      <textarea
+        name={name}
+        placeholder={placeholder}
+        required={required}
+        rows={rows}
+        class="w-full bg-white border border-line rounded-lg px-3.5 py-2.5 text-sm focus:border-cyan-brand outline-none"
+      />
+    ) : (
+      <input
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        required={required}
+        class="w-full bg-white border border-line rounded-lg px-3.5 py-2.5 text-sm focus:border-cyan-brand outline-none"
+      />
+    )
+  }
+</label>

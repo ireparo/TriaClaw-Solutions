@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import WhatsAppFloat from '../components/sections/WhatsAppFloat.astro';
+import ContactForm from '../components/forms/ContactForm.tsx';
+
+const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
+const calendly = import.meta.env.PUBLIC_CALENDLY_URL;
+---
+
+<Base
+  title="Contacto · TriaClaw"
+  description="Habla con TriaClaw por WhatsApp, formulario o reservando una demo."
+>
+  <section class="py-20">
+    <div class="mx-auto max-w-[1100px] px-8 grid md:grid-cols-2 gap-12">
+      <div>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-navy tracking-tight mb-4">Hablemos.</h1>
+        <p class="text-lg text-muted leading-relaxed mb-8">
+          15 minutos por WhatsApp suelen bastar para entender si TriaClaw encaja con tu pyme. Sin
+          compromiso.
+        </p>
+        <div class="space-y-5">
+          <a
+            href={wa}
+            class="flex items-start gap-4 p-5 border border-line rounded-2xl hover:-translate-y-0.5 hover:shadow-md transition"
+          >
+            <div
+              class="w-12 h-12 rounded-xl bg-whatsapp text-white flex items-center justify-center text-xl"
+            >
+              💬
+            </div>
+            <div>
+              <div class="font-bold text-navy">WhatsApp</div><div class="text-[14px] text-muted">
+                +34 665 95 41 08 — la vía más rápida
+              </div>
+            </div>
+          </a>
+          <a
+            href="mailto:hola@triaclaw.com"
+            class="flex items-start gap-4 p-5 border border-line rounded-2xl hover:-translate-y-0.5 hover:shadow-md transition"
+          >
+            <div
+              class="w-12 h-12 rounded-xl bg-navy text-white flex items-center justify-center text-xl"
+            >
+              ✉️
+            </div>
+            <div>
+              <div class="font-bold text-navy">Email</div><div class="text-[14px] text-muted">
+                hola@triaclaw.com
+              </div>
+            </div>
+          </a>
+          {
+            calendly && (
+              <a
+                href={calendly}
+                class="flex items-start gap-4 p-5 border border-line rounded-2xl hover:-translate-y-0.5 hover:shadow-md transition"
+              >
+                <div class="w-12 h-12 rounded-xl bg-cyan-brand text-navy flex items-center justify-center text-xl">
+                  📅
+                </div>
+                <div>
+                  <>
+                    <div class="font-bold text-navy">Reservar demo</div>
+                    <div class="text-[14px] text-muted">20 min en tu calendario</div>
+                  </>
+                </div>
+              </a>
+            )
+          }
+        </div>
+      </div>
+      <div id="form" class="bg-white border border-line rounded-2xl p-8 shadow-sm">
+        <h2 class="text-xl font-bold text-navy mb-1">Formulario</h2>
+        <p class="text-[14px] text-muted mb-6">Te contestamos en menos de 24 h laborables.</p>
+        <ContactForm client:load siteKey={import.meta.env.PUBLIC_TURNSTILE_SITE_KEY} />
+      </div>
+    </div>
+  </section>
+  <WhatsAppFloat />
+</Base>

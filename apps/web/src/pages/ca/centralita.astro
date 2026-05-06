@@ -1,0 +1,94 @@
+---
+import Base from '../../layouts/Base.astro';
+import PillarHero from '../../components/sections/PillarHero.astro';
+import PillarFeatures from '../../components/sections/PillarFeatures.astro';
+import PillarPlans from '../../components/sections/PillarPlans.astro';
+import CTAFinal from '../../components/sections/CTAFinal.astro';
+import WhatsAppFloat from '../../components/sections/WhatsAppFloat.astro';
+
+const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
+
+const features = [
+  {
+    icon: '🌐',
+    title: 'IVR multinivell',
+    desc: 'Filtra trucades per opció del menú. Configurable en minuts des del panell.',
+  },
+  {
+    icon: '🔁',
+    title: 'Transferències intel·ligents',
+    desc: "Encamina a l'extensió correcta segons horari, departament o disponibilitat.",
+  },
+  {
+    icon: '🎙️',
+    title: 'Gravació i panell',
+    desc: 'Grava trucades amb consentiment RGPD. Panell supervisor en temps real.',
+  },
+  {
+    icon: '🔌',
+    title: 'SIP estàndard',
+    desc: 'Funciona amb telèfons SIP, softphones i números fixos/portats.',
+  },
+  {
+    icon: '📞',
+    title: 'Multi-seu',
+    desc: 'Una centraleta, diverses oficines. Pla de marcatge comú i regles per seu.',
+  },
+  {
+    icon: '🔗',
+    title: 'Integrada amb el CRM',
+    desc: 'Cada trucada genera fitxa al CRM TriaClaw. Click-to-call des del CRM.',
+  },
+];
+
+const plans = [
+  {
+    pillarLabel: 'CENTRALETA',
+    planName: 'Inici',
+    price: '29 €',
+    features: ['1 número', 'IVR bàsic (3 nivells)', '2 extensions', 'Bústia de veu'],
+    ctaText: 'Començar',
+    ctaHref: wa,
+    variant: 'default' as const,
+  },
+  {
+    pillarLabel: 'CENTRALETA',
+    planName: 'Pro',
+    price: '89 €',
+    features: ['Multi-extensió', 'Gravació de trucades', 'Panell supervisor', 'Multi-seu'],
+    ctaText: 'Començar',
+    ctaHref: wa,
+    variant: 'highlighted' as const,
+  },
+  {
+    pillarLabel: 'CENTRALETA',
+    planName: 'Custom',
+    price: 'Parlem-ne',
+    priceSuffix: '',
+    features: ['Multi-seu gran', 'Integracions a mida', 'SLA dedicat'],
+    ctaText: 'Contactar',
+    ctaHref: wa,
+    variant: 'dark' as const,
+  },
+];
+---
+
+<Base
+  title="Centraleta virtual · TriaClaw"
+  description="PBX virtual amb IVR, transferències, panell i gravació. SIP estàndard, integrada amb el teu CRM."
+>
+  <PillarHero
+    tone="navy"
+    eyebrow="Pilar 1 · Centraleta"
+    title="Una centraleta que et passa el que importa."
+    subtitle="PBX virtual amb IVR, panell supervisor i gravació. Integrada amb el teu CRM TriaClaw."
+    lead={'Acomiada\'t de telèfons sonant sense parar i de "qui contesta?". El teu equip només rep el que ha de rebre.'}
+    ctaPrimary={{ text: '💬 Parla per WhatsApp', href: wa }}
+    ctaSecondary={{ text: 'Veure plans', href: '#planes' }}
+  />
+  <PillarFeatures title="Què inclou" features={features} />
+  <div id="planes"></div>
+  <PillarPlans title="Plans Centraleta" plans={plans} />
+  <CTAFinal />
+  <WhatsAppFloat />
+</Base>

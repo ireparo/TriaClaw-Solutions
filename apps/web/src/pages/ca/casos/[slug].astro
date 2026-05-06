@@ -1,0 +1,48 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import WhatsAppFloat from '../../../components/sections/WhatsAppFloat.astro';
+import CTAFinal from '../../../components/sections/CTAFinal.astro';
+
+export async function getStaticPaths() {
+  const cases = await getCollection('cases');
+  return cases.map((c) => ({ params: { slug: c.id }, props: { c } }));
+}
+
+const { c } = Astro.props;
+const { Content } = await render(c);
+---
+
+<Base title={`${c.data.title} · ${c.data.client} · TriaClaw`} description={c.data.summary}>
+  <article class="py-16">
+    <div class="mx-auto max-w-3xl px-8">
+      <a href="/ca/casos" class="text-cyan-brand text-sm font-semibold mb-6 inline-block"
+        >← Tots els casos</a
+      >
+      <div class="text-[12px] text-muted font-semibold mb-2">{c.data.client}</div>
+      <h1 class="text-4xl md:text-5xl font-extrabold text-navy tracking-tight mb-4">
+        {c.data.title}
+      </h1>
+      <p class="text-lg text-muted mb-8">{c.data.summary}</p>
+      {
+        c.data.metrics && (
+          <div class="flex gap-9 mb-10 flex-wrap">
+            {c.data.metrics.map((m) => (
+              <div>
+                <div class="text-3xl font-extrabold text-navy">{m.value}</div>
+                <div class="text-xs text-muted mt-1">{m.label}</div>
+              </div>
+            ))}
+          </div>
+        )
+      }
+      <div
+        class="max-w-none [&_p]:text-base [&_p]:text-ink [&_p]:leading-relaxed [&_p]:mb-4 [&_strong]:text-navy [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-navy [&_h2]:mt-8 [&_h2]:mb-3 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_li]:mb-1"
+      >
+        <Content />
+      </div>
+    </div>
+  </article>
+  <CTAFinal />
+  <WhatsAppFloat />
+</Base>

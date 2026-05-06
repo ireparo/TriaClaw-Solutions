@@ -1,0 +1,26 @@
+---
+import Container from '../layout/Container.astro';
+import Button from '../ui/Button.astro';
+import { getLocaleFromUrl, t, type Locale } from '../../i18n';
+const locale: Locale = getLocaleFromUrl(Astro.url);
+const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
+---
+
+<section class="gradient-brand text-white text-center py-20">
+  <Container>
+    <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
+      {t(locale, 'cta_final.title_l1')}<br />{t(locale, 'cta_final.title_l2')}
+    </h2>
+    <p class="text-lg text-white/85 mb-8">
+      {t(locale, 'cta_final.lead')}
+    </p>
+    <div class="flex gap-3 justify-center flex-wrap">
+      <Button variant="cyan" href={wa}>💬 {t(locale, 'hero.cta_whatsapp')}</Button>
+      <a
+        href="#contacto"
+        class="inline-flex items-center gap-2 rounded-lg px-5 py-3 font-semibold text-sm bg-transparent text-white border border-white/50 hover:bg-white/10"
+        >{t(locale, 'hero.cta_demo')} →</a
+      >
+    </div>
+  </Container>
+</section>

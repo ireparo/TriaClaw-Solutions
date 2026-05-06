@@ -1,0 +1,41 @@
+---
+import Container from '../layout/Container.astro';
+import Testimonial from '../ui/Testimonial.astro';
+import { getLocaleFromUrl, t, type Locale } from '../../i18n';
+const locale: Locale = getLocaleFromUrl(Astro.url);
+const items = [
+  {
+    quote: t(locale, 'testimonials.quote1'),
+    name: t(locale, 'testimonials.name1'),
+    role: t(locale, 'testimonials.role1'),
+  },
+  {
+    quote: t(locale, 'testimonials.quote2'),
+    name: t(locale, 'testimonials.name2'),
+    role: t(locale, 'testimonials.role2'),
+  },
+  {
+    quote: t(locale, 'testimonials.quote3'),
+    name: t(locale, 'testimonials.name3'),
+    role: t(locale, 'testimonials.role3'),
+  },
+];
+---
+
+<section class="bg-[#fafbfd] py-24">
+  <Container class="text-center">
+    <span
+      class="inline-block px-3.5 py-1.5 bg-navy/[8%] text-navy rounded-full text-xs font-semibold tracking-wide mb-3"
+      >{t(locale, 'testimonials.eyebrow')}</span
+    >
+    <h2 class="text-4xl md:text-5xl font-extrabold text-navy tracking-tight mb-3">
+      {t(locale, 'testimonials.title')}
+    </h2>
+    <p class="text-lg text-muted max-w-2xl mx-auto mb-12">
+      {t(locale, 'testimonials.lead')}
+    </p>
+    <div class="grid md:grid-cols-3 gap-4 text-left">
+      {items.map((it) => <Testimonial quote={it.quote} name={it.name} role={it.role} />)}
+    </div>
+  </Container>
+</section>
