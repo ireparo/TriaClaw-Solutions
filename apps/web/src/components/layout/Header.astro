@@ -1,0 +1,60 @@
+---
+import Container from './Container.astro';
+import { getLocaleFromUrl, t, localizedHref, type Locale } from '../../i18n';
+const locale: Locale = getLocaleFromUrl(Astro.url);
+const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
+---
+
+<header class="sticky top-0 z-50 bg-white/85 backdrop-blur border-b border-line">
+  <Container class="flex items-center justify-between py-4">
+    <a
+      href={localizedHref(locale, '/')}
+      class="flex items-center gap-2.5 font-extrabold text-navy text-lg"
+    >
+      <span
+        class="relative w-8 h-8 rounded-lg gradient-brand flex items-center justify-center text-white"
+        >🤖</span
+      >
+      TriaClaw <span class="font-medium text-[11px] text-muted uppercase tracking-wider"
+        >Solutions</span
+      >
+    </a>
+    <nav class="hidden md:flex gap-7 text-sm text-muted font-medium">
+      <a href={localizedHref(locale, '/centralita')} class="hover:text-navy"
+        >{t(locale, 'nav.centralita')}</a
+      >
+      <a href={localizedHref(locale, '/agents')} class="hover:text-navy"
+        >{t(locale, 'nav.agents')}</a
+      >
+      <a href={localizedHref(locale, '/crm')} class="hover:text-navy">{t(locale, 'nav.crm')}</a>
+      <span class="opacity-30">·</span>
+      <a href={localizedHref(locale, '/precios')} class="hover:text-navy"
+        >{t(locale, 'nav.pricing')}</a
+      >
+      <a href={localizedHref(locale, '/casos')} class="hover:text-navy">{t(locale, 'nav.cases')}</a>
+      <span class="opacity-30">·</span>
+      <a href={localizedHref(locale, '/partners')} class="hover:text-navy"
+        >{t(locale, 'nav.partners')}</a
+      >
+      <a href={localizedHref(locale, '/contacto')} class="hover:text-navy"
+        >{t(locale, 'nav.contact')}</a
+      >
+    </nav>
+    <div class="flex items-center gap-3">
+      <div class="flex border border-line rounded-md overflow-hidden text-xs font-semibold">
+        <a href="/" class={`px-2.5 py-1.5 ${locale === 'es' ? 'bg-navy text-white' : 'text-muted'}`}
+          >ES</a
+        >
+        <a
+          href="/ca/"
+          class={`px-2.5 py-1.5 ${locale === 'ca' ? 'bg-navy text-white' : 'text-muted'}`}>CA</a
+        >
+      </div>
+      <a
+        href={wa}
+        class="inline-flex items-center gap-1.5 bg-cyan-brand text-navy font-semibold px-4 py-2 rounded-lg text-sm"
+        >💬 WhatsApp</a
+      >
+    </div>
+  </Container>
+</header>
