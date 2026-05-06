@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import WhatsAppFloat from '../../components/sections/WhatsAppFloat.astro';
+import CTAFinal from '../../components/sections/CTAFinal.astro';
+
+const cases = (await getCollection('cases')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base title="Casos · TriaClaw" description="Pymes que dejaron de perder leads con TriaClaw.">
+  <section class="py-20">
+    <div class="mx-auto max-w-[1200px] px-8">
+      <div class="text-center mb-12">
+        <span
+          class="inline-block px-3.5 py-1.5 bg-navy/[8%] text-navy rounded-full text-xs font-semibold tracking-wide mb-3"
+          >Casos</span
+        >
+        <h1 class="text-4xl md:text-5xl font-extrabold text-navy tracking-tight mb-3">
+          Pymes que dejaron de perder leads
+        </h1>
+        <p class="text-lg text-muted max-w-2xl mx-auto">
+          Sin testimonios inventados. Estos son clientes con los que trabajamos hoy.
+        </p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-5">
+        {
+          cases.map((c) => (
+            <a
+              href={`/casos/${c.id}`}
+              class="block bg-white border border-line rounded-2xl p-7 hover:-translate-y-1 hover:shadow-lg transition"
+            >
+              <div class="flex gap-2 mb-3">
+                {c.data.pillars.map((p) => (
+                  <span class="text-[10px] tracking-wider uppercase font-bold px-2 py-0.5 bg-navy/[8%] text-navy rounded">
+                    {p}
+                  </span>
+                ))}
+              </div>
+              <div class="text-[12px] text-muted font-semibold mb-1">{c.data.client}</div>
+              <h2 class="text-xl font-bold text-navy mb-2">{c.data.title}</h2>
+              <p class="text-[14px] text-muted leading-relaxed">{c.data.summary}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <CTAFinal />
+  <WhatsAppFloat />
+</Base>
