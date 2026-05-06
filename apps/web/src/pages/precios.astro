@@ -1,0 +1,149 @@
+---
+import Base from '../layouts/Base.astro';
+import PricingCard from '../components/ui/PricingCard.astro';
+import CTAFinal from '../components/sections/CTAFinal.astro';
+import WhatsAppFloat from '../components/sections/WhatsAppFloat.astro';
+
+const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
+
+const groups = [
+  {
+    label: 'Centralita',
+    plans: [
+      {
+        pillarLabel: 'CENTRALITA',
+        planName: 'Inicio',
+        price: '29 €',
+        features: ['1 número', 'IVR básico', '2 extensiones', 'Buzón de voz'],
+        ctaText: 'Empezar',
+        ctaHref: wa,
+        variant: 'default' as const,
+      },
+      {
+        pillarLabel: 'CENTRALITA',
+        planName: 'Pro',
+        price: '89 €',
+        features: ['Multi-extensión', 'Grabación', 'Panel supervisor', 'Multi-sede'],
+        ctaText: 'Empezar',
+        ctaHref: wa,
+        variant: 'highlighted' as const,
+      },
+      {
+        pillarLabel: 'CENTRALITA',
+        planName: 'Custom',
+        price: 'Hablamos',
+        priceSuffix: '',
+        features: ['Multi-sede grande', 'Integraciones', 'SLA dedicado'],
+        ctaText: 'Contactar',
+        ctaHref: wa,
+        variant: 'dark' as const,
+      },
+    ],
+  },
+  {
+    label: 'Agents & Bots',
+    plans: [
+      {
+        pillarLabel: 'AGENTS',
+        planName: 'Inicio',
+        price: '49 €',
+        features: ['1 bot WhatsApp', 'Plantillas estándar', '500 conv/mes'],
+        ctaText: 'Empezar',
+        ctaHref: wa,
+        variant: 'default' as const,
+      },
+      {
+        pillarLabel: 'AGENTS',
+        planName: 'Pro',
+        price: '149 €',
+        features: ['IA con contexto', 'Integración CRM', '5.000 conv/mes'],
+        ctaText: 'Empezar',
+        ctaHref: wa,
+        variant: 'highlighted' as const,
+      },
+      {
+        pillarLabel: 'AGENTS',
+        planName: 'Custom',
+        price: 'Hablamos',
+        priceSuffix: '',
+        features: ['Multi-canal', 'Integraciones', 'Volúmenes altos'],
+        ctaText: 'Contactar',
+        ctaHref: wa,
+        variant: 'dark' as const,
+      },
+    ],
+  },
+  {
+    label: 'CRM & Gestión',
+    plans: [
+      {
+        pillarLabel: 'CRM',
+        planName: 'Vertical',
+        price: '39 €',
+        priceSuffix: '/usuario/mes',
+        features: ['Vertical preconfigurado', '10 usuarios máx', 'Centralita + Agents incluidos'],
+        ctaText: 'Empezar',
+        ctaHref: wa,
+        variant: 'default' as const,
+      },
+      {
+        pillarLabel: 'CRM',
+        planName: 'Pro',
+        price: '79 €',
+        priceSuffix: '/usuario/mes',
+        features: ['Custom fields', 'Usuarios ilimitados', 'Soporte prioritario'],
+        ctaText: 'Empezar',
+        ctaHref: wa,
+        variant: 'highlighted' as const,
+      },
+      {
+        pillarLabel: 'CRM',
+        planName: 'Custom',
+        price: 'Hablamos',
+        priceSuffix: '',
+        features: ['Vertical a medida', 'SLA dedicado'],
+        ctaText: 'Contactar',
+        ctaHref: wa,
+        variant: 'dark' as const,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Precios · TriaClaw"
+  description="Pricing claro de los tres pilares. Sin permanencia. Combina dos y rebaja un 15%."
+>
+  <section class="bg-navy text-white py-20 text-center">
+    <div class="mx-auto max-w-[1200px] px-8">
+      <h1 class="text-5xl font-extrabold tracking-tight mb-3">Precios sin sorpresas</h1>
+      <p class="text-lg text-white/80">
+        Empieza por uno. Combina dos pilares y rebaja un 15%. Cancela cuando quieras.
+      </p>
+    </div>
+  </section>
+  {
+    groups.map((g) => (
+      <section class="py-16 even:bg-[#fafbfd]">
+        <div class="mx-auto max-w-[1200px] px-8">
+          <h2 class="text-3xl font-extrabold text-navy tracking-tight mb-8 text-center">
+            {g.label}
+          </h2>
+          <div class="grid md:grid-cols-3 gap-5">
+            {g.plans.map((p) => (
+              <PricingCard {...p} />
+            ))}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+  <section class="py-12 text-center">
+    <p class="text-[14px] text-muted">
+      Setup incluido en planes Pro. IVA no incluido. Bonificación 2+ pilares: −15%.
+    </p>
+  </section>
+  <CTAFinal />
+  <WhatsAppFloat />
+</Base>
