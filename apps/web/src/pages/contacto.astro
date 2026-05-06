@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import WhatsAppFloat from '../components/sections/WhatsAppFloat.astro';
+import ContactForm from '../components/forms/ContactForm.tsx';
 
 const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
 const calendly = import.meta.env.PUBLIC_CALENDLY_URL;
@@ -72,7 +73,7 @@ const calendly = import.meta.env.PUBLIC_CALENDLY_URL;
       <div id="form" class="bg-white border border-line rounded-2xl p-8 shadow-sm">
         <h2 class="text-xl font-bold text-navy mb-1">Formulario</h2>
         <p class="text-[14px] text-muted mb-6">Te contestamos en menos de 24 h laborables.</p>
-        <div id="contact-form-island"><!-- ContactForm island mounted here in Task 30 --></div>
+        <ContactForm client:load siteKey={import.meta.env.PUBLIC_TURNSTILE_SITE_KEY} />
       </div>
     </div>
   </section>
