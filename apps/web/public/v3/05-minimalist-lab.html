@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TriaClaw — Centralita, agentes y CRM que hablan entre ellos</title>
+  <meta name="description" content="TriaClaw es la plataforma de IA conversacional para pymes catalanas: centralita, bots de WhatsApp y CRM, conectados de serie." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Geist+Mono:wght@400;500&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ---------- tokens ---------- */
+    :root {
+      --bg: #fafaf7;
+      --paper: #ffffff;
+      --ink: #1a1a1a;
+      --muted: #525252;
+      --dim: #a3a3a3;
+      --line: #e8e4dd;
+      --accent: #c2410c;        /* deep terracotta */
+      --teal: #0c4a6e;          /* deep teal */
+      --amber: #fde68a;
+      --serif: "Fraunces", "Tiempos", "EB Garamond", Georgia, serif;
+      --sans: "Geist", -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+      --mono: "Geist Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      --maxw: 1200px;
+      --textw: 720px;
+      --readw: 880px;
+    }
+
+    /* ---------- reset ---------- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 17px;
+      line-height: 1.6;
+      font-weight: 400;
+      letter-spacing: -0.005em;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    ::selection { background: var(--amber); color: var(--ink); }
+
+    /* ---------- typography ---------- */
+    .serif {
+      font-family: var(--serif);
+      font-feature-settings: "ss01", "ss02", "kern", "liga";
+      font-variation-settings: "opsz" 72;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+    }
+    .display {
+      font-family: var(--serif);
+      font-feature-settings: "ss01", "ss02", "kern", "liga";
+      font-variation-settings: "opsz" 144;
+      font-weight: 400;
+      letter-spacing: -0.035em;
+      line-height: 0.98;
+    }
+    .mono {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .lead {
+      font-family: var(--sans);
+      font-size: 19px;
+      line-height: 1.65;
+      color: var(--muted);
+      max-width: 60ch;
+      letter-spacing: -0.005em;
+    }
+
+    /* ---------- layout ---------- */
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+    .narrow { max-width: var(--readw); margin-left: auto; margin-right: auto; }
+    .hairline { height: 1px; background: var(--line); border: 0; margin: 0; }
+    section { padding: 144px 0; }
+    @media (max-width: 768px) {
+      section { padding: 96px 0; }
+      .wrap { padding: 0 22px; }
+    }
+
+    /* ---------- header ---------- */
+    header.site {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(250, 250, 247, 0.86);
+      backdrop-filter: saturate(140%) blur(10px);
+      -webkit-backdrop-filter: saturate(140%) blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+    .nav .brand { display: flex; align-items: center; gap: 12px; }
+    .nav .brand img { height: 34px; width: auto; }
+    .nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 28px; align-items: center; }
+    .nav ul a {
+      font-size: 14px;
+      color: var(--muted);
+      letter-spacing: -0.005em;
+      transition: color .2s ease;
+    }
+    .nav ul a:hover { color: var(--ink); }
+    .nav ul .sep { color: var(--dim); user-select: none; }
+    .nav .right { display: flex; align-items: center; gap: 22px; }
+    .lang {
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--dim);
+    }
+    .lang strong { color: var(--ink); font-weight: 500; }
+    .nav-cta {
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(194, 65, 12, 0.4);
+      padding-bottom: 2px;
+      transition: border-color .2s ease;
+    }
+    .nav-cta:hover { border-color: var(--accent); }
+    @media (max-width: 900px) {
+      .nav ul, .lang { display: none; }
+    }
+
+    /* ---------- hero ---------- */
+    .hero { padding-top: 168px; padding-bottom: 120px; }
+    .hero .eyebrow { margin-bottom: 28px; display: inline-block; }
+    .hero h1 {
+      font-size: clamp(56px, 9vw, 110px);
+      margin: 0 0 36px;
+      max-width: 14ch;
+    }
+    .hero h1 .secondary {
+      display: block;
+      font-size: 0.55em;
+      color: var(--muted);
+      font-weight: 300;
+      margin-top: 12px;
+      letter-spacing: -0.025em;
+      max-width: 22ch;
+    }
+    .hero .lead { margin: 0 0 36px; }
+    .hero .lead::first-letter {
+      font-family: var(--serif);
+      font-variation-settings: "opsz" 144;
+      font-weight: 400;
+      font-size: 3.4em;
+      float: left;
+      line-height: 0.85;
+      padding: 6px 10px 0 0;
+      color: var(--ink);
+    }
+    .ctas { display: flex; gap: 32px; align-items: center; flex-wrap: wrap; margin-bottom: 56px; }
+    .ctas a.primary {
+      color: var(--accent);
+      font-weight: 500;
+      font-size: 17px;
+      border-bottom: 1px solid rgba(194, 65, 12, 0.4);
+      padding-bottom: 3px;
+      transition: border-color .2s ease;
+    }
+    .ctas a.primary:hover { border-bottom-width: 2px; border-color: var(--accent); }
+    .ctas a.ghost {
+      color: var(--ink);
+      font-size: 17px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 3px;
+      transition: border-color .2s ease;
+    }
+    .ctas a.ghost:hover { border-color: var(--ink); }
+
+    .meta-row { display: flex; gap: 48px; flex-wrap: wrap; }
+    .meta-row .item { display: flex; gap: 10px; align-items: baseline; }
+    .meta-row .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); display: inline-block; transform: translateY(-2px); }
+
+    /* clients row */
+    .clients {
+      margin-top: 96px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+      display: flex; align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 22px;
+    }
+    .clients .label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); }
+    .clients ul { display: flex; gap: 48px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+    .clients li { font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+
+    /* ---------- pillars ---------- */
+    .pillars h2 { font-size: clamp(48px, 7vw, 88px); margin: 0 0 28px; max-width: 12ch; }
+    .pillars .head .lead { margin-bottom: 96px; max-width: 56ch; }
+    .pillars .grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      column-gap: 0;
+    }
+    .pillars .col {
+      padding: 0 32px;
+      border-left: 1px solid var(--line);
+    }
+    .pillars .col:first-child { padding-left: 0; border-left: 0; }
+    .pillars .col:last-child { padding-right: 0; }
+    .pillars .num { display: block; margin-bottom: 18px; color: var(--muted); }
+    .pillars h3 {
+      font-family: var(--serif);
+      font-variation-settings: "opsz" 36;
+      font-feature-settings: "ss01","kern","liga";
+      font-weight: 400;
+      font-size: 30px;
+      letter-spacing: -0.02em;
+      margin: 0 0 16px;
+      color: var(--teal);
+    }
+    .pillars p { color: var(--muted); margin: 0 0 24px; line-height: 1.7; font-size: 16px; }
+    .pillars ul.feat { list-style: none; padding: 0; margin: 0 0 28px; }
+    .pillars ul.feat li {
+      font-size: 14px;
+      color: var(--ink);
+      padding: 6px 0;
+      display: flex; gap: 12px;
+      letter-spacing: -0.005em;
+    }
+    .pillars ul.feat .plus {
+      color: var(--teal);
+      font-family: var(--mono);
+      font-size: 12px;
+      transform: translateY(2px);
+    }
+    .pillars .more {
+      color: var(--accent); font-size: 14px; font-weight: 500;
+      border-bottom: 1px solid rgba(194, 65, 12, 0.4);
+      padding-bottom: 2px;
+    }
+    .pillars .more:hover { border-bottom-width: 2px; }
+    @media (max-width: 900px) {
+      .pillars .grid { grid-template-columns: 1fr; }
+      .pillars .col { padding: 32px 0; border-left: 0; border-top: 1px solid var(--line); }
+      .pillars .col:first-child { padding-top: 0; border-top: 0; }
+    }
+
+    /* ---------- connected flow ---------- */
+    .flow .head { text-align: left; max-width: var(--readw); margin: 0 auto 80px; }
+    .flow h2 { font-size: clamp(40px, 6vw, 72px); margin: 16px 0 0; max-width: 16ch; }
+    .flow .steps {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      align-items: stretch;
+      position: relative;
+    }
+    .flow .step { padding: 28px 18px 28px 0; border-top: 1px solid var(--line); position: relative; }
+    .flow .step:last-child { padding-right: 0; }
+    .flow .step .id { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); display:block; margin-bottom: 10px; }
+    .flow .step .name { font-family: var(--serif); font-variation-settings: "opsz" 36; font-weight: 400; font-size: 22px; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 6px; }
+    .flow .step .desc { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+    .flow .dottedwrap { margin-top: 32px; }
+    .flow .dottedwrap svg { display: block; width: 100%; height: 24px; }
+    @media (max-width: 900px) {
+      .flow .steps { grid-template-columns: 1fr 1fr; }
+      .flow .dottedwrap { display:none; }
+    }
+    @media (max-width: 540px) {
+      .flow .steps { grid-template-columns: 1fr; }
+    }
+
+    /* ---------- featured case ---------- */
+    .case .head { margin-bottom: 64px; max-width: var(--readw); }
+    .case h2 {
+      font-family: var(--serif);
+      font-variation-settings: "opsz" 96;
+      font-weight: 400;
+      font-size: clamp(36px, 5.4vw, 60px);
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      margin: 16px 0 0;
+      max-width: 22ch;
+    }
+    .case h2 q { quotes: "\201C" "\201D"; }
+    .case .body {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+      max-width: var(--readw);
+      color: var(--muted);
+      font-size: 16.5px;
+      line-height: 1.75;
+    }
+    .case .body p { margin: 0 0 18px; }
+    @media (max-width: 800px) { .case .body { grid-template-columns: 1fr; gap: 0; } }
+
+    .metrics {
+      margin-top: 96px;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+    .metric {
+      padding: 32px 32px 0;
+      border-top: 1px solid var(--ink);
+      border-left: 1px solid var(--line);
+    }
+    .metric:first-child { padding-left: 0; border-left: 0; }
+    .metric:last-child { padding-right: 0; }
+    .metric .val {
+      font-family: var(--serif);
+      font-variation-settings: "opsz" 144;
+      font-weight: 400;
+      font-size: clamp(56px, 7.2vw, 84px);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: var(--ink);
+    }
+    .metric .lab { display:block; margin-top: 18px; }
+    @media (max-width: 800px) {
+      .metrics { grid-template-columns: 1fr; }
+      .metric { padding: 32px 0 0; border-left: 0; }
+    }
+
+    /* ---------- pricing teaser ---------- */
+    .pricing { text-align: center; }
+    .pricing .head { max-width: 60ch; margin: 0 auto 64px; }
+    .pricing h2 { font-size: clamp(40px, 6vw, 72px); margin: 16px auto 0; }
+    .pricing ul.list {
+      max-width: 720px; margin: 0 auto; padding: 0;
+      list-style: none;
+      text-align: left;
+    }
+    .pricing li.row {
+      display: grid; grid-template-columns: 60px 1fr auto;
+      align-items: baseline;
+      gap: 32px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .pricing li.row:first-child { border-top: 1px solid var(--line); }
+    .pricing .id { color: var(--muted); }
+    .pricing .name {
+      font-family: var(--serif);
+      font-variation-settings: "opsz" 36;
+      font-weight: 400;
+      font-size: 24px;
+      letter-spacing: -0.018em;
+      color: var(--ink);
+    }
+    .pricing .name span.note { display:block; font-family: var(--sans); font-size: 13px; color: var(--muted); margin-top: 4px; letter-spacing: 0; font-weight: 400; }
+    .pricing .price {
+      font-family: var(--serif);
+      font-variation-settings: "opsz" 72;
+      font-weight: 400;
+      font-size: 26px;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+    .pricing .price small { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-left: 6px; letter-spacing: 0.12em; }
+    .pricing .more {
+      display: inline-block;
+      margin-top: 56px;
+      color: var(--accent); font-size: 15px; font-weight: 500;
+      border-bottom: 1px solid rgba(194, 65, 12, 0.4);
+      padding-bottom: 2px;
+    }
+    @media (max-width: 540px) {
+      .pricing li.row { grid-template-columns: 40px 1fr; }
+      .pricing .price { grid-column: 2; }
+    }
+
+    /* ---------- testimonials ---------- */
+    .testi h2 { font-size: clamp(40px, 6vw, 72px); margin: 16px 0 64px; max-width: 16ch; }
+    .testi .grid { display:grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+    .testi .col { padding: 0 32px; border-left: 1px solid var(--line); }
+    .testi .col:first-child { padding-left: 0; border-left: 0; }
+    .testi .col:last-child { padding-right: 0; }
+    .testi blockquote {
+      font-family: var(--serif);
+      font-variation-settings: "opsz" 36;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 19px;
+      line-height: 1.55;
+      color: var(--ink);
+      letter-spacing: -0.012em;
+      margin: 0 0 28px;
+      quotes: "\201C" "\201D";
+    }
+    .testi blockquote::before { content: open-quote; }
+    .testi blockquote::after  { content: close-quote; }
+    .testi .who { display:flex; align-items:center; gap: 12px; }
+    .testi .av {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      display:flex; align-items:center; justify-content:center;
+      font-family: var(--serif); font-weight: 500; font-size: 14px;
+      color: var(--teal);
+    }
+    .testi .name { font-size: 14px; color: var(--ink); font-weight: 500; }
+    .testi .role { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 3px; display:block; }
+    @media (max-width: 900px) {
+      .testi .grid { grid-template-columns: 1fr; }
+      .testi .col { padding: 28px 0; border-left: 0; border-top: 1px solid var(--line); }
+      .testi .col:first-child { padding-top: 0; border-top: 0; }
+    }
+
+    /* ---------- final CTA ---------- */
+    .final { text-align: center; padding: 176px 0; }
+    .final h2 { font-size: clamp(48px, 7.6vw, 100px); margin: 0 auto 28px; max-width: 18ch; }
+    .final .lead { margin: 0 auto 48px; max-width: 56ch; text-align: center; }
+    .final .ctas { justify-content: center; }
+    .final a.btn {
+      background: var(--accent); color: #fff;
+      padding: 14px 26px; border-radius: 0;
+      font-weight: 500; font-size: 15px;
+      letter-spacing: -0.005em;
+      border: 1px solid var(--accent);
+      transition: background .2s ease;
+    }
+    .final a.btn:hover { background: #9a3412; border-color: #9a3412; }
+
+    /* ---------- footer ---------- */
+    footer.site { padding: 96px 0 56px; border-top: 1px solid var(--line); }
+    footer.site .grid { display:grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 80px; }
+    footer.site h4 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); font-weight: 500; margin: 0 0 18px; }
+    footer.site ul { list-style: none; padding: 0; margin: 0; }
+    footer.site li { font-size: 14px; color: var(--muted); padding: 5px 0; letter-spacing: -0.005em; }
+    footer.site li a { color: var(--muted); transition: color .2s ease; }
+    footer.site li a:hover { color: var(--ink); }
+    footer.site .brand { display:flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    footer.site .brand img { height: 32px; }
+    footer.site p.about { color: var(--muted); font-size: 14.5px; line-height: 1.6; max-width: 32ch; margin: 0; }
+    footer.site .baseline {
+      border-top: 1px solid var(--line); padding-top: 24px;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim);
+    }
+    @media (max-width: 800px) { footer.site .grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { footer.site .grid { grid-template-columns: 1fr; } }
+
+    /* ---------- reveal anim ---------- */
+    .reveal { opacity: 0; transform: translateY(8px); transition: opacity 1s cubic-bezier(.2,.6,.2,1), transform 1s cubic-bezier(.2,.6,.2,1); }
+    .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site">
+    <div class="wrap nav">
+      <a class="brand" href="#" aria-label="TriaClaw">
+        <img src="/logo-triaclaw.png" alt="TriaClaw" />
+      </a>
+      <nav aria-label="Principal">
+        <ul>
+          <li><a href="#pillars">Centralita</a></li>
+          <li><a href="#pillars">Agents</a></li>
+          <li><a href="#pillars">CRM</a></li>
+          <li class="sep">·</li>
+          <li><a href="#pricing">Precios</a></li>
+          <li><a href="#case">Casos</a></li>
+          <li class="sep">·</li>
+          <li><a href="#footer">Partners</a></li>
+          <li><a href="#footer">Contacto</a></li>
+        </ul>
+      </nav>
+      <div class="right">
+        <span class="lang"><strong>ES</strong> · CA</span>
+        <a class="nav-cta" href="https://wa.me/34600000000">Hablar por WhatsApp</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="reveal">
+        <span class="mono eyebrow">Mayo 2026 / TriaClaw</span>
+        <h1 class="display">
+          Tria el teu agent.
+          <span class="serif secondary">Centralita, bots i CRM que parlen entre ells.</span>
+        </h1>
+        <p class="lead narrow" style="margin-left:0">
+          TriaClaw es la capa conversacional de tu pyme. Una sola plataforma que atiende llamadas, contesta WhatsApps y ordena tu CRM &mdash; sin que tengas que pegar herramientas con cinta adhesiva. Pensada en Lleida, hablada en catalán y castellano, probada en talleres, inmobiliarias y comercializadoras de energía.
+        </p>
+        <div class="ctas">
+          <a class="primary" href="https://wa.me/34600000000">Hablar por WhatsApp &rarr;</a>
+          <a class="ghost" href="#case">Pedir demo &rarr;</a>
+        </div>
+        <div class="meta-row">
+          <div class="item"><span class="dot"></span><span class="mono" style="text-transform:none;letter-spacing:0.06em">Setup en 7 días</span></div>
+          <div class="item"><span class="dot"></span><span class="mono" style="text-transform:none;letter-spacing:0.06em">ES &middot; CA nativos</span></div>
+          <div class="item"><span class="dot"></span><span class="mono" style="text-transform:none;letter-spacing:0.06em">Datos en la UE</span></div>
+        </div>
+      </div>
+
+      <div class="clients reveal">
+        <span class="label">Pymes que ya usan TriaClaw</span>
+        <ul>
+          <li>iReparo</li>
+          <li>Falcon Cat</li>
+          <li>Ilercasa</li>
+          <li>Comercializadora energía</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILLARS -->
+  <section class="pillars" id="pillars">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="mono">01 &mdash; Producto</span>
+        <h2 class="display">Tres módulos.</h2>
+        <p class="lead">Centralita inteligente, agentes de WhatsApp y un CRM operativo. Cada pieza vale por sí sola; juntas, ahorran a tu pyme una persona y media de jornada al mes.</p>
+      </div>
+
+      <div class="grid">
+        <article class="col reveal">
+          <span class="mono num">01.</span>
+          <h3>Centralita</h3>
+          <p>Una IA atiende cada llamada en menos de tres tonos, identifica al cliente, resuelve dudas frecuentes y solo deriva a humano cuando hace falta. Catalán y castellano nativos, voz natural, transcripción automática.</p>
+          <ul class="feat">
+            <li><span class="plus">+</span> IVR conversacional, sin árboles eternos</li>
+            <li><span class="plus">+</span> Identifica al cliente por número y abre su ficha</li>
+            <li><span class="plus">+</span> Transcripción y resumen en cada llamada</li>
+          </ul>
+          <a class="more" href="#">Saber más &rarr;</a>
+        </article>
+
+        <article class="col reveal">
+          <span class="mono num">02.</span>
+          <h3>Agents</h3>
+          <p>Bots de WhatsApp y web entrenados con tu catálogo, tarifas y tono. Reservan citas, mandan presupuestos, cobran y avisan al técnico. Cada conversación queda anclada al cliente correcto.</p>
+          <ul class="feat">
+            <li><span class="plus">+</span> WhatsApp Business y web en una sola bandeja</li>
+            <li><span class="plus">+</span> Reserva, presupuesto y cobro en un hilo</li>
+            <li><span class="plus">+</span> Handoff a humano sin perder contexto</li>
+          </ul>
+          <a class="more" href="#">Saber más &rarr;</a>
+        </article>
+
+        <article class="col reveal">
+          <span class="mono num">03.</span>
+          <h3>CRM</h3>
+          <p>El CRM operativo donde aterrizan llamadas, mensajes, presupuestos y facturas. Diseñado para SAT, talleres, inmobiliarias y comercializadoras &mdash; con una agenda real y vistas que no te dejan tirado el lunes.</p>
+          <ul class="feat">
+            <li><span class="plus">+</span> Pipeline visual con SLAs claros</li>
+            <li><span class="plus">+</span> Tickets, presupuestos y facturas conectados</li>
+            <li><span class="plus">+</span> API abierta y exportación en un clic</li>
+          </ul>
+          <a class="more" href="#">Saber más &rarr;</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONNECTED FLOW -->
+  <section class="flow">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="mono">Dataflow</span>
+        <h2 class="display">Tres módulos que hablan entre ellos.</h2>
+        <p class="lead" style="margin-top:24px">Cada llamada y cada mensaje recorre el mismo carril: entra por la centralita o el bot, se identifica al cliente, queda registrado en el CRM y dispara la acción correspondiente. Sin copiar-pegar, sin perder hilos.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step reveal">
+          <span class="id">01 / Entrada</span>
+          <div class="name">Llamada o WhatsApp</div>
+          <p class="desc">El cliente contacta por su canal preferido. La IA contesta al instante en catalán o castellano.</p>
+        </div>
+        <div class="step reveal">
+          <span class="id">02 / Identificación</span>
+          <div class="name">Ficha + contexto</div>
+          <p class="desc">TriaClaw cruza número, email o referencia y abre la ficha completa antes de hablar.</p>
+        </div>
+        <div class="step reveal">
+          <span class="id">03 / Acción</span>
+          <div class="name">Reserva, presupuesto, ticket</div>
+          <p class="desc">El agente reserva cita, manda presupuesto, cobra o crea ticket de SAT &mdash; según el caso.</p>
+        </div>
+        <div class="step reveal">
+          <span class="id">04 / Registro</span>
+          <div class="name">CRM + métricas</div>
+          <p class="desc">Todo queda en el CRM con resumen, transcripción y métricas para que tu equipo decida sin adivinar.</p>
+        </div>
+      </div>
+
+      <div class="dottedwrap reveal" aria-hidden="true">
+        <svg viewBox="0 0 1000 24" preserveAspectRatio="none">
+          <line x1="20" y1="12" x2="980" y2="12" stroke="#c2410c" stroke-width="1" stroke-dasharray="2 6" />
+          <circle cx="20"  cy="12" r="2.6" fill="#c2410c"/>
+          <circle cx="346" cy="12" r="2.6" fill="#c2410c"/>
+          <circle cx="673" cy="12" r="2.6" fill="#c2410c"/>
+          <circle cx="980" cy="12" r="2.6" fill="#c2410c"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <hr class="hairline" />
+
+  <!-- FEATURED CASE -->
+  <section class="case" id="case">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="mono">Ensayo &middot; iReparo</span>
+        <h2 class="display"><q>Antes perdíamos 1 de cada 4 llamadas. Ahora no se nos escapa ni una, y los técnicos hablan menos por teléfono.</q></h2>
+      </div>
+
+      <div class="body reveal">
+        <div>
+          <p>iReparo es un servicio técnico de Lleida con seis técnicos en ruta y un mostrador en tienda. Antes de TriaClaw, el teléfono mandaba: cada llamada interrumpía un diagnóstico, y los WhatsApps se mezclaban en un grupo del que nadie quería ser admin.</p>
+          <p>En tres semanas migramos centralita, bot de WhatsApp y CRM a TriaClaw. La IA identifica el modelo de dispositivo, propone diagnóstico inicial, agenda recogida y manda presupuesto antes de que el técnico se entere.</p>
+        </div>
+        <div>
+          <p>Hoy iReparo factura más con la misma plantilla. La centralita resuelve el 62 % de las consultas sin pasar por humano, y los tickets entran al CRM ya etiquetados, con histórico y SLA. Las llamadas perdidas cayeron de 24 % a un 5 % residual de horario nocturno.</p>
+          <p>Lo más importante: el lunes ya nadie tiene que reconstruir lo que pasó el viernes a las 19:00. La agenda, los presupuestos y las firmas están donde tienen que estar.</p>
+        </div>
+      </div>
+
+      <div class="metrics reveal">
+        <div class="metric">
+          <div class="val">&minus;78<span style="font-size:0.6em">%</span></div>
+          <span class="mono lab">Llamadas perdidas</span>
+        </div>
+        <div class="metric">
+          <div class="val">+34<span style="font-size:0.6em">%</span></div>
+          <span class="mono lab">Tickets resueltos por técnico</span>
+        </div>
+        <div class="metric">
+          <div class="val">&minus;3<span style="font-size:0.6em">h</span></div>
+          <span class="mono lab">Trabajo administrativo / día</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING TEASER -->
+  <section class="pricing" id="pricing">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="mono">02 &mdash; Tarifas</span>
+        <h2 class="display">Precios sin sorpresas.</h2>
+        <p class="lead" style="text-align:left">Un coste de implantación claro y una mensualidad por módulo. Sin permanencia, sin letra pequeña. Empieza por uno, suma los demás cuando lo veas.</p>
+      </div>
+
+      <ul class="list reveal">
+        <li class="row">
+          <span class="mono id">01.</span>
+          <div class="name">Centralita
+            <span class="note">Atención de llamadas, IVR conversacional, transcripción.</span>
+          </div>
+          <span class="price">149&thinsp;€<small>/mes</small></span>
+        </li>
+        <li class="row">
+          <span class="mono id">02.</span>
+          <div class="name">Agents
+            <span class="note">Bots de WhatsApp y web, reserva y presupuesto.</span>
+          </div>
+          <span class="price">129&thinsp;€<small>/mes</small></span>
+        </li>
+        <li class="row">
+          <span class="mono id">03.</span>
+          <div class="name">CRM
+            <span class="note">Pipeline, tickets y facturación operativa.</span>
+          </div>
+          <span class="price">99&thinsp;€<small>/mes</small></span>
+        </li>
+      </ul>
+
+      <a class="more" href="#">Ver tabla completa &rarr;</a>
+    </div>
+  </section>
+
+  <hr class="hairline" />
+
+  <!-- TESTIMONIALS -->
+  <section class="testi">
+    <div class="wrap">
+      <div class="reveal">
+        <span class="mono">Voces</span>
+        <h2 class="display">Lo que dicen los que ya lo usan.</h2>
+      </div>
+      <div class="grid">
+        <div class="col reveal">
+          <blockquote>El primer mes ya cubría su precio. Ahora pasa más tiempo cerrando que cogiendo el teléfono, que es lo que tocaba.</blockquote>
+          <div class="who">
+            <div class="av">M</div>
+            <div>
+              <div class="name">Marc Solé</div>
+              <span class="role">Gerent &middot; iReparo</span>
+            </div>
+          </div>
+        </div>
+        <div class="col reveal">
+          <blockquote>El bot habla nuestro idioma. Literalmente: contesta en catalán a quien escribe en catalán y nadie nota que detrás hay una IA.</blockquote>
+          <div class="who">
+            <div class="av">A</div>
+            <div>
+              <div class="name">Anna Carrera</div>
+              <span class="role">CMO &middot; Ilercasa</span>
+            </div>
+          </div>
+        </div>
+        <div class="col reveal">
+          <blockquote>Pasamos de tres herramientas a una. El equipo dejó de pelearse con Excel los lunes; ahora discuten cosas más interesantes.</blockquote>
+          <div class="who">
+            <div class="av">J</div>
+            <div>
+              <div class="name">Jordi Vila</div>
+              <span class="role">COO &middot; Falcon Cat</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final">
+    <div class="wrap">
+      <div class="reveal">
+        <span class="mono">Empieza hoy</span>
+        <h2 class="display">¿Listo para que tu pyme conteste sola?</h2>
+        <p class="lead">Una llamada de 25 minutos, una demo con tus propios datos y un presupuesto cerrado en menos de una semana. Sin compromiso.</p>
+        <div class="ctas">
+          <a class="btn" href="https://wa.me/34600000000">Hablar por WhatsApp</a>
+          <a class="ghost" href="mailto:hola@triaclaw.com">Escribir un email &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site" id="footer">
+    <div class="wrap">
+      <div class="grid">
+        <div>
+          <div class="brand">
+            <img src="/logo-triaclaw.png" alt="TriaClaw" />
+          </div>
+          <p class="about">La capa conversacional para pymes catalanas. Centralita, agentes y CRM en una sola plataforma. Hecho en Lleida.</p>
+        </div>
+        <div>
+          <h4>Producto</h4>
+          <ul>
+            <li><a href="#pillars">Centralita</a></li>
+            <li><a href="#pillars">Agents</a></li>
+            <li><a href="#pillars">CRM</a></li>
+            <li><a href="#pricing">Precios</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Compañía</h4>
+          <ul>
+            <li><a href="#case">Casos</a></li>
+            <li><a href="#">Partners</a></li>
+            <li><a href="#">Sobre TriaClaw</a></li>
+            <li><a href="#">Notas y ensayos</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li><a href="https://wa.me/34600000000">WhatsApp</a></li>
+            <li><a href="mailto:hola@triaclaw.com">hola@triaclaw.com</a></li>
+            <li>Lleida, Catalunya</li>
+            <li><a href="#">Aviso legal</a> &middot; <a href="#">Privacidad</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="baseline">© 2026 TriaClaw &middot; Una marca de iReparo &middot; Lleida, Catalunya</div>
+    </div>
+  </footer>
+
+  <script>
+    // gentle fade-in reveal on scroll
+    (function () {
+      var prefersReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var els = document.querySelectorAll('.reveal');
+      if (prefersReduce || !('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('in');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+</body>
+</html>

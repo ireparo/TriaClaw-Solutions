@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TriaClaw // 5 design directions — pick one</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *,*:before,*:after{box-sizing:border-box;margin:0;padding:0}
+  html,body{font-family:"Geist",ui-sans-serif,system-ui,sans-serif;background:#0a0a0f;color:#e2e8f0;-webkit-font-smoothing:antialiased;min-height:100vh}
+  .wrap{max-width:1200px;margin:0 auto;padding:80px 32px}
+  h1{font-size:48px;font-weight:800;letter-spacing:-.025em;margin-bottom:14px}
+  .lbl{font-family:"Geist Mono",monospace;font-size:11px;color:#22d3ee;text-transform:uppercase;letter-spacing:.18em;margin-bottom:24px}
+  p.lead{font-size:17px;color:#94a3b8;line-height:1.6;max-width:680px;margin-bottom:64px}
+  .grid{display:grid;grid-template-columns:1fr;gap:24px}
+  @media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}
+  @media(min-width:1100px){.grid{grid-template-columns:1fr 1fr 1fr}}
+  a.card{display:block;background:#11111a;border:1px solid #1f1f2e;border-radius:14px;padding:28px;text-decoration:none;color:inherit;transition:all .2s;position:relative;overflow:hidden}
+  a.card:hover{transform:translateY(-3px);border-color:#22d3ee;box-shadow:0 30px 80px -20px rgba(34,211,238,.18)}
+  .num{font-family:"Geist Mono",monospace;font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:.15em;margin-bottom:12px}
+  .name{font-size:24px;font-weight:700;letter-spacing:-.015em;margin-bottom:8px}
+  .desc{font-size:14px;color:#94a3b8;line-height:1.6;margin-bottom:18px}
+  .meta{font-family:"Geist Mono",monospace;font-size:11px;color:#475569;letter-spacing:.05em}
+  .open{display:inline-flex;align-items:center;gap:6px;font-family:"Geist Mono",monospace;font-size:12px;color:#22d3ee;margin-top:18px;text-transform:uppercase;letter-spacing:.1em}
+  .open::after{content:"→";transition:transform .2s}
+  a.card:hover .open::after{transform:translateX(4px)}
+  .footer{margin-top:96px;padding-top:32px;border-top:1px solid #1f1f2e;font-family:"Geist Mono",monospace;font-size:11px;color:#475569;text-transform:uppercase;letter-spacing:.1em}
+  .swatch{display:flex;gap:4px;margin-bottom:14px}
+  .swatch span{width:18px;height:18px;border-radius:4px;border:1px solid rgba(255,255,255,.1)}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="lbl">// design exploration · TriaClaw v3</div>
+  <h1>5 direcciones creativas.</h1>
+  <p class="lead">Cinco interpretaciones distintas de la misma página. Misma marca, mismas secciones, misma copy — pero diferente personalidad. Abre cada una y dime cuál encaja con cómo quieres que se sienta TriaClaw.</p>
+
+  <div class="grid">
+
+    <a class="card" href="01-operations-console.html">
+      <div class="swatch">
+        <span style="background:#050a18"></span>
+        <span style="background:#22d3ee"></span>
+        <span style="background:#00ffaa"></span>
+        <span style="background:#0d1530"></span>
+      </div>
+      <div class="num">01 / DARK · TERMINAL</div>
+      <div class="name">Operations Console</div>
+      <p class="desc">Sala de control en dark mode. Aurora cyan, scan-line, consola en vivo con logs animados. Onest + IBM Plex Mono.</p>
+      <div class="meta">tech-forward · animated · refined</div>
+      <div class="open">abrir variant</div>
+    </a>
+
+    <a class="card" href="02-editorial-magazine.html">
+      <div class="swatch">
+        <span style="background:#f8f4ed"></span>
+        <span style="background:#0f1f3a"></span>
+        <span style="background:#dc2626"></span>
+        <span style="background:#e0d8cc"></span>
+      </div>
+      <div class="num">02 / LIGHT · PRINT</div>
+      <div class="name">Editorial Magazine</div>
+      <p class="desc">Papel crema con tinta navy. Fraunces italic gigante, drop caps, números romanos, hairline rules. Print magazine de diseño.</p>
+      <div class="meta">refined · serif · whitespace</div>
+      <div class="open">abrir variant</div>
+    </a>
+
+    <a class="card" href="03-brutalist-tech.html">
+      <div class="swatch">
+        <span style="background:#ffffff"></span>
+        <span style="background:#000000"></span>
+        <span style="background:#00ff88"></span>
+        <span style="background:#888888"></span>
+      </div>
+      <div class="num">03 / RAW · DEV</div>
+      <div class="name">Brutalist Tech</div>
+      <p class="desc">Blanco/negro puro con un único acento neón. Todo monospace. Sin radius, sin sombras. Como una página de status de un dev tool.</p>
+      <div class="meta">monospace · sharp · developer</div>
+      <div class="open">abrir variant</div>
+    </a>
+
+    <a class="card" href="04-glassmorphic-ai.html">
+      <div class="swatch">
+        <span style="background:#1e1b4b"></span>
+        <span style="background:#5b21b6"></span>
+        <span style="background:#06b6d4"></span>
+        <span style="background:#f0abfc"></span>
+      </div>
+      <div class="num">04 / VIBRANT · AI</div>
+      <div class="name">Glassmorphic AI</div>
+      <p class="desc">Gradient mesh púrpura→cyan→pink, paneles de cristal frosted, blobs flotantes, neon glows. AI startup 2024 ejecutado bien.</p>
+      <div class="meta">vibrant · glass · gradient</div>
+      <div class="open">abrir variant</div>
+    </a>
+
+    <a class="card" href="05-minimalist-lab.html">
+      <div class="swatch">
+        <span style="background:#fafaf7"></span>
+        <span style="background:#1a1a1a"></span>
+        <span style="background:#c2410c"></span>
+        <span style="background:#0c4a6e"></span>
+      </div>
+      <div class="num">05 / CALM · LAB</div>
+      <div class="name">Minimalist Lab</div>
+      <p class="desc">Estilo Anthropic / Stripe. Crema cálido, Fraunces normal weight, mucho whitespace, accent terracotta sutil. Calmo, intelligent, restraint.</p>
+      <div class="meta">refined · calm · academic</div>
+      <div class="open">abrir variant</div>
+    </a>
+
+  </div>
+
+  <div class="footer">
+    todas las variantes usan el logo real // logo-triaclaw.png · branch feat/redesign-tech
+  </div>
+</main>
+</body>
+</html>
