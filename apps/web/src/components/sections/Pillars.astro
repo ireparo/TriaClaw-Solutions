@@ -1,0 +1,96 @@
+---
+import Container from '../layout/Container.astro';
+import { getLocaleFromUrl, localizedHref, type Locale } from '../../i18n';
+const locale: Locale = getLocaleFromUrl(Astro.url);
+const pillars = [
+  {
+    tone: 'navy',
+    icon: '📞',
+    title: 'Centralita',
+    desc: 'PBX virtual con IVR, transferencias, panel de supervisión y grabación. SIP estándar, sin atarte al hardware.',
+    bullets: [
+      'Multi-extensión y multi-sede',
+      'Grabación y panel supervisor',
+      'Conexión SIP con cualquier teléfono',
+    ],
+    href: '/centralita',
+    cta: 'Ver Centralita →',
+    accent: 'text-navy',
+  },
+  {
+    tone: 'cyan',
+    icon: '🤖',
+    title: 'Agents & Bots',
+    desc: 'Bots de WhatsApp y agentes IA conversacionales. Cualifican, agendan y transfieren cuando hace falta humano.',
+    bullets: [
+      'WhatsApp Business + IA con contexto',
+      'Plantillas: envíos, atención, ventas',
+      'Integración nativa con tu CRM',
+    ],
+    href: '/agents',
+    cta: 'Ver Agents →',
+    accent: 'text-cyan-brand',
+  },
+  {
+    tone: 'teal',
+    icon: '📋',
+    title: 'CRM & Gestión',
+    desc: 'CRMs verticales hechos a medida del sector: SAT, energía, inmobiliaria, gestión de proyectos.',
+    bullets: [
+      'Verticales listos: SAT, energía, inmo',
+      'Integrado con centralita y bots',
+      'Custom para tu flujo concreto',
+    ],
+    href: '/crm',
+    cta: 'Ver CRM →',
+    accent: 'text-teal-brand',
+  },
+];
+---
+
+<section class="py-24">
+  <Container>
+    <div class="text-center mb-12">
+      <span
+        class="inline-block px-3.5 py-1.5 bg-navy/[8%] text-navy rounded-full text-xs font-semibold tracking-wide mb-3"
+        >Tres productos · una plataforma</span
+      >
+      <h2 class="text-4xl md:text-5xl font-extrabold text-navy tracking-tight mb-3">
+        Tria el teu pilar
+      </h2>
+      <p class="text-lg text-muted max-w-2xl mx-auto leading-relaxed">
+        Empieza por uno. Combina los tres y rebaja un 15%. Los datos viajan entre ellos sin que
+        tengas que tocar nada.
+      </p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-5">
+      {
+        pillars.map((p) => (
+          <div
+            class={`relative bg-white border border-line rounded-2xl p-7 transition hover:-translate-y-1 hover:shadow-lg before:absolute before:top-0 before:left-0 before:right-0 before:h-1 ${p.tone === 'navy' ? 'before:bg-navy' : p.tone === 'cyan' ? 'before:bg-cyan-brand' : 'before:bg-teal-brand'}`}
+          >
+            <div
+              class={`w-[52px] h-[52px] rounded-xl flex items-center justify-center text-2xl mb-4 ${p.tone === 'navy' ? 'bg-navy/10 text-navy' : p.tone === 'cyan' ? 'bg-cyan-brand/[12%] text-cyan-brand' : 'bg-teal-brand/[12%] text-teal-brand'}`}
+            >
+              {p.icon}
+            </div>
+            <h3 class="text-xl font-bold text-navy tracking-tight mb-2">{p.title}</h3>
+            <p class="text-[14.5px] text-muted leading-relaxed mb-4">{p.desc}</p>
+            <ul class="text-[13.5px] text-muted mb-5 space-y-1">
+              {p.bullets.map((b) => (
+                <li
+                  class={`pl-5 relative before:absolute before:left-0 before:top-2.5 before:w-3 before:h-0.5 ${p.tone === 'navy' ? 'before:bg-navy' : p.tone === 'cyan' ? 'before:bg-cyan-brand' : 'before:bg-teal-brand'}`}
+                >
+                  {b}
+                </li>
+              ))}
+            </ul>
+            <a href={localizedHref(locale, p.href)} class={`font-semibold text-sm ${p.accent}`}>
+              {p.cta}
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </Container>
+</section>
