@@ -1,0 +1,20 @@
+---
+const data = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'TriaClaw',
+  url: 'https://triaclaw.com',
+  logo: 'https://triaclaw.com/logo.png',
+  email: 'hola@triaclaw.com',
+  telephone: '+34665954108',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Lleida',
+    addressRegion: 'Catalunya',
+    addressCountry: 'ES',
+  },
+  sameAs: [],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(data)} />
