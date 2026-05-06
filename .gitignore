@@ -1,0 +1,19 @@
+# Brainstorming session artifacts
+.superpowers/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Node / build (por si acabamos con Next/Astro)
+node_modules/
+.next/
+.astro/
+dist/
+build/
+.env
+.env.local
