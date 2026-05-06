@@ -20,9 +20,9 @@ const {
 } = Astro.props;
 ---
 
-<label class="block">
-  <span class="block text-[13px] font-semibold text-navy mb-1.5"
-    >{label}{required && <span class="text-cyan-brand">*</span>}</span
+<label class="tcw-field">
+  <span class="tcw-field__label mono"
+    >{label}{required && <span class="tcw-field__star">*</span>}</span
   >
   {
     textarea ? (
@@ -31,7 +31,7 @@ const {
         placeholder={placeholder}
         required={required}
         rows={rows}
-        class="w-full bg-white border border-line rounded-lg px-3.5 py-2.5 text-sm focus:border-cyan-brand outline-none"
+        class="tcw-field__input"
       />
     ) : (
       <input
@@ -39,8 +39,48 @@ const {
         name={name}
         placeholder={placeholder}
         required={required}
-        class="w-full bg-white border border-line rounded-lg px-3.5 py-2.5 text-sm focus:border-cyan-brand outline-none"
+        class="tcw-field__input"
       />
     )
   }
 </label>
+
+<style is:global>
+  .tcw-field {
+    display: block;
+  }
+  .tcw-field__label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--dim);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .tcw-field__star {
+    color: var(--neon-cyan);
+    margin-left: 2px;
+  }
+  .tcw-field__input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 14px;
+    color: var(--ink);
+    transition: 0.2s;
+    font-family: var(--font-sans);
+  }
+  .tcw-field__input::placeholder {
+    color: var(--dim);
+  }
+  .tcw-field__input:focus {
+    border-color: rgba(34, 211, 238, 0.6);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15);
+  }
+</style>

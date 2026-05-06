@@ -42,15 +42,57 @@ const caUrl = new URL(`/ca${path === '/' ? '' : path}`, siteUrl).toString();
     <link rel="alternate" hreflang="x-default" href={esUrl} />
     <JsonLd />
   </head>
-  <body class="bg-white text-ink">
+  <body class="text-ink">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] bg-navy text-white px-4 py-2 rounded-lg font-semibold text-sm"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] bg-[var(--neon-violet)] text-[#0b0a1f] px-4 py-2 rounded-lg font-semibold text-sm"
     >
       {t(locale, 'a11y.skip_to_content')}
     </a>
+
+    <!-- background layers -->
+    <div class="bg-mesh" aria-hidden="true"></div>
+    <div class="bg-orbs" aria-hidden="true">
+      <div class="orb o1"></div>
+      <div class="orb o2"></div>
+      <div class="orb o3"></div>
+      <div class="orb o4"></div>
+    </div>
+    <div class="bg-dots" aria-hidden="true"></div>
+
     <Header />
     <main id="main"><slot /></main>
     <Footer />
+
+    <!-- reveal-on-scroll + smooth anchors -->
+    <script is:inline>
+      (() => {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('in');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.12 }
+        );
+        document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+        document.querySelectorAll('a[href^="#"]').forEach((a) => {
+          a.addEventListener('click', (e) => {
+            const id = a.getAttribute('href');
+            if (id && id.length > 1) {
+              const t = document.querySelector(id);
+              if (t) {
+                e.preventDefault();
+                t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }
+          });
+        });
+      })();
+    </script>
   </body>
 </html>

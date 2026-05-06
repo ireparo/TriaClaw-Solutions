@@ -22,20 +22,29 @@ const items = [
 ];
 ---
 
-<section class="bg-[#fafbfd] py-24">
-  <Container class="text-center">
-    <span
-      class="inline-block px-3.5 py-1.5 bg-navy/[8%] text-navy rounded-full text-xs font-semibold tracking-wide mb-3"
-      >{t(locale, 'testimonials.eyebrow')}</span
-    >
-    <h2 class="text-4xl md:text-5xl font-extrabold text-navy tracking-tight mb-3">
-      {t(locale, 'testimonials.title')}
-    </h2>
-    <p class="text-lg text-muted max-w-2xl mx-auto mb-12">
-      {t(locale, 'testimonials.lead')}
-    </p>
-    <div class="grid md:grid-cols-3 gap-4 text-left">
+<section class="tcw-section">
+  <Container>
+    <div class="tcw-section-head reveal" style="text-align:center">
+      <span class="eyebrow mono">{t(locale, 'testimonials.eyebrow')}</span>
+      <h2 class="tcw-h2 grad-text">{t(locale, 'testimonials.title')}</h2>
+      <p class="tcw-section-head__lead">{t(locale, 'testimonials.lead')}</p>
+    </div>
+    <div class="tcw-testimonials__grid">
       {items.map((it) => <Testimonial quote={it.quote} name={it.name} role={it.role} />)}
     </div>
   </Container>
 </section>
+
+<style>
+  .tcw-testimonials__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 48px;
+  }
+  @media (max-width: 900px) {
+    .tcw-testimonials__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

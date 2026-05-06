@@ -3,28 +3,52 @@ import Container from '../layout/Container.astro';
 import { getLocaleFromUrl, t, type Locale } from '../../i18n';
 const locale: Locale = getLocaleFromUrl(Astro.url);
 const logos = [
-  { name: 'iReparo', italic: false },
-  { name: 'Falcon Cat', italic: true },
-  { name: 'Ilercasa', italic: false },
-  { name: 'Comercializadora energía', italic: false, dim: true },
+  { name: 'iReparo SAT' },
+  { name: 'Lo Porró Carrincló' },
+  { name: 'Ilercasa Asesoria' },
+  { name: 'Mis Tesoros' },
 ];
 ---
 
-<div class="py-9 bg-[#fafbfd] border-y border-line">
+<section class="tcw-logobar-wrap">
   <Container>
-    <p class="text-[11px] tracking-[2px] text-muted uppercase font-semibold text-center mb-4.5">
-      {t(locale, 'logobar.label')}
-    </p>
-    <div class="flex justify-center items-center gap-16 flex-wrap opacity-55">
-      {
-        logos.map((l) => (
-          <div
-            class={`text-navy font-bold text-[17px] tracking-tight ${l.italic ? 'italic' : ''} ${l.dim ? 'opacity-70' : ''}`}
-          >
-            {l.name}
-          </div>
-        ))
-      }
+    <div class="tcw-logobar glass reveal">
+      <span class="tcw-logobar__label mono">{t(locale, 'logobar.label')}</span>
+      {logos.map((l) => <span class="tcw-logobar__name">{l.name}</span>)}
     </div>
   </Container>
-</div>
+</section>
+
+<style>
+  .tcw-logobar-wrap {
+    padding: 30px 0;
+  }
+  .tcw-logobar {
+    margin: 0 auto;
+    padding: 22px 32px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: var(--r-lg);
+  }
+  .tcw-logobar__label {
+    font-size: 11px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+  }
+  .tcw-logobar__name {
+    font-weight: 600;
+    color: var(--muted);
+    font-size: 17px;
+    letter-spacing: -0.01em;
+    text-shadow: 0 0 24px rgba(167, 139, 250, 0.25);
+    transition: 0.2s;
+  }
+  .tcw-logobar__name:hover {
+    color: var(--ink);
+    text-shadow: 0 0 32px rgba(167, 139, 250, 0.55);
+  }
+</style>

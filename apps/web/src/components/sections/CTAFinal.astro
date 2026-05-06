@@ -1,26 +1,75 @@
 ---
 import Container from '../layout/Container.astro';
-import Button from '../ui/Button.astro';
 import { getLocaleFromUrl, t, type Locale } from '../../i18n';
 const locale: Locale = getLocaleFromUrl(Astro.url);
 const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
 ---
 
-<section class="gradient-brand text-white text-center py-20">
+<section class="tcw-section tcw-cta-final" id="cta">
   <Container>
-    <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
-      {t(locale, 'cta_final.title_l1')}<br />{t(locale, 'cta_final.title_l2')}
-    </h2>
-    <p class="text-lg text-white/85 mb-8">
-      {t(locale, 'cta_final.lead')}
-    </p>
-    <div class="flex gap-3 justify-center flex-wrap">
-      <Button variant="cyan" href={wa}>💬 {t(locale, 'hero.cta_whatsapp')}</Button>
-      <a
-        href="#contacto"
-        class="inline-flex items-center gap-2 rounded-lg px-5 py-3 font-semibold text-sm bg-transparent text-white border border-white/50 hover:bg-white/10"
-        >{t(locale, 'hero.cta_demo')} →</a
-      >
+    <div class="reveal">
+      <h2 class="tcw-cta-final__title">
+        {t(locale, 'cta_final.title_l1')}<br />{t(locale, 'cta_final.title_l2')}
+      </h2>
+      <p class="tcw-cta-final__lead">{t(locale, 'cta_final.lead')}</p>
+      <div class="tcw-cta-final__row">
+        <a class="tcw-btn tcw-btn--cyan tcw-cta-final__btn" href="#contacto"
+          >{t(locale, 'hero.cta_demo')}</a
+        >
+        <a class="tcw-btn tcw-btn--ghost tcw-cta-final__btn" href={wa}
+          >{t(locale, 'hero.cta_whatsapp')}</a
+        >
+      </div>
     </div>
   </Container>
 </section>
+
+<style>
+  .tcw-cta-final {
+    text-align: center;
+    position: relative;
+  }
+  .tcw-cta-final::before {
+    content: '';
+    position: absolute;
+    inset: -100px;
+    z-index: -1;
+    background:
+      radial-gradient(circle at 30% 50%, rgba(34, 211, 238, 0.35), transparent 50%),
+      radial-gradient(circle at 70% 50%, rgba(167, 139, 250, 0.35), transparent 50%),
+      radial-gradient(circle at 50% 80%, rgba(240, 171, 252, 0.25), transparent 50%);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+  .tcw-cta-final__title {
+    font-family: var(--font-sans);
+    font-size: clamp(40px, 6.5vw, 84px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    background: linear-gradient(120deg, #67e8f9 0%, #a78bfa 50%, #f0abfc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin-bottom: 18px;
+  }
+  .tcw-cta-final__lead {
+    color: var(--muted);
+    font-size: 19px;
+    max-width: 60ch;
+    margin: 0 auto 36px;
+    line-height: 1.6;
+  }
+  .tcw-cta-final__row {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .tcw-cta-final__btn {
+    padding: 18px 32px;
+    font-size: 17px;
+    border-radius: 18px;
+  }
+</style>

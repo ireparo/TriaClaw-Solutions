@@ -65,15 +65,40 @@ export default function ContactForm(props: Props) {
     }
   }
 
-  const inputBase =
-    'w-full bg-white border border-line rounded-lg px-3.5 py-2.5 text-sm focus:border-cyan-brand outline-none';
-  const labelBase = 'block text-[13px] font-semibold text-navy mb-1.5';
+  const inputStyle = {
+    width: '100%',
+    background: 'rgba(255,255,255,0.04)',
+    border: '1px solid rgba(255,255,255,0.1)',
+    'border-radius': '12px',
+    padding: '12px 14px',
+    'font-size': '14px',
+    color: 'var(--ink)',
+    'font-family': 'var(--font-sans)',
+    outline: 'none',
+  };
+  const labelStyle = {
+    display: 'block',
+    'font-size': '11px',
+    'text-transform': 'uppercase',
+    'letter-spacing': '0.12em',
+    color: 'var(--dim)',
+    'font-weight': '600',
+    'margin-bottom': '6px',
+    'font-family': 'var(--font-mono)',
+  };
 
   return (
     <Show
       when={status() !== 'ok'}
       fallback={
-        <div class="bg-cyan-brand/10 border border-cyan-brand text-navy rounded-lg p-4 text-[14px]">
+        <div
+          class="rounded-lg p-4 text-[14px]"
+          style={{
+            background: 'rgba(34,211,238,0.1)',
+            border: '1px solid rgba(34,211,238,0.4)',
+            color: 'var(--soft-cyan)',
+          }}
+        >
           ¡Recibido! Te contestamos en menos de 24 h laborables.
         </div>
       }
@@ -88,26 +113,26 @@ export default function ContactForm(props: Props) {
           aria-hidden="true"
         />
         <label class="block">
-          <span class={labelBase}>Nombre*</span>
-          <input class={inputBase} name="name" required />
+          <span style={labelStyle}>Nombre*</span>
+          <input style={inputStyle} name="name" required />
         </label>
         <label class="block">
-          <span class={labelBase}>Email*</span>
-          <input class={inputBase} type="email" name="email" required />
+          <span style={labelStyle}>Email*</span>
+          <input style={inputStyle} type="email" name="email" required />
         </label>
         <div class="grid grid-cols-2 gap-3">
           <label class="block">
-            <span class={labelBase}>Empresa</span>
-            <input class={inputBase} name="company" />
+            <span style={labelStyle}>Empresa</span>
+            <input style={inputStyle} name="company" />
           </label>
           <label class="block">
-            <span class={labelBase}>Teléfono</span>
-            <input class={inputBase} name="phone" />
+            <span style={labelStyle}>Teléfono</span>
+            <input style={inputStyle} name="phone" />
           </label>
         </div>
         <label class="block">
-          <span class={labelBase}>Sobre qué quieres hablar</span>
-          <select class={inputBase} name="pillar">
+          <span style={labelStyle}>Sobre qué quieres hablar</span>
+          <select style={inputStyle} name="pillar">
             <option value="general">No estoy seguro</option>
             <option value="centralita">Centralita</option>
             <option value="agents">Agents & Bots</option>
@@ -116,14 +141,20 @@ export default function ContactForm(props: Props) {
           </select>
         </label>
         <label class="block">
-          <span class={labelBase}>Mensaje*</span>
-          <textarea class={inputBase} name="message" rows={4} required></textarea>
+          <span style={labelStyle}>Mensaje*</span>
+          <textarea style={inputStyle} name="message" rows={4} required></textarea>
         </label>
-        <label class="flex items-start gap-2 text-[13px] text-muted">
+        <label
+          class="flex items-start gap-2 text-[13px]"
+          style={{ color: 'var(--muted)' }}
+        >
           <input type="checkbox" name="consent" required class="mt-1" />
           <span>
             He leído la{' '}
-            <a class="text-navy underline" href="/legal/privacidad">
+            <a
+              href="/legal/privacidad"
+              style={{ color: 'var(--neon-cyan)', 'text-decoration': 'underline' }}
+            >
               política de privacidad
             </a>{' '}
             y acepto el tratamiento de mis datos para recibir respuesta.
@@ -133,12 +164,18 @@ export default function ContactForm(props: Props) {
         <button
           type="submit"
           disabled={status() === 'loading' || !token()}
-          class="w-full bg-navy text-white font-semibold rounded-lg py-3 disabled:opacity-50"
+          class="w-full font-semibold rounded-xl py-3 disabled:opacity-50 transition"
+          style={{
+            background: 'var(--grad-button)',
+            color: '#0b0a1f',
+            'font-size': '15px',
+            'box-shadow': '0 0 30px -8px rgba(34,211,238,0.5)',
+          }}
         >
           {status() === 'loading' ? 'Enviando…' : 'Enviar'}
         </button>
         <Show when={status() === 'error'}>
-          <p class="text-sm text-red-600">
+          <p class="text-sm" style={{ color: '#fb7185' }}>
             No se pudo enviar ({errorMsg()}). Prueba por WhatsApp o email.
           </p>
         </Show>
