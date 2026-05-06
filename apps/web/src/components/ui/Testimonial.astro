@@ -14,7 +14,15 @@ const { quote, name, role, avatar } = Astro.props;
   <div class="flex items-center gap-3">
     {
       avatar ? (
-        <img src={avatar} alt={name} class="w-10 h-10 rounded-full object-cover" />
+        <img
+          src={avatar}
+          alt={name}
+          width="40"
+          height="40"
+          loading="lazy"
+          decoding="async"
+          class="w-10 h-10 rounded-full object-cover"
+        />
       ) : (
         <div class="w-10 h-10 rounded-full gradient-brand" />
       )
