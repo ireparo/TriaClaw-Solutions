@@ -1,0 +1,106 @@
+---
+import Base from '../layouts/Base.astro';
+import PillarHero from '../components/sections/PillarHero.astro';
+import PillarFeatures from '../components/sections/PillarFeatures.astro';
+import PillarPlans from '../components/sections/PillarPlans.astro';
+import CTAFinal from '../components/sections/CTAFinal.astro';
+import WhatsAppFloat from '../components/sections/WhatsAppFloat.astro';
+
+const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
+
+const features = [
+  {
+    icon: '🔧',
+    title: 'Vertical SAT',
+    desc: 'Para talleres y servicios técnicos. Tickets, presupuestos, garantía, partes.',
+  },
+  {
+    icon: '⚡',
+    title: 'Vertical Energía',
+    desc: 'Para comercializadoras de luz/gas. Contratos, comisiones, agentes, comparador.',
+  },
+  {
+    icon: '🏠',
+    title: 'Vertical Inmobiliaria',
+    desc: 'Para inmobiliarias y asesorías. Inmuebles, leads, visitas, contratos.',
+  },
+  {
+    icon: '📋',
+    title: 'Vertical Proyectos',
+    desc: 'Para gestoras y agencias. Tareas, hitos, equipos, facturación por proyecto.',
+  },
+  {
+    icon: '🔌',
+    title: 'Integrado de fábrica',
+    desc: 'Conectado a tu centralita y bots TriaClaw. Cero pegamento.',
+  },
+  {
+    icon: '🎯',
+    title: 'Custom para tu flujo',
+    desc: 'Si tu vertical no encaja, lo construimos. Pricing a medida.',
+  },
+];
+
+const plans = [
+  {
+    pillarLabel: 'CRM',
+    planName: 'Vertical estándar',
+    price: '39 €',
+    priceSuffix: '/usuario/mes',
+    features: [
+      'Vertical preconfigurado',
+      'Hasta 10 usuarios',
+      'Centralita + Agents incluidos',
+      'Soporte email',
+    ],
+    ctaText: 'Empezar',
+    ctaHref: wa,
+    variant: 'default' as const,
+  },
+  {
+    pillarLabel: 'CRM',
+    planName: 'Vertical Pro',
+    price: '79 €',
+    priceSuffix: '/usuario/mes',
+    features: [
+      'Vertical preconfigurado',
+      'Usuarios ilimitados',
+      'Custom fields y flows',
+      'Soporte prioritario',
+    ],
+    ctaText: 'Empezar',
+    ctaHref: wa,
+    variant: 'highlighted' as const,
+  },
+  {
+    pillarLabel: 'CRM',
+    planName: 'Custom',
+    price: 'Hablamos',
+    priceSuffix: '',
+    features: ['Vertical a medida', 'Integraciones específicas', 'SLA dedicado'],
+    ctaText: 'Contactar',
+    ctaHref: wa,
+    variant: 'dark' as const,
+  },
+];
+---
+
+<Base
+  title="CRM & Gestión · TriaClaw"
+  description="CRMs verticales hechos a medida del sector: SAT, energía, inmobiliaria, gestión de proyectos."
+>
+  <PillarHero
+    tone="teal"
+    eyebrow="Pilar 3 · CRM & Gestión"
+    title="Un CRM que entiende tu sector."
+    subtitle="Verticales listos: SAT, energía, inmobiliaria, gestión de proyectos."
+    lead="Olvida los CRMs genéricos que te obligan a trabajar al revés. Aquí vienes, lo abres y ya sabe cómo trabajas."
+    ctaPrimary={{ text: '💬 Habla por WhatsApp', href: wa }}
+    ctaSecondary={{ text: 'Ver planes', href: '#planes' }}
+  />
+  <PillarFeatures title="Verticales disponibles" features={features} />
+  <div id="planes"></div>
+  <PillarPlans title="Planes CRM" plans={plans} />
+  <CTAFinal />
+  <WhatsAppFloat />
+</Base>
