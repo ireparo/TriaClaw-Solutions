@@ -70,7 +70,7 @@ describe('i18n helpers', () => {
       expect(getLocaleFromUrl(new URL('https://triaclaw.com/ca'))).toBe('ca');
     });
 
-    it("does not false-positive on /cat/foo (different prefix)", () => {
+    it('does not false-positive on /cat/foo (different prefix)', () => {
       expect(getLocaleFromUrl(new URL('https://triaclaw.com/cat/foo'))).toBe('es');
     });
   });

@@ -1,0 +1,7 @@
+pnpm-lock.yaml
+node_modules/
+apps/web/dist/
+apps/web/.astro/
+apps/web/.vercel/
+.vercel/
+docs/superpowers/

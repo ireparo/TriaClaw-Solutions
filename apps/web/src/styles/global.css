@@ -1,20 +1,20 @@
-@import "tailwindcss";
-@import "@fontsource-variable/geist";
-@import "@fontsource-variable/geist-mono";
+@import 'tailwindcss';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
 
 @theme {
-  --color-navy: #0F2A5C;
-  --color-navy-2: #1E40AF;
-  --color-cyan-brand: #22D3EE;
-  --color-teal-brand: #14B8A6;
-  --color-whatsapp: #25D366;
-  --color-bg: #F8FAFC;
-  --color-ink: #0F172A;
+  --color-navy: #0f2a5c;
+  --color-navy-2: #1e40af;
+  --color-cyan-brand: #22d3ee;
+  --color-teal-brand: #14b8a6;
+  --color-whatsapp: #25d366;
+  --color-bg: #f8fafc;
+  --color-ink: #0f172a;
   --color-muted: #475569;
-  --color-line: #E2E8F0;
+  --color-line: #e2e8f0;
 
-  --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "Geist Mono Variable", ui-monospace, "SFMono-Regular", monospace;
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
 
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -27,9 +27,25 @@
 }
 
 @layer base {
-  html { font-family: var(--font-sans); color: var(--color-ink); -webkit-font-smoothing: antialiased; }
-  body { background: #fff; }
-  *:focus-visible { outline: 2px solid var(--color-cyan-brand); outline-offset: 2px; }
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    background: #fff;
+  }
+  *:focus-visible {
+    outline: 2px solid var(--color-cyan-brand);
+    outline-offset: 2px;
+  }
 }
 
-.gradient-brand { background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-2) 50%, var(--color-cyan-brand) 100%); }
+.gradient-brand {
+  background: linear-gradient(
+    135deg,
+    var(--color-navy) 0%,
+    var(--color-navy-2) 50%,
+    var(--color-cyan-brand) 100%
+  );
+}
