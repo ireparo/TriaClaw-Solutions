@@ -22,6 +22,97 @@
     "city": "Lleida · Catalunya",
     "rights": "© 2026 TriaClaw"
   },
+  "footer_columns": {
+    "product": "Producto",
+    "company": "Empresa",
+    "legal": "Legal",
+    "contact": "Contacto",
+    "about": "Sobre nosotros",
+    "legal_notice": "Aviso legal",
+    "privacy": "Privacidad",
+    "cookies": "Cookies",
+    "made_in": "Made in Lleida"
+  },
+  "logobar": {
+    "label": "Pymes que ya nos usan"
+  },
+  "pillars": {
+    "eyebrow": "Tres productos · una plataforma",
+    "title": "Tria el teu pilar",
+    "lead": "Empieza por uno. Combina los tres y rebaja un 15%. Los datos viajan entre ellos sin que tengas que tocar nada.",
+    "centralita_title": "Centralita",
+    "centralita_desc": "PBX virtual con IVR, transferencias, panel de supervisión y grabación. SIP estándar, sin atarte al hardware.",
+    "centralita_bullets": [
+      "Multi-extensión y multi-sede",
+      "Grabación y panel supervisor",
+      "Conexión SIP con cualquier teléfono"
+    ],
+    "centralita_cta": "Ver Centralita →",
+    "agents_title": "Agents & Bots",
+    "agents_desc": "Bots de WhatsApp y agentes IA conversacionales. Cualifican, agendan y transfieren cuando hace falta humano.",
+    "agents_bullets": [
+      "WhatsApp Business + IA con contexto",
+      "Plantillas: envíos, atención, ventas",
+      "Integración nativa con tu CRM"
+    ],
+    "agents_cta": "Ver Agents →",
+    "crm_title": "CRM & Gestión",
+    "crm_desc": "CRMs verticales hechos a medida del sector: SAT, energía, inmobiliaria, gestión de proyectos.",
+    "crm_bullets": [
+      "Verticales listos: SAT, energía, inmo",
+      "Integrado con centralita y bots",
+      "Custom para tu flujo concreto"
+    ],
+    "crm_cta": "Ver CRM →"
+  },
+  "connected": {
+    "eyebrow": "La tesis",
+    "title": "Tres productos que hablan entre ellos",
+    "lead": "Llamada → ficha CRM. WhatsApp → ticket. Bot agenda → calendario centralita. Sin Zapier, sin pegar APIs, sin que se te enfríe un lead.",
+    "node_call": "Llamada entrante",
+    "node_bot": "Bot pre-cualifica",
+    "node_crm": "Lead en CRM",
+    "node_human": "Humano cierra"
+  },
+  "case_featured": {
+    "eyebrow": "Caso destacado · iReparo",
+    "quote": "Antes perdíamos 1 de cada 4 llamadas. Ahora cero. Y los WhatsApps de envíos se contestan solos.",
+    "body": "Centralita virtual + bot WhatsApp para envíos + CRM SAT integrados. Cada llamada se convierte en ficha. Cada WhatsApp en ticket. Cada lead se atiende. El equipo deja de hacer de centralita y se concentra en reparar.",
+    "metric1_label": "llamadas perdidas",
+    "metric2_label": "leads cualificados",
+    "metric3_label": "menos admin",
+    "cta": "Leer caso completo →"
+  },
+  "pricing_teaser": {
+    "eyebrow": "Pricing",
+    "title": "Sin sorpresas. Sin permanencia.",
+    "lead": "Empieza por uno. Combina dos y rebaja un 15%. Cancela cuando quieras.",
+    "chip_centralita": "Centralita",
+    "chip_agents": "Agents",
+    "chip_crm": "CRM",
+    "from": "desde",
+    "cta_table": "Ver tabla completa →",
+    "note": "Setup incluido en planes Pro. IVA no incluido."
+  },
+  "testimonials": {
+    "eyebrow": "Confían",
+    "title": "Pymes que han dejado de perder leads",
+    "lead": "Sin testimonios inventados. Estos son clientes con los que trabajamos hoy.",
+    "quote1": "Antes el técnico paraba lo que hacía cada vez que sonaba el teléfono. Ahora la centralita filtra y los leads llegan al CRM por sí solos.",
+    "name1": "Edgar (placeholder)",
+    "role1": "Fundador · iReparo",
+    "quote2": "Pasamos de tener tareas dispersas en mil hojas Excel a tener un CRM que entiende cómo trabajamos. Y se conecta con WhatsApp.",
+    "name2": "Cliente Falcon (placeholder)",
+    "role2": "Director · Falcon Cat",
+    "quote3": "Lo que más me gusta: no tengo cinco proveedores. Centralita, bot y CRM, una sola persona que lo arregla todo si algo va mal.",
+    "name3": "Cliente Ilercasa (placeholder)",
+    "role3": "Asesoría"
+  },
+  "cta_final": {
+    "title_l1": "¿Listo para que tu pyme",
+    "title_l2": "conteste sola?",
+    "lead": "15 minutos por WhatsApp. Sin compromiso. Te enseñamos los tres pilares en 1 demo."
+  },
   "a11y": {
     "skip_to_content": "Saltar al contenido"
   }

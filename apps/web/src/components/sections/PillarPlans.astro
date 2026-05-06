@@ -1,5 +1,6 @@
 ---
 import PricingCard from '../ui/PricingCard.astro';
+import { getLocaleFromUrl, type Locale } from '../../i18n';
 interface Plan {
   pillarLabel: string;
   planName: string;
@@ -15,6 +16,11 @@ interface Props {
   plans: Plan[];
 }
 const { title, plans } = Astro.props;
+const locale: Locale = getLocaleFromUrl(Astro.url);
+const note =
+  locale === 'ca'
+    ? 'Posada en marxa inclosa als plans Pro. IVA no inclòs. Combina 2+ pilars i rebaixa un 15%.'
+    : 'Setup incluido en planes Pro. IVA no incluido. Combina 2+ pilares y rebaja un 15%.';
 ---
 
 <section class="bg-[#fafbfd] py-24">
@@ -25,8 +31,6 @@ const { title, plans } = Astro.props;
     <div class="grid md:grid-cols-3 gap-5">
       {plans.map((p) => <PricingCard {...p} />)}
     </div>
-    <p class="text-[13px] text-muted text-center mt-6">
-      Setup incluido en planes Pro. IVA no incluido. Combina 2+ pilares y rebaja un 15%.
-    </p>
+    <p class="text-[13px] text-muted text-center mt-6">{note}</p>
   </div>
 </section>

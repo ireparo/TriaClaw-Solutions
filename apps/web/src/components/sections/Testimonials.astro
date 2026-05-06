@@ -1,24 +1,23 @@
 ---
 import Container from '../layout/Container.astro';
 import Testimonial from '../ui/Testimonial.astro';
+import { getLocaleFromUrl, t, type Locale } from '../../i18n';
+const locale: Locale = getLocaleFromUrl(Astro.url);
 const items = [
   {
-    quote:
-      'Antes el técnico paraba lo que hacía cada vez que sonaba el teléfono. Ahora la centralita filtra y los leads llegan al CRM por sí solos.',
-    name: 'Edgar (placeholder)',
-    role: 'Fundador · iReparo',
+    quote: t(locale, 'testimonials.quote1'),
+    name: t(locale, 'testimonials.name1'),
+    role: t(locale, 'testimonials.role1'),
   },
   {
-    quote:
-      'Pasamos de tener tareas dispersas en mil hojas Excel a tener un CRM que entiende cómo trabajamos. Y se conecta con WhatsApp.',
-    name: 'Cliente Falcon (placeholder)',
-    role: 'Director · Falcon Cat',
+    quote: t(locale, 'testimonials.quote2'),
+    name: t(locale, 'testimonials.name2'),
+    role: t(locale, 'testimonials.role2'),
   },
   {
-    quote:
-      'Lo que más me gusta: no tengo cinco proveedores. Centralita, bot y CRM, una sola persona que lo arregla todo si algo va mal.',
-    name: 'Cliente Ilercasa (placeholder)',
-    role: 'Asesoría',
+    quote: t(locale, 'testimonials.quote3'),
+    name: t(locale, 'testimonials.name3'),
+    role: t(locale, 'testimonials.role3'),
   },
 ];
 ---
@@ -27,16 +26,16 @@ const items = [
   <Container class="text-center">
     <span
       class="inline-block px-3.5 py-1.5 bg-navy/[8%] text-navy rounded-full text-xs font-semibold tracking-wide mb-3"
-      >Confían</span
+      >{t(locale, 'testimonials.eyebrow')}</span
     >
     <h2 class="text-4xl md:text-5xl font-extrabold text-navy tracking-tight mb-3">
-      Pymes que han dejado de perder leads
+      {t(locale, 'testimonials.title')}
     </h2>
     <p class="text-lg text-muted max-w-2xl mx-auto mb-12">
-      Sin testimonios inventados. Estos son clientes con los que trabajamos hoy.
+      {t(locale, 'testimonials.lead')}
     </p>
     <div class="grid md:grid-cols-3 gap-4 text-left">
-      {items.map((t) => <Testimonial quote={t.quote} name={t.name} role={t.role} />)}
+      {items.map((it) => <Testimonial quote={it.quote} name={it.name} role={it.role} />)}
     </div>
   </Container>
 </section>

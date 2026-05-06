@@ -1,0 +1,149 @@
+---
+import Base from '../../layouts/Base.astro';
+import PricingCard from '../../components/ui/PricingCard.astro';
+import CTAFinal from '../../components/sections/CTAFinal.astro';
+import WhatsAppFloat from '../../components/sections/WhatsAppFloat.astro';
+
+const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
+
+const groups = [
+  {
+    label: 'Centraleta',
+    plans: [
+      {
+        pillarLabel: 'CENTRALETA',
+        planName: 'Inici',
+        price: '29 €',
+        features: ['1 número', 'IVR bàsic', '2 extensions', 'Bústia de veu'],
+        ctaText: 'Començar',
+        ctaHref: wa,
+        variant: 'default' as const,
+      },
+      {
+        pillarLabel: 'CENTRALETA',
+        planName: 'Pro',
+        price: '89 €',
+        features: ['Multi-extensió', 'Gravació', 'Panell supervisor', 'Multi-seu'],
+        ctaText: 'Començar',
+        ctaHref: wa,
+        variant: 'highlighted' as const,
+      },
+      {
+        pillarLabel: 'CENTRALETA',
+        planName: 'Custom',
+        price: 'Parlem-ne',
+        priceSuffix: '',
+        features: ['Multi-seu gran', 'Integracions', 'SLA dedicat'],
+        ctaText: 'Contactar',
+        ctaHref: wa,
+        variant: 'dark' as const,
+      },
+    ],
+  },
+  {
+    label: 'Agents & Bots',
+    plans: [
+      {
+        pillarLabel: 'AGENTS',
+        planName: 'Inici',
+        price: '49 €',
+        features: ['1 bot WhatsApp', 'Plantilles estàndard', '500 conv/mes'],
+        ctaText: 'Començar',
+        ctaHref: wa,
+        variant: 'default' as const,
+      },
+      {
+        pillarLabel: 'AGENTS',
+        planName: 'Pro',
+        price: '149 €',
+        features: ['IA amb context', 'Integració CRM', '5.000 conv/mes'],
+        ctaText: 'Començar',
+        ctaHref: wa,
+        variant: 'highlighted' as const,
+      },
+      {
+        pillarLabel: 'AGENTS',
+        planName: 'Custom',
+        price: 'Parlem-ne',
+        priceSuffix: '',
+        features: ['Multi-canal', 'Integracions', 'Volums alts'],
+        ctaText: 'Contactar',
+        ctaHref: wa,
+        variant: 'dark' as const,
+      },
+    ],
+  },
+  {
+    label: 'CRM & Gestió',
+    plans: [
+      {
+        pillarLabel: 'CRM',
+        planName: 'Vertical',
+        price: '39 €',
+        priceSuffix: '/usuari/mes',
+        features: ['Vertical preconfigurat', '10 usuaris màx', 'Centraleta + Agents inclosos'],
+        ctaText: 'Començar',
+        ctaHref: wa,
+        variant: 'default' as const,
+      },
+      {
+        pillarLabel: 'CRM',
+        planName: 'Pro',
+        price: '79 €',
+        priceSuffix: '/usuari/mes',
+        features: ['Custom fields', 'Usuaris il·limitats', 'Suport prioritari'],
+        ctaText: 'Començar',
+        ctaHref: wa,
+        variant: 'highlighted' as const,
+      },
+      {
+        pillarLabel: 'CRM',
+        planName: 'Custom',
+        price: 'Parlem-ne',
+        priceSuffix: '',
+        features: ['Vertical a mida', 'SLA dedicat'],
+        ctaText: 'Contactar',
+        ctaHref: wa,
+        variant: 'dark' as const,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Preus · TriaClaw"
+  description="Pricing clar dels tres pilars. Sense permanència. Combina dos i rebaixa un 15%."
+>
+  <section class="bg-navy text-white py-20 text-center">
+    <div class="mx-auto max-w-[1200px] px-8">
+      <h1 class="text-5xl font-extrabold tracking-tight mb-3">Preus sense sorpreses</h1>
+      <p class="text-lg text-white/80">
+        Comença per un. Combina dos pilars i rebaixa un 15%. Cancel·la quan vulguis.
+      </p>
+    </div>
+  </section>
+  {
+    groups.map((g) => (
+      <section class="py-16 even:bg-[#fafbfd]">
+        <div class="mx-auto max-w-[1200px] px-8">
+          <h2 class="text-3xl font-extrabold text-navy tracking-tight mb-8 text-center">
+            {g.label}
+          </h2>
+          <div class="grid md:grid-cols-3 gap-5">
+            {g.plans.map((p) => (
+              <PricingCard {...p} />
+            ))}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+  <section class="py-12 text-center">
+    <p class="text-[14px] text-muted">
+      Posada en marxa inclosa als plans Pro. IVA no inclòs. Bonificació 2+ pilars: −15%.
+    </p>
+  </section>
+  <CTAFinal />
+  <WhatsAppFloat />
+</Base>

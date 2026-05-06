@@ -1,0 +1,55 @@
+---
+import Base from '../../layouts/Base.astro';
+import CTAFinal from '../../components/sections/CTAFinal.astro';
+import WhatsAppFloat from '../../components/sections/WhatsAppFloat.astro';
+---
+
+<Base
+  title="Sobre TriaClaw"
+  description="Una marca d'iReparo. Centraleta, bots i CRM fets a Lleida per a pimes i autònoms."
+>
+  <section class="py-20 bg-navy text-white">
+    <div class="mx-auto max-w-3xl px-8">
+      <span
+        class="inline-block px-3.5 py-1.5 bg-cyan-brand/[12%] text-cyan-brand rounded-full text-xs font-semibold tracking-wide mb-3"
+        >Sobre TriaClaw</span
+      >
+      <h1 class="text-5xl font-extrabold tracking-tight mb-5">
+        Fet a Lleida, provat en pimes reals.
+      </h1>
+      <p class="text-lg text-white/80 leading-relaxed">
+        TriaClaw neix de l'experiència construint programari per a pimes locals: tallers,
+        assessories, immobiliàries, comercialitzadores d'energia. Allò que vam aprendre fent-ho a
+        mida ho hem empaquetat en tres pilars integrats de fàbrica.
+      </p>
+    </div>
+  </section>
+  <section class="py-16">
+    <div class="mx-auto max-w-3xl px-8 space-y-8 text-base text-ink leading-relaxed">
+      <div>
+        <h2 class="text-2xl font-bold text-navy mb-3">Per què iReparo?</h2>
+        <p>
+          iReparo porta anys atenent clients per telèfon, WhatsApp i mostrador. Aquesta fricció del
+          dia a dia (trucades perdudes, WhatsApps sense contestar, leads que es refreden) és el que
+          TriaClaw resol per a altres pimes amb problemes semblants.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-2xl font-bold text-navy mb-3">Com treballem</h2>
+        <p>
+          Pocs clients alhora. Implantació ràpida (dies, no mesos). Suport directe: parles amb qui
+          construeix, no amb un call center. Sense permanència.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-2xl font-bold text-navy mb-3">On som</h2>
+        <p>
+          Lleida (Catalunya, Espanya). Treballem en remot amb clients de tota Espanya. Per a
+          implantacions grans hi anem en persona.
+        </p>
+      </div>
+    </div>
+  </section>
+  <CTAFinal />
+  <WhatsAppFloat />
+</Base>

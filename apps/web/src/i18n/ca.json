@@ -22,6 +22,97 @@
     "city": "Lleida · Catalunya",
     "rights": "© 2026 TriaClaw"
   },
+  "footer_columns": {
+    "product": "Producte",
+    "company": "Empresa",
+    "legal": "Legal",
+    "contact": "Contacte",
+    "about": "Sobre nosaltres",
+    "legal_notice": "Avís legal",
+    "privacy": "Privacitat",
+    "cookies": "Cookies",
+    "made_in": "Made in Lleida"
+  },
+  "logobar": {
+    "label": "Pimes que ja ens fan servir"
+  },
+  "pillars": {
+    "eyebrow": "Tres productes · una plataforma",
+    "title": "Tria el teu pilar",
+    "lead": "Comença per un. Combina els tres i rebaixa un 15%. Les dades viatgen entre ells sense que hagis de tocar res.",
+    "centralita_title": "Centraleta",
+    "centralita_desc": "PBX virtual amb IVR, transferències, panell de supervisió i gravació. SIP estàndard, sense lligar-te al maquinari.",
+    "centralita_bullets": [
+      "Multi-extensió i multi-seu",
+      "Gravació i panell supervisor",
+      "Connexió SIP amb qualsevol telèfon"
+    ],
+    "centralita_cta": "Veure Centraleta →",
+    "agents_title": "Agents & Bots",
+    "agents_desc": "Bots de WhatsApp i agents IA conversacionals. Qualifiquen, agenden i transfereixen quan cal humà.",
+    "agents_bullets": [
+      "WhatsApp Business + IA amb context",
+      "Plantilles: enviaments, atenció, vendes",
+      "Integració nativa amb el teu CRM"
+    ],
+    "agents_cta": "Veure Agents →",
+    "crm_title": "CRM & Gestió",
+    "crm_desc": "CRMs verticals fets a mida del sector: SAT, energia, immobiliària, gestió de projectes.",
+    "crm_bullets": [
+      "Verticals llestos: SAT, energia, immo",
+      "Integrat amb centraleta i bots",
+      "Custom per al teu flux concret"
+    ],
+    "crm_cta": "Veure CRM →"
+  },
+  "connected": {
+    "eyebrow": "La tesi",
+    "title": "Tres productes que parlen entre ells",
+    "lead": "Trucada → fitxa CRM. WhatsApp → ticket. Bot agenda → calendari centraleta. Sense Zapier, sense enganxar APIs, sense que se't refredi cap lead.",
+    "node_call": "Trucada entrant",
+    "node_bot": "Bot pre-qualifica",
+    "node_crm": "Lead al CRM",
+    "node_human": "Humà tanca"
+  },
+  "case_featured": {
+    "eyebrow": "Cas destacat · iReparo",
+    "quote": "Abans perdíem 1 de cada 4 trucades. Ara cap. I els WhatsApps d'enviaments es contesten sols.",
+    "body": "Centraleta virtual + bot WhatsApp per a enviaments + CRM SAT integrats. Cada trucada es converteix en fitxa. Cada WhatsApp en ticket. Cada lead s'atén. L'equip deixa de fer de centraleta i es concentra a reparar.",
+    "metric1_label": "trucades perdudes",
+    "metric2_label": "leads qualificats",
+    "metric3_label": "menys admin",
+    "cta": "Llegir el cas complet →"
+  },
+  "pricing_teaser": {
+    "eyebrow": "Preus",
+    "title": "Sense sorpreses. Sense permanència.",
+    "lead": "Comença per un. Combina dos i rebaixa un 15%. Cancel·la quan vulguis.",
+    "chip_centralita": "Centraleta",
+    "chip_agents": "Agents",
+    "chip_crm": "CRM",
+    "from": "des de",
+    "cta_table": "Veure taula completa →",
+    "note": "Posada en marxa inclosa als plans Pro. IVA no inclòs."
+  },
+  "testimonials": {
+    "eyebrow": "Confien",
+    "title": "Pimes que han deixat de perdre leads",
+    "lead": "Sense testimonis inventats. Aquests són clients amb qui treballem avui.",
+    "quote1": "Abans el tècnic parava el que feia cada vegada que sonava el telèfon. Ara la centraleta filtra i els leads arriben al CRM tots sols.",
+    "name1": "Edgar (placeholder)",
+    "role1": "Fundador · iReparo",
+    "quote2": "Hem passat de tenir tasques disperses en mil fulls d'Excel a tenir un CRM que entén com treballem. I es connecta amb WhatsApp.",
+    "name2": "Client Falcon (placeholder)",
+    "role2": "Director · Falcon Cat",
+    "quote3": "El que més m'agrada: no tinc cinc proveïdors. Centraleta, bot i CRM, una sola persona que ho arregla tot si alguna cosa va malament.",
+    "name3": "Client Ilercasa (placeholder)",
+    "role3": "Assessoria"
+  },
+  "cta_final": {
+    "title_l1": "Llest perquè la teva pime",
+    "title_l2": "contesti sola?",
+    "lead": "15 minuts per WhatsApp. Sense compromís. T'ensenyem els tres pilars en 1 demo."
+  },
   "a11y": {
     "skip_to_content": "Saltar al contingut"
   }

@@ -9,10 +9,10 @@ const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
 <section class="gradient-brand text-white text-center py-20">
   <Container>
     <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
-      ¿Listo para que tu pyme<br />conteste sola?
+      {t(locale, 'cta_final.title_l1')}<br />{t(locale, 'cta_final.title_l2')}
     </h2>
     <p class="text-lg text-white/85 mb-8">
-      15 minutos por WhatsApp. Sin compromiso. Te enseñamos los tres pilares en 1 demo.
+      {t(locale, 'cta_final.lead')}
     </p>
     <div class="flex gap-3 justify-center flex-wrap">
       <Button variant="cyan" href={wa}>💬 {t(locale, 'hero.cta_whatsapp')}</Button>

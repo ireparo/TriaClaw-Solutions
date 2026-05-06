@@ -20,54 +20,80 @@ const locale: Locale = getLocaleFromUrl(Astro.url);
         </p>
       </div>
       <div>
-        <h4 class="text-white text-[13px] font-bold uppercase tracking-wider mb-3.5">Producto</h4>
+        <h4 class="text-white text-[13px] font-bold uppercase tracking-wider mb-3.5">
+          {t(locale, 'footer_columns.product')}
+        </h4>
         <ul class="space-y-1">
           <li>
-            <a href={localizedHref(locale, '/centralita')} class="hover:text-white">Centralita</a>
-          </li>
-          <li>
-            <a href={localizedHref(locale, '/agents')} class="hover:text-white">Agents</a>
-          </li>
-          <li>
-            <a href={localizedHref(locale, '/crm')} class="hover:text-white">CRM</a>
-          </li>
-          <li>
-            <a href={localizedHref(locale, '/precios')} class="hover:text-white">Precios</a>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="text-white text-[13px] font-bold uppercase tracking-wider mb-3.5">Empresa</h4>
-        <ul class="space-y-1">
-          <li>
-            <a href={localizedHref(locale, '/sobre')} class="hover:text-white">Sobre nosotros</a>
-          </li>
-          <li>
-            <a href={localizedHref(locale, '/casos')} class="hover:text-white">Casos</a>
-          </li>
-          <li>
-            <a href={localizedHref(locale, '/partners')} class="hover:text-white">Partners</a>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="text-white text-[13px] font-bold uppercase tracking-wider mb-3.5">Legal</h4>
-        <ul class="space-y-1">
-          <li>
-            <a href={localizedHref(locale, '/legal/aviso')} class="hover:text-white">Aviso legal</a>
-          </li>
-          <li>
-            <a href={localizedHref(locale, '/legal/privacidad')} class="hover:text-white"
-              >Privacidad</a
+            <a href={localizedHref(locale, '/centralita')} class="hover:text-white"
+              >{t(locale, 'nav.centralita')}</a
             >
           </li>
           <li>
-            <a href={localizedHref(locale, '/legal/cookies')} class="hover:text-white">Cookies</a>
+            <a href={localizedHref(locale, '/agents')} class="hover:text-white"
+              >{t(locale, 'nav.agents')}</a
+            >
+          </li>
+          <li>
+            <a href={localizedHref(locale, '/crm')} class="hover:text-white"
+              >{t(locale, 'nav.crm')}</a
+            >
+          </li>
+          <li>
+            <a href={localizedHref(locale, '/precios')} class="hover:text-white"
+              >{t(locale, 'nav.pricing')}</a
+            >
           </li>
         </ul>
       </div>
       <div>
-        <h4 class="text-white text-[13px] font-bold uppercase tracking-wider mb-3.5">Contacto</h4>
+        <h4 class="text-white text-[13px] font-bold uppercase tracking-wider mb-3.5">
+          {t(locale, 'footer_columns.company')}
+        </h4>
+        <ul class="space-y-1">
+          <li>
+            <a href={localizedHref(locale, '/sobre')} class="hover:text-white"
+              >{t(locale, 'footer_columns.about')}</a
+            >
+          </li>
+          <li>
+            <a href={localizedHref(locale, '/casos')} class="hover:text-white"
+              >{t(locale, 'nav.cases')}</a
+            >
+          </li>
+          <li>
+            <a href={localizedHref(locale, '/partners')} class="hover:text-white"
+              >{t(locale, 'nav.partners')}</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white text-[13px] font-bold uppercase tracking-wider mb-3.5">
+          {t(locale, 'footer_columns.legal')}
+        </h4>
+        <ul class="space-y-1">
+          <li>
+            <a href={localizedHref(locale, '/legal/aviso')} class="hover:text-white"
+              >{t(locale, 'footer_columns.legal_notice')}</a
+            >
+          </li>
+          <li>
+            <a href={localizedHref(locale, '/legal/privacidad')} class="hover:text-white"
+              >{t(locale, 'footer_columns.privacy')}</a
+            >
+          </li>
+          <li>
+            <a href={localizedHref(locale, '/legal/cookies')} class="hover:text-white"
+              >{t(locale, 'footer_columns.cookies')}</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white text-[13px] font-bold uppercase tracking-wider mb-3.5">
+          {t(locale, 'footer_columns.contact')}
+        </h4>
         <ul class="space-y-1">
           <li>
             <a
@@ -83,7 +109,7 @@ const locale: Locale = getLocaleFromUrl(Astro.url);
     </div>
     <div class="pt-6 border-t border-white/10 flex justify-between text-xs text-white/50">
       <div>{t(locale, 'footer.rights')} · iReparo</div>
-      <div>Made in Lleida</div>
+      <div>{t(locale, 'footer_columns.made_in')}</div>
     </div>
   </Container>
 </footer>

@@ -1,0 +1,99 @@
+---
+import Base from '../../layouts/Base.astro';
+import PillarHero from '../../components/sections/PillarHero.astro';
+import PillarFeatures from '../../components/sections/PillarFeatures.astro';
+import PillarPlans from '../../components/sections/PillarPlans.astro';
+import CTAFinal from '../../components/sections/CTAFinal.astro';
+import WhatsAppFloat from '../../components/sections/WhatsAppFloat.astro';
+
+const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
+
+const features = [
+  {
+    icon: '💬',
+    title: 'WhatsApp Business',
+    desc: 'Bots amb número WhatsApp Business oficial. Plantilles i respostes ràpides.',
+  },
+  {
+    icon: '🧠',
+    title: 'IA amb context',
+    desc: 'Connectats al teu CRM i catàleg. Saben qui és el client i què va demanar abans.',
+  },
+  {
+    icon: '📅',
+    title: 'Agenden cites',
+    desc: 'Prenen cita al calendari de la teva centraleta o eina externa.',
+  },
+  {
+    icon: '🚦',
+    title: 'Qualifiquen leads',
+    desc: 'Fan les preguntes correctes i només passen a humà el que està qualificat.',
+  },
+  {
+    icon: '📦',
+    title: 'Plantilles llestes',
+    desc: 'Enviaments, atenció al client, vendes, suport SAT. Llestes per a producció.',
+  },
+  {
+    icon: '🔁',
+    title: 'Integrades amb el CRM',
+    desc: 'Cada conversa acaba en una fitxa o ticket al teu CRM.',
+  },
+];
+
+const plans = [
+  {
+    pillarLabel: 'AGENTS',
+    planName: 'Inici',
+    price: '49 €',
+    features: ['1 bot WhatsApp', 'Plantilles estàndard', 'Fins a 500 conv/mes', 'Suport email'],
+    ctaText: 'Començar',
+    ctaHref: wa,
+    variant: 'default' as const,
+  },
+  {
+    pillarLabel: 'AGENTS',
+    planName: 'Pro',
+    price: '149 €',
+    features: [
+      'Agent IA amb context',
+      'Integració CRM nativa',
+      'Fins a 5.000 conv/mes',
+      'Plantilles custom',
+    ],
+    ctaText: 'Començar',
+    ctaHref: wa,
+    variant: 'highlighted' as const,
+  },
+  {
+    pillarLabel: 'AGENTS',
+    planName: 'Custom',
+    price: 'Parlem-ne',
+    priceSuffix: '',
+    features: ['Multi-canal', 'Integracions a mida', 'Volums alts'],
+    ctaText: 'Contactar',
+    ctaHref: wa,
+    variant: 'dark' as const,
+  },
+];
+---
+
+<Base
+  title="Agents & Bots · TriaClaw"
+  description="Bots de WhatsApp i agents IA conversacionals. Qualifiquen, agenden i transfereixen quan cal humà."
+>
+  <PillarHero
+    tone="cyan"
+    eyebrow="Pilar 2 · Agents & Bots"
+    title="Bots que entenen els teus clients."
+    subtitle="WhatsApp Business + IA amb context. Qualifiquen, agenden, transfereixen."
+    lead="Que el bot atengui el repetitiu. Que el teu equip només vegi el que necessita un humà."
+    ctaPrimary={{ text: '💬 Parla per WhatsApp', href: wa }}
+    ctaSecondary={{ text: 'Veure plans', href: '#planes' }}
+  />
+  <PillarFeatures title="Què poden fer" features={features} />
+  <div id="planes"></div>
+  <PillarPlans title="Plans Agents & Bots" plans={plans} />
+  <CTAFinal />
+  <WhatsAppFloat />
+</Base>
