@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TriaClaw // Demos por sector</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *,*:before,*:after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --neon-cyan:#22d3ee;--neon-violet:#a78bfa;--neon-pink:#f0abfc;
+    --grad-text:linear-gradient(120deg,#22d3ee 0%,#a78bfa 60%,#f0abfc 100%);
+    --grad-bg:linear-gradient(135deg,#1e1b4b 0%,#312e81 40%,#5b21b6 70%,#06b6d4 100%);
+    --ink:#fafafa;--muted:#cbd5e1;--dim:#94a3b8;
+  }
+  html,body{background:#0b0a1f;color:var(--ink);font-family:'Geist',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:rgba(167,139,250,.45);color:#fff}
+
+  .bg{position:fixed;inset:0;z-index:-3;background:var(--grad-bg);background-size:200% 200%;animation:meshShift 30s ease-in-out infinite}
+  @keyframes meshShift{0%,100%{background-position:0% 0%}50%{background-position:80% 100%}}
+  .orbs{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
+  .orbs span{position:absolute;border-radius:50%;filter:blur(80px);opacity:.45;mix-blend-mode:screen}
+  .orbs span:nth-child(1){width:480px;height:480px;background:#a78bfa;top:-100px;left:-60px}
+  .orbs span:nth-child(2){width:420px;height:420px;background:#22d3ee;top:30%;right:-100px}
+  .orbs span:nth-child(3){width:340px;height:340px;background:#f0abfc;bottom:5%;left:25%}
+  .dots{position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1px);background-size:42px 42px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%)}
+
+  .wrap{max-width:1240px;margin:0 auto;padding:64px 28px}
+  .nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand img{height:36px}
+  .brand b{font-weight:700;letter-spacing:-.01em}
+  .back{font-family:'Geist Mono',monospace;font-size:11.5px;color:var(--neon-cyan);text-transform:uppercase;letter-spacing:.12em}
+  .back:hover{color:var(--neon-violet)}
+
+  .lbl{font-family:'Geist Mono',monospace;font-size:11px;color:var(--neon-cyan);text-transform:uppercase;letter-spacing:.18em;margin-bottom:24px;display:flex;align-items:center;gap:12px}
+  .lbl::before{content:"";display:block;width:24px;height:1px;background:var(--neon-cyan)}
+  h1{font-size:clamp(40px,5.5vw,68px);font-weight:800;letter-spacing:-.025em;line-height:1.05;margin-bottom:18px}
+  h1 .grad{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  p.lead{font-size:18px;color:var(--muted);max-width:680px;line-height:1.6;margin-bottom:64px}
+
+  .grid{display:grid;grid-template-columns:1fr;gap:18px}
+  @media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}
+  @media(min-width:1100px){.grid{grid-template-columns:1fr 1fr 1fr}}
+
+  .card{
+    display:block;padding:26px;border-radius:18px;
+    background:rgba(255,255,255,.05);
+    backdrop-filter:blur(16px) saturate(1.3);
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08), 0 0 40px -20px rgba(167,139,250,.4);
+    transition:.3s;
+    position:relative;overflow:hidden;
+  }
+  .card::before{content:"";position:absolute;inset:-1px;border-radius:18px;padding:1px;opacity:0;transition:.3s;
+    background:linear-gradient(135deg,var(--neon-cyan),var(--neon-violet),var(--neon-pink));
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+  .card:hover{transform:translateY(-4px);box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 30px 80px -20px rgba(167,139,250,.5)}
+  .card:hover::before{opacity:1}
+
+  .id{font-family:'Geist Mono',monospace;font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+  .id .ic{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#22d3ee,#a78bfa);display:grid;place-items:center;color:#0b0a1f;font-size:14px;font-weight:700}
+  .name{font-size:21px;font-weight:700;letter-spacing:-.015em;margin-bottom:6px;color:var(--ink)}
+  .desc{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px;min-height:64px}
+  .open{font-family:'Geist Mono',monospace;font-size:12px;color:var(--neon-cyan);text-transform:uppercase;letter-spacing:.1em;display:inline-flex;align-items:center;gap:6px}
+  .open::after{content:"→";transition:transform .2s}
+  .card:hover .open::after{transform:translateX(4px)}
+
+  .foot{margin-top:96px;padding-top:32px;border-top:1px solid rgba(255,255,255,.08);font-family:'Geist Mono',monospace;font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="orbs"><span></span><span></span><span></span></div>
+<div class="dots"></div>
+
+<main class="wrap">
+  <div class="nav">
+    <a href="/" class="brand"><img src="/logo-triaclaw.png" alt="TriaClaw" /><b>TriaClaw</b></a>
+    <a href="/" class="back">← volver al home</a>
+  </div>
+
+  <div class="lbl">DEMOS POR SECTOR · 9 verticales</div>
+  <h1>Cómo se ve TriaClaw para <span class="grad">tu sector</span>.</h1>
+  <p class="lead">Cada sector tiene su propia conversación, su propio dashboard, sus propias métricas. Aquí 9 demos en vivo con el flujo real que tendría tu pyme. Click en cualquiera para ver la página completa.</p>
+
+  <div class="grid">
+    <a class="card" href="talleres-sat.html">
+      <div class="id"><span>SECTOR · 01</span><div class="ic">🔧</div></div>
+      <div class="name">Talleres / SAT</div>
+      <p class="desc">Reparación de móviles, ordenadores y electrodomésticos. Presupuestos automáticos por modelo, recogida domicilio, ticket SAT integrado.</p>
+      <span class="open">ver demo</span>
+    </a>
+
+    <a class="card" href="inmobiliaria.html">
+      <div class="id"><span>SECTOR · 02</span><div class="ic">🏠</div></div>
+      <div class="name">Inmobiliaria</div>
+      <p class="desc">Visitas agendadas, leads cualificados, fichas de pisos. Bot WhatsApp filtra y agenda; comercial llega con cliente caliente.</p>
+      <span class="open">ver demo</span>
+    </a>
+
+    <a class="card" href="asesoria.html">
+      <div class="id"><span>SECTOR · 03</span><div class="ic">📊</div></div>
+      <div class="name">Asesoría / Gestoría</div>
+      <p class="desc">Fiscal, laboral, contable. Vencimientos automáticos, citas con gestor, expediente único por cliente. Bot resuelve consultas frecuentes.</p>
+      <span class="open">ver demo</span>
+    </a>
+
+    <a class="card" href="energia.html">
+      <div class="id"><span>SECTOR · 04</span><div class="ic">⚡</div></div>
+      <div class="name">Comercializadora Energía</div>
+      <p class="desc">Luz, gas, comparador interno. Bot calcula ahorro por consumo, agenda firma biométrica, panel de comisiones por agente en tiempo real.</p>
+      <span class="open">ver demo</span>
+    </a>
+
+    <a class="card" href="clinica-dental.html">
+      <div class="id"><span>SECTOR · 05</span><div class="ic">🦷</div></div>
+      <div class="name">Clínica Dental / Médica</div>
+      <p class="desc">Citas, recordatorios, urgencias 24h. Bot ofrece huecos, confirma asistencia, manda recordatorio. No-shows al mínimo.</p>
+      <span class="open">ver demo</span>
+    </a>
+
+    <a class="card" href="restaurante.html">
+      <div class="id"><span>SECTOR · 06</span><div class="ic">🍽️</div></div>
+      <div class="name">Restaurante / Hostelería</div>
+      <p class="desc">Reservas online, takeaway, menú por WhatsApp. Mesa preferida del cliente, alergias, marketing por temporada.</p>
+      <span class="open">ver demo</span>
+    </a>
+
+    <a class="card" href="estetica.html">
+      <div class="id"><span>SECTOR · 07</span><div class="ic">💇</div></div>
+      <div class="name">Peluquería / Estética</div>
+      <p class="desc">Citas online, retoques periódicos automáticos. Cliente fiel con histórico de servicios. Recordatorios cada 6 semanas.</p>
+      <span class="open">ver demo</span>
+    </a>
+
+    <a class="card" href="oficios.html">
+      <div class="id"><span>SECTOR · 08</span><div class="ic">🔌</div></div>
+      <div class="name">Fontaneros / Electricistas</div>
+      <p class="desc">Urgencias 24/7 cualificadas, presupuestos por foto, partes firmados desde el móvil. Cero falsas alarmas nocturnas.</p>
+      <span class="open">ver demo</span>
+    </a>
+
+    <a class="card" href="ecommerce.html">
+      <div class="id"><span>SECTOR · 09</span><div class="ic">🛒</div></div>
+      <div class="name">E-commerce / Tienda Online</div>
+      <p class="desc">Estados de envío con API Correos/SEUR, devoluciones automáticas, recomendaciones, recuperación de carrito.</p>
+      <span class="open">ver demo</span>
+    </a>
+  </div>
+
+  <div class="foot">
+    9 demos · misma plataforma · una integración · sin permanencia<br/>
+    triaclaw.com · build 2026.05.07
+  </div>
+</main>
+
+</body>
+</html>

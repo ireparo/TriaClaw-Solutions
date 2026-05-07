@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TriaClaw para Clínicas Dentales — Citas, recordatorios y emergencias gestionadas</title>
+<meta name="description" content="Plataforma de agentes IA para clínicas dentales y médicas: centralita con IVR de urgencias, bot WhatsApp para citas y recordatorios, CRM con historial clínico. Sin permanencia, RGPD-compliant." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+/* ───────────────────────── tokens & reset ───────────────────────── */
+:root{
+  --ink:#fafafa;
+  --muted:#cbd5e1;
+  --dim:#94a3b8;
+  --neon-cyan:#22d3ee;
+  --neon-violet:#a78bfa;
+  --neon-pink:#f0abfc;
+  --soft-cyan:#67e8f9;
+  --wa:#25D366;
+
+  --grad-text: linear-gradient(120deg,#22d3ee 0%,#a78bfa 60%,#f0abfc 100%);
+  --grad-button: linear-gradient(120deg,#22d3ee 0%,#a78bfa 100%);
+  --grad-bg: linear-gradient(135deg,#1e1b4b 0%,#312e81 40%,#5b21b6 70%,#06b6d4 100%);
+
+  --glass-bg: rgba(255,255,255,.06);
+  --glass-border: 1px solid rgba(255,255,255,.12);
+  --glass-blur: blur(20px) saturate(1.4);
+  --glass-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 0 60px -15px rgba(167,139,250,.4);
+
+  --r-sm:10px; --r-md:16px; --r-lg:22px; --r-xl:28px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0b0a1f;color:var(--ink);font-family:'Geist',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{min-height:100vh;position:relative}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+img{max-width:100%;display:block}
+
+::selection{background:rgba(167,139,250,.45);color:#fff}
+
+.mono{font-family:'Geist Mono',ui-monospace,monospace;letter-spacing:.02em}
+.grad-text{
+  background:var(--grad-text);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+
+/* ───────────────────────── animated mesh background ───────────────────────── */
+.bg-mesh{
+  position:fixed;inset:0;z-index:-3;
+  background:var(--grad-bg);
+  background-size:200% 200%;
+  animation:meshShift 30s ease-in-out infinite;
+}
+@keyframes meshShift{
+  0%,100%{background-position:0% 0%}
+  25%{background-position:100% 30%}
+  50%{background-position:80% 100%}
+  75%{background-position:20% 70%}
+}
+.bg-orbs{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55;mix-blend-mode:screen}
+.orb.o1{width:520px;height:520px;background:var(--neon-violet);top:-120px;left:-80px;animation:floatA 22s ease-in-out infinite}
+.orb.o2{width:460px;height:460px;background:var(--neon-cyan);top:30%;right:-120px;animation:floatB 26s ease-in-out infinite}
+.orb.o3{width:380px;height:380px;background:var(--neon-pink);bottom:10%;left:20%;animation:floatC 30s ease-in-out infinite}
+.orb.o4{width:300px;height:300px;background:var(--soft-cyan);bottom:-100px;right:30%;animation:floatA 28s ease-in-out infinite reverse}
+@keyframes floatA{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(80px,60px) scale(1.15)}}
+@keyframes floatB{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-100px,80px) scale(.9)}}
+@keyframes floatC{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,-90px) scale(1.1)}}
+
+/* particle dots */
+.bg-dots{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:radial-gradient(rgba(255,255,255,.18) 1px,transparent 1px);
+  background-size:42px 42px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%);
+}
+
+/* ───────────────────────── glass primitive ───────────────────────── */
+.glass{
+  background:var(--glass-bg);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  border:var(--glass-border);
+  border-radius:var(--r-lg);
+  box-shadow:var(--glass-shadow);
+}
+
+/* ───────────────────────── header ───────────────────────── */
+.header{
+  position:sticky;top:14px;z-index:50;
+  margin:14px auto 0;max-width:1240px;width:calc(100% - 28px);
+  padding:14px 22px;display:flex;align-items:center;gap:18px;
+  background:rgba(15,12,40,.55);
+  backdrop-filter:blur(24px) saturate(1.6);
+  -webkit-backdrop-filter:blur(24px) saturate(1.6);
+  border:var(--glass-border);
+  border-radius:999px;
+  box-shadow:var(--glass-shadow);
+}
+.header img{height:38px;width:auto}
+.nav{display:flex;gap:6px;flex:1;justify-content:center}
+.nav a{
+  padding:8px 14px;border-radius:999px;font-size:14px;color:var(--muted);
+  transition:.2s;
+}
+.nav a:hover{background:rgba(255,255,255,.08);color:var(--ink)}
+.nav .sep{color:rgba(255,255,255,.18);align-self:center;font-size:12px;padding:0 4px}
+.lang{
+  display:inline-flex;background:rgba(255,255,255,.05);border:var(--glass-border);border-radius:999px;padding:3px;
+  font-size:12px;
+}
+.lang span{padding:5px 10px;border-radius:999px;color:var(--dim);font-weight:600}
+.lang .on{background:var(--grad-button);color:#0b0a1f}
+.cta-wa{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 18px;border-radius:999px;
+  background:var(--grad-button);color:#0b0a1f;font-weight:700;font-size:14px;
+  box-shadow:0 0 30px -8px rgba(34,211,238,.7);
+  transition:.25s;
+}
+.cta-wa:hover{transform:translateY(-1px) scale(1.03);box-shadow:0 0 40px -6px rgba(167,139,250,.8)}
+
+/* ───────────────────────── shared layout ───────────────────────── */
+.wrap{max-width:1240px;margin:0 auto;padding:0 22px}
+section{padding:96px 0;position:relative}
+.eyebrow{display:inline-block;padding:6px 12px;border-radius:999px;background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.35);color:#ddd6fe;font-size:11px;font-weight:600}
+h1,h2,h3{font-family:'Geist',sans-serif;letter-spacing:-.02em;line-height:1.05}
+h1{font-size:clamp(42px,6.5vw,84px);font-weight:800}
+h2{font-size:clamp(34px,4.6vw,60px);font-weight:800}
+h3{font-size:22px;font-weight:700;letter-spacing:-.01em}
+p.lead{font-size:19px;color:var(--muted);max-width:60ch;line-height:1.6}
+
+/* ───────────────────────── hero ───────────────────────── */
+.hero{padding:88px 0 60px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
+@media(max-width:980px){.hero-grid{grid-template-columns:1fr;gap:48px}}
+
+.hero h1{margin:18px 0 22px}
+.hero h1 .word{display:inline-block}
+.cta-row{display:flex;gap:14px;margin:30px 0 22px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 24px;border-radius:14px;font-weight:700;font-size:15px;
+  transition:.25s;
+}
+.btn.primary{
+  background:var(--grad-button);color:#0b0a1f;
+  box-shadow:0 0 50px -10px rgba(34,211,238,.55);
+}
+.btn.primary:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 0 70px -8px rgba(167,139,250,.8)}
+.btn.ghost{
+  background:rgba(255,255,255,.05);
+  border:var(--glass-border);
+  backdrop-filter:var(--glass-blur);
+  color:var(--ink);
+}
+.btn.ghost:hover{background:rgba(255,255,255,.1);transform:translateY(-1px)}
+
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.pill{
+  padding:7px 14px;border-radius:999px;
+  background:rgba(255,255,255,.05);border:var(--glass-border);
+  backdrop-filter:blur(12px);
+  font-size:12px;color:var(--muted);font-weight:500;
+}
+.pill .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--neon-cyan);margin-right:8px;box-shadow:0 0 12px var(--neon-cyan)}
+.pill .dot.v{background:var(--neon-violet);box-shadow:0 0 12px var(--neon-violet)}
+.pill .dot.p{background:var(--neon-pink);box-shadow:0 0 12px var(--neon-pink)}
+
+/* agent console card */
+.console{
+  padding:24px;border-radius:var(--r-xl);
+  position:relative;overflow:hidden;
+}
+.console::before{
+  content:"";position:absolute;inset:-1px;border-radius:var(--r-xl);padding:1px;
+  background:linear-gradient(135deg,rgba(34,211,238,.6),rgba(167,139,250,.4),rgba(240,171,252,.4));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+}
+.console-head{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.console-head .dots{display:flex;gap:6px}
+.console-head .dots i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.18);display:block}
+.console-head .dots i:nth-child(1){background:#fb7185}
+.console-head .dots i:nth-child(2){background:#fbbf24}
+.console-head .dots i:nth-child(3){background:#34d399}
+.console-head .title{font-family:'Geist Mono',monospace;font-size:12px;color:var(--dim)}
+.console-head .live{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--soft-cyan);font-family:'Geist Mono',monospace}
+.console-head .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--soft-cyan);box-shadow:0 0 10px var(--soft-cyan);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.bubble{
+  padding:12px 14px;border-radius:14px;font-size:14px;line-height:1.45;max-width:82%;
+  margin:10px 0;opacity:0;transform:translateY(10px);
+  animation:bubIn .6s ease-out forwards;
+}
+.bubble.in{
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);
+  margin-right:auto;
+}
+.bubble.out{
+  background:linear-gradient(135deg,rgba(34,211,238,.22),rgba(167,139,250,.22));
+  border:1px solid rgba(167,139,250,.35);
+  margin-left:auto;
+}
+.bubble .meta{font-family:'Geist Mono',monospace;font-size:10px;color:var(--dim);margin-bottom:4px;display:block;text-transform:uppercase;letter-spacing:.08em}
+.bubble.b1{animation-delay:.3s}
+.bubble.b2{animation-delay:1.1s}
+.bubble.b3{animation-delay:1.9s}
+.bubble.b4{animation-delay:2.7s}
+@keyframes bubIn{to{opacity:1;transform:translateY(0)}}
+
+.lead-card{
+  margin-top:14px;padding:12px 14px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(34,211,238,.12),rgba(167,139,250,.08));
+  border:1px solid rgba(34,211,238,.3);
+  display:flex;align-items:center;gap:12px;
+  opacity:0;animation:bubIn .6s ease-out 3.4s forwards;
+}
+.lead-card .ic{width:34px;height:34px;border-radius:10px;background:var(--grad-button);display:grid;place-items:center;color:#0b0a1f;font-weight:800;font-size:13px}
+.lead-card .txt{font-size:13px}
+.lead-card .txt b{display:block}
+.lead-card .txt span{color:var(--dim);font-size:11px;font-family:'Geist Mono',monospace}
+
+/* ───────────────────────── logo bar ───────────────────────── */
+.logobar{
+  margin:0 auto;padding:22px 32px;display:flex;align-items:center;gap:32px;flex-wrap:wrap;justify-content:center;
+}
+.logobar .label{font-family:'Geist Mono',monospace;font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.16em}
+.logobar .name{font-weight:600;color:var(--muted);font-size:17px;letter-spacing:-.01em;text-shadow:0 0 24px rgba(167,139,250,.25)}
+.logobar .name:hover{color:var(--ink)}
+
+/* ───────────────────────── pillars ───────────────────────── */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px}
+@media(max-width:900px){.pillars{grid-template-columns:1fr}}
+.pcard{
+  position:relative;padding:30px;border-radius:var(--r-xl);overflow:hidden;
+  transition:.35s;
+}
+.pcard::after{
+  content:"";position:absolute;inset:0;border-radius:var(--r-xl);
+  background:radial-gradient(circle at 20% 0%,var(--tint,rgba(167,139,250,.16)),transparent 60%);
+  pointer-events:none;
+}
+.pcard:hover{transform:translateY(-6px) scale(1.01);box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 30px 80px -20px rgba(167,139,250,.5)}
+.pcard:hover::before{opacity:1}
+.pcard::before{
+  content:"";position:absolute;inset:-1px;border-radius:var(--r-xl);padding:1px;opacity:0;transition:.35s;
+  background:linear-gradient(135deg,var(--neon-cyan),var(--neon-violet),var(--neon-pink));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+}
+.pcard.c1{--tint:rgba(34,211,238,.18)}
+.pcard.c2{--tint:rgba(103,232,249,.16)}
+.pcard.c3{--tint:rgba(240,171,252,.16)}
+.icn{
+  width:54px;height:54px;border-radius:16px;display:grid;place-items:center;margin-bottom:18px;
+  background:var(--grad-button);
+  box-shadow:0 0 30px -8px rgba(34,211,238,.6);
+}
+.icn svg{width:26px;height:26px;color:#0b0a1f}
+.pcard h3{margin-bottom:10px}
+.pcard p{color:var(--muted);font-size:15px;margin-bottom:18px}
+.pcard ul{list-style:none;display:grid;gap:8px;margin-bottom:22px}
+.pcard ul li{font-size:14px;color:var(--muted);padding-left:22px;position:relative}
+.pcard ul li::before{
+  content:"";position:absolute;left:0;top:7px;width:10px;height:10px;border-radius:50%;
+  background:var(--grad-button);box-shadow:0 0 10px rgba(34,211,238,.5);
+}
+.pcard .more{font-weight:600;font-size:14px;color:var(--neon-cyan);position:relative;z-index:1}
+.pcard .more:hover{color:var(--neon-violet)}
+
+/* ───────────────────────── connected flow ───────────────────────── */
+.flow{position:relative;margin-top:60px;height:340px}
+.flow svg.lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.flow .node{
+  position:absolute;padding:18px 22px;border-radius:18px;text-align:center;min-width:140px;z-index:2;
+  background:rgba(255,255,255,.06);
+  backdrop-filter:var(--glass-blur);
+  border:var(--glass-border);
+  box-shadow:var(--glass-shadow);
+  animation:nodeFloat 6s ease-in-out infinite;
+}
+.flow .node .tag{font-family:'Geist Mono',monospace;font-size:11px;color:var(--neon-cyan);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:6px}
+.flow .node h4{font-size:18px;font-weight:700}
+.flow .node.n1{top:14%;left:6%;animation-delay:0s}
+.flow .node.n2{top:62%;left:30%;animation-delay:1.2s}
+.flow .node.n3{top:14%;right:30%;animation-delay:2.4s}
+.flow .node.n4{top:62%;right:6%;animation-delay:3.6s}
+@keyframes nodeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.flow .node.n2 .tag,.flow .node.n4 .tag{color:var(--neon-violet)}
+.flow .node.n3 .tag{color:var(--neon-pink)}
+
+@media(max-width:760px){
+  .flow{height:auto;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .flow svg.lines{display:none}
+  .flow .node{position:static;animation:none}
+}
+
+/* ───────────────────────── featured case ───────────────────────── */
+.case-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center}
+@media(max-width:900px){.case-grid{grid-template-columns:1fr}}
+.case-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:rgba(167,139,250,.18);border:1px solid rgba(167,139,250,.4);font-size:12px;font-weight:600;color:#ddd6fe}
+.case h2{margin:16px 0 18px;font-size:clamp(28px,3.6vw,44px)}
+.case h2 em{font-style:normal;background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.case p{color:var(--muted);font-size:17px;margin-bottom:28px}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.metric{padding:18px 16px;border-radius:16px;text-align:center}
+.metric .num{font-size:36px;font-weight:800;letter-spacing:-.02em;background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.metric .lbl{font-family:'Geist Mono',monospace;font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-top:4px;display:block}
+
+/* dashboard preview */
+.dash{padding:22px;border-radius:var(--r-xl)}
+.dash-head{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.dash-head .title{font-family:'Geist Mono',monospace;font-size:12px;color:var(--dim)}
+.dash-head .badge{margin-left:auto;font-size:10px;font-family:'Geist Mono',monospace;color:var(--soft-cyan);padding:3px 8px;border-radius:999px;background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.3)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px}
+.kpi{padding:14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+.kpi .lbl{font-family:'Geist Mono',monospace;font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}
+.kpi .val{font-size:24px;font-weight:700;margin-top:4px}
+.kpi .delta{font-size:11px;color:var(--soft-cyan);font-family:'Geist Mono',monospace}
+.kpi.alt .val{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.spark{padding:14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);margin-bottom:12px}
+.spark .lbl{font-family:'Geist Mono',monospace;font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;display:flex;justify-content:space-between}
+.spark .lbl b{color:var(--ink);font-family:'Geist',sans-serif;font-weight:700}
+.status-row{display:flex;gap:8px;flex-wrap:wrap}
+.status{font-family:'Geist Mono',monospace;font-size:10px;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--muted)}
+.status.ok{color:var(--soft-cyan);border-color:rgba(103,232,249,.4);background:rgba(103,232,249,.08)}
+.status.go{color:var(--neon-violet);border-color:rgba(167,139,250,.4);background:rgba(167,139,250,.08)}
+
+/* ───────────────────────── pricing teaser ───────────────────────── */
+.pricing{text-align:center}
+.pricing h2{margin:16px auto 14px;max-width:900px}
+.pricing h2 span{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.pricing p.lead{margin:0 auto 36px}
+.chips{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:36px}
+.chip{
+  position:relative;padding:18px 26px;border-radius:18px;min-width:200px;text-align:center;
+}
+.chip::before{
+  content:"";position:absolute;inset:-1px;border-radius:18px;padding:1px;
+  background:linear-gradient(135deg,rgba(34,211,238,.5),rgba(167,139,250,.5));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+}
+.chip .name{font-family:'Geist Mono',monospace;font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.14em}
+.chip .price{font-family:'Geist Mono',monospace;font-size:30px;font-weight:600;background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin:6px 0 4px;display:block}
+.chip .sub{font-size:12px;color:var(--muted)}
+
+/* ───────────────────────── cta final ───────────────────────── */
+.cta-final{text-align:center;position:relative}
+.cta-final::before{
+  content:"";position:absolute;inset:-100px;z-index:-1;
+  background:radial-gradient(circle at 30% 50%,rgba(34,211,238,.35),transparent 50%),
+             radial-gradient(circle at 70% 50%,rgba(167,139,250,.35),transparent 50%),
+             radial-gradient(circle at 50% 80%,rgba(240,171,252,.25),transparent 50%);
+  filter:blur(40px);
+}
+.cta-final h2{font-size:clamp(40px,6.5vw,84px);background:linear-gradient(120deg,#67e8f9 0%,#a78bfa 50%,#f0abfc 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:18px}
+.cta-final p{color:var(--muted);font-size:19px;max-width:60ch;margin:0 auto 36px}
+.cta-final .cta-row{justify-content:center}
+.cta-final .btn{padding:18px 32px;font-size:17px;border-radius:18px}
+
+/* ───────────────────────── footer ───────────────────────── */
+footer{
+  margin-top:60px;
+  background:rgba(10,8,30,.55);
+  backdrop-filter:blur(20px);
+  border-top:1px solid rgba(255,255,255,.08);
+  position:relative;overflow:hidden;
+}
+footer::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    radial-gradient(rgba(255,255,255,.5) 1px,transparent 1px),
+    radial-gradient(rgba(167,139,250,.4) 1px,transparent 1px);
+  background-size:90px 90px,150px 150px;
+  background-position:0 0,30px 50px;
+  opacity:.18;
+  pointer-events:none;
+}
+.foot{display:grid;grid-template-columns:1.5fr repeat(4,1fr);gap:36px;padding:60px 0 36px;position:relative}
+@media(max-width:900px){.foot{grid-template-columns:1fr 1fr;gap:28px}}
+.foot h5{font-family:'Geist Mono',monospace;font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.14em;margin-bottom:14px}
+.foot ul{list-style:none;display:grid;gap:10px}
+.foot ul a{color:var(--muted);font-size:14px}
+.foot ul a:hover{color:var(--ink)}
+.foot .brand img{height:40px;margin-bottom:14px}
+.foot .brand p{color:var(--muted);font-size:14px;max-width:32ch}
+.foot-bot{
+  border-top:1px solid rgba(255,255,255,.08);
+  padding:22px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;
+  font-family:'Geist Mono',monospace;font-size:11px;color:var(--dim);position:relative;
+}
+.foot-bot a{color:var(--muted)}
+.foot-bot a:hover{color:var(--ink)}
+
+/* ───────────────────────── floating WA FAB ───────────────────────── */
+.fab{
+  position:fixed;bottom:24px;right:24px;z-index:60;
+  width:62px;height:62px;border-radius:50%;
+  background:var(--wa);
+  display:grid;place-items:center;
+  box-shadow:0 0 0 0 rgba(37,211,102,.55),0 18px 40px -10px rgba(37,211,102,.6);
+  animation:waPulse 2.4s ease-out infinite;
+}
+.fab svg{width:30px;height:30px;color:#fff}
+@keyframes waPulse{
+  0%{box-shadow:0 0 0 0 rgba(37,211,102,.55),0 18px 40px -10px rgba(37,211,102,.6)}
+  70%{box-shadow:0 0 0 24px rgba(37,211,102,0),0 18px 40px -10px rgba(37,211,102,.6)}
+  100%{box-shadow:0 0 0 0 rgba(37,211,102,0),0 18px 40px -10px rgba(37,211,102,.6)}
+}
+
+/* ───────────────────────── reveal-on-scroll ───────────────────────── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ───────────────────────── flow animated path ───────────────────────── */
+.flow svg.lines path{
+  fill:none;stroke-width:1.5;stroke-linecap:round;
+  stroke-dasharray:6 8;
+  animation:dash 3.2s linear infinite;
+}
+@keyframes dash{to{stroke-dashoffset:-200}}
+
+/* ───────────────────────── small util ───────────────────────── */
+.section-head{text-align:center;max-width:760px;margin:0 auto 8px}
+.section-head h2{margin-top:14px}
+.section-head p{color:var(--muted);font-size:17px;margin-top:14px}
+
+</style>
+</head>
+<body>
+
+<!-- ========== background layers ========== -->
+<div class="bg-mesh"></div>
+<div class="bg-orbs">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <div class="orb o4"></div>
+</div>
+<div class="bg-dots"></div>
+
+<!-- ========== header ========== -->
+<header class="header">
+  <a href="#"><img src="/logo-triaclaw.png" alt="TriaClaw" /></a>
+  <nav class="nav">
+    <a href="#pillars">Centralita</a>
+    <a href="#pillars">Agents</a>
+    <a href="#pillars">CRM</a>
+    <span class="sep">|</span>
+    <a href="#pricing">Precios</a>
+    <a href="#case">Casos</a>
+    <span class="sep">|</span>
+    <a href="#footer">Partners</a>
+    <a href="#cta">Contacto</a>
+  </nav>
+  <div class="lang"><span class="on">ES</span><span>CA</span></div>
+  <a class="cta-wa" href="#">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.94 11.94 0 0 0 12.07 0C5.5 0 .15 5.34.15 11.92c0 2.1.55 4.15 1.6 5.96L0 24l6.32-1.66a11.93 11.93 0 0 0 5.74 1.46h.01c6.58 0 11.92-5.34 11.92-11.92 0-3.18-1.24-6.18-3.47-8.4ZM12.07 21.8h-.01a9.86 9.86 0 0 1-5.03-1.38l-.36-.21-3.75.98 1-3.65-.24-.38a9.85 9.85 0 0 1-1.51-5.24c0-5.46 4.44-9.9 9.9-9.9 2.65 0 5.13 1.03 7 2.9a9.83 9.83 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88Z"/></svg>
+    Hablar por WhatsApp
+  </a>
+</header>
+
+<!-- ========== hero ========== -->
+<section class="hero wrap" id="top">
+  <div class="hero-grid">
+    <div class="hero-copy reveal">
+      <span class="eyebrow mono">TRIACLAW · DEMO CLÍNICA DENTAL</span>
+      <h1>Tu <span class="word grad-text">agenda</span> llena.<br/>Sin no-shows. Sin recepcionista saturada.</h1>
+      <p class="lead">El paciente con dolor pide hueco urgente. El agent le ofrece la primera ranura libre, la confirma y le manda recordatorio el día antes. Tú solo abres la boca.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#cta">
+          Empezar gratis
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a class="btn ghost" href="#case">Ver caso real</a>
+      </div>
+      <div class="pills">
+        <span class="pill mono"><span class="dot"></span>Sin permanencia</span>
+        <span class="pill mono"><span class="dot v"></span>Setup en 7 días</span>
+        <span class="pill mono"><span class="dot p"></span>RGPD-compliant</span>
+      </div>
+    </div>
+
+    <div class="console glass reveal">
+      <div class="console-head">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <span class="title mono">agent.console</span>
+        <span class="live mono">LIVE</span>
+      </div>
+
+      <div class="bubble in b1">
+        <span class="meta">paciente · whatsapp</span>
+        Hola, tengo un dolor de muela horrible, podríais verme hoy?
+      </div>
+      <div class="bubble out b2">
+        <span class="meta">agent · gpt-4o</span>
+        Hola Anna, lo siento. Tengo hueco a las 18h con el Dr. Ferrer. ¿Te encaja?
+      </div>
+      <div class="bubble in b3">
+        <span class="meta">paciente · whatsapp</span>
+        Sí, perfecto
+      </div>
+      <div class="bubble out b4">
+        <span class="meta">agent · gpt-4o</span>
+        Confirmada cita 18h. Te mando recordatorio 2h antes y ubicación.
+      </div>
+
+      <div class="lead-card">
+        <div class="ic">+1</div>
+        <div class="txt">
+          <b>Cita urgencia · #CT-5217</b>
+          <span class="mono">Anna Roig · 18:00h</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== logo bar ========== -->
+<section style="padding:30px 0">
+  <div class="wrap">
+    <div class="logobar glass reveal">
+      <span class="label">Operating for</span>
+      <span class="name">Clínica Dental Lleida</span>
+      <span class="name">Dr. Pons Odontologia</span>
+      <span class="name">Smile Center</span>
+      <span class="name">Dental Roig</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========== pillars ========== -->
+<section id="pillars" class="wrap">
+  <div class="section-head reveal">
+    <span class="eyebrow mono">TRES CAPAS · UNA OPERACIÓN</span>
+    <h2>Cada canal con su <span class="grad-text">agent</span> especializado.</h2>
+    <p>Voz, mensajería y datos. Funcionan por separado, pero pasan información entre sí en tiempo real.</p>
+  </div>
+
+  <div class="pillars">
+    <article class="pcard glass c1 reveal">
+      <div class="icn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+      </div>
+      <h3>Centralita Cloud</h3>
+      <p>Llamada de urgencia → IVR localiza al doctor de guardia. Resto de citas, las gestiona el agent.</p>
+      <ul>
+        <li>Numeraciones nacionales y portabilidad</li>
+        <li>IVR conversacional, no botoneras</li>
+        <li>Grabación y transcripción auditable</li>
+      </ul>
+      <a class="more" href="#">Explorar centralita →</a>
+    </article>
+
+    <article class="pcard glass c2 reveal">
+      <div class="icn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4M8 16h.01M16 16h.01"/></svg>
+      </div>
+      <h3>Agents &amp; Bots</h3>
+      <p>Bot WhatsApp ofrece huecos, confirma citas, manda recordatorios 24h y 2h antes. No-shows bajan al 5%.</p>
+      <ul>
+        <li>Multilingüe ES / CA / EN</li>
+        <li>Plantillas oficiales WhatsApp</li>
+        <li>Handoff a humano sin fricciones</li>
+      </ul>
+      <a class="more" href="#">Explorar agents →</a>
+    </article>
+
+    <article class="pcard glass c3 reveal">
+      <div class="icn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
+      </div>
+      <h3>CRM &amp; Gestión</h3>
+      <p>Historial clínico, presupuestos, tratamientos pendientes y financiación. Vista única del paciente.</p>
+      <ul>
+        <li>Pipeline visual con automatizaciones</li>
+        <li>Atribución por canal y campaña</li>
+        <li>Integraciones con Holded y Stripe</li>
+      </ul>
+      <a class="more" href="#">Explorar CRM →</a>
+    </article>
+  </div>
+</section>
+
+<!-- ========== connected flow ========== -->
+<section class="wrap" id="flow">
+  <div class="section-head reveal">
+    <span class="eyebrow mono">CONNECTED FLOW</span>
+    <h2>Una llamada se convierte en un cliente. <span class="grad-text">Sin fricción.</span></h2>
+    <p>El agent capta, califica, agenda y entrega al humano con todo el contexto. Tú solo cierras.</p>
+  </div>
+
+  <div class="flow reveal">
+    <svg class="lines" viewBox="0 0 1000 340" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gline" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#22d3ee"/>
+          <stop offset="50%" stop-color="#a78bfa"/>
+          <stop offset="100%" stop-color="#f0abfc"/>
+        </linearGradient>
+      </defs>
+      <path d="M150,90 C 280,90 280,240 410,240" stroke="url(#gline)"/>
+      <path d="M410,240 C 540,240 540,90 700,90" stroke="url(#gline)"/>
+      <path d="M700,90 C 820,90 820,240 920,240" stroke="url(#gline)"/>
+    </svg>
+
+    <div class="node n1">
+      <span class="tag mono">/call</span>
+      <h4>Llamada entra</h4>
+    </div>
+    <div class="node n2">
+      <span class="tag mono">/bot</span>
+      <h4>Agent califica</h4>
+    </div>
+    <div class="node n3">
+      <span class="tag mono">/crm</span>
+      <h4>Lead en CRM</h4>
+    </div>
+    <div class="node n4">
+      <span class="tag mono">/human</span>
+      <h4>Humano cierra</h4>
+    </div>
+  </div>
+</section>
+
+<!-- ========== featured case ========== -->
+<section class="wrap case" id="case">
+  <div class="case-grid">
+    <div class="reveal">
+      <span class="case-pill mono">CASO · CLÍNICA DENTAL LLEIDA</span>
+      <h2>“Antes mi recepcionista estaba saturada con citas. Ahora el bot las resuelve y ella se centra en <em>pacientes en consulta</em>.”</h2>
+      <p>Después de 90 días con TriaClaw, el agent de WhatsApp resuelve agendamiento, recordatorios y reprogramaciones sin tocar a un humano. Los no-shows han caído al 5% gracias al doble recordatorio (24h + 2h).</p>
+      <div class="metrics">
+        <div class="metric glass"><div class="num">−68%</div><span class="lbl mono">No-shows</span></div>
+        <div class="metric glass"><div class="num">+44%</div><span class="lbl mono">Citas semana</span></div>
+        <div class="metric glass"><div class="num">12 min</div><span class="lbl mono">Liberados/cita</span></div>
+      </div>
+    </div>
+
+    <div class="dash glass reveal">
+      <div class="dash-head">
+        <div class="dots" style="display:flex;gap:6px"><i style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.18)"></i><i style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.18)"></i><i style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.18)"></i></div>
+        <span class="title mono">clínica · last 30d</span>
+        <span class="badge">LIVE</span>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi">
+          <span class="lbl">Citas hoy</span>
+          <div class="val">47</div>
+          <span class="delta">▲ 11%</span>
+        </div>
+        <div class="kpi alt">
+          <span class="lbl">Tratamientos activos</span>
+          <div class="val">89</div>
+          <span class="delta">▲ 16%</span>
+        </div>
+      </div>
+
+      <div class="spark">
+        <div class="lbl"><span>Citas semana</span><b>+218 agendadas</b></div>
+        <svg viewBox="0 0 200 50" width="100%" height="46">
+          <defs>
+            <linearGradient id="gsp" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#22d3ee" stop-opacity=".7"/>
+              <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M0,40 L20,32 L40,36 L60,22 L80,28 L100,18 L120,24 L140,12 L160,18 L180,8 L200,14 L200,50 L0,50 Z" fill="url(#gsp)"/>
+          <path d="M0,40 L20,32 L40,36 L60,22 L80,28 L100,18 L120,24 L140,12 L160,18 L180,8 L200,14" fill="none" stroke="#22d3ee" stroke-width="2"/>
+        </svg>
+      </div>
+
+      <div class="spark">
+        <div class="lbl"><span>Presupuestos firmados</span><b>62.4%</b></div>
+        <svg viewBox="0 0 200 50" width="100%" height="46">
+          <defs>
+            <linearGradient id="gsp2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#a78bfa" stop-opacity=".7"/>
+              <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M0,38 L25,30 L50,34 L75,20 L100,26 L125,14 L150,18 L175,10 L200,6 L200,50 L0,50 Z" fill="url(#gsp2)"/>
+          <path d="M0,38 L25,30 L50,34 L75,20 L100,26 L125,14 L150,18 L175,10 L200,6" fill="none" stroke="#a78bfa" stroke-width="2"/>
+        </svg>
+      </div>
+
+      <div class="status-row">
+        <span class="status ok">● agenda ok</span>
+        <span class="status ok">● bot online</span>
+        <span class="status go">● 3 doctores</span>
+        <span class="status">● Doctoralia sync</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== pricing teaser ========== -->
+<section class="wrap pricing" id="pricing">
+  <div class="reveal">
+    <span class="eyebrow mono">PRECIOS TRANSPARENTES</span>
+    <h2>Empieza por una capa. <span>Crece sin permanencia.</span></h2>
+    <p class="lead">Modular: contrata solo lo que necesitas hoy. Activa el resto cuando estés listo. Sin permanencia, sin sorpresas.</p>
+
+    <div class="chips">
+      <div class="chip glass">
+        <span class="name">Centralita</span>
+        <span class="price">€39<small style="font-size:14px">/mes</small></span>
+        <span class="sub">+ consumo por minuto</span>
+      </div>
+      <div class="chip glass">
+        <span class="name">Agents WA</span>
+        <span class="price">€89<small style="font-size:14px">/mes</small></span>
+        <span class="sub">hasta 1.000 conv.</span>
+      </div>
+      <div class="chip glass">
+        <span class="name">CRM</span>
+        <span class="price">€19<small style="font-size:14px">/usuario</small></span>
+        <span class="sub">facturado mensual</span>
+      </div>
+    </div>
+
+    <a class="btn primary" href="#">
+      Ver tabla completa
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ========== cta final ========== -->
+<section class="wrap cta-final" id="cta">
+  <div class="reveal">
+    <h2>Tu próxima<br/>operación inteligente.</h2>
+    <p>30 minutos contigo, una demo en directo y un plan a 7 días. Sin compromiso.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="#">Reservar demo</a>
+      <a class="btn ghost" href="#">Hablar por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== footer ========== -->
+<footer id="footer">
+  <div class="wrap">
+    <div class="foot">
+      <div class="brand">
+        <img src="/logo-triaclaw.png" alt="TriaClaw" />
+        <p>Plataforma de agents IA para PYMES. Centralita, mensajería y CRM en una capa.</p>
+      </div>
+      <div>
+        <h5>Producto</h5>
+        <ul>
+          <li><a href="#">Centralita</a></li>
+          <li><a href="#">Agents</a></li>
+          <li><a href="#">CRM</a></li>
+          <li><a href="#">Integraciones</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Empresa</h5>
+        <ul>
+          <li><a href="#">Casos</a></li>
+          <li><a href="#">Partners</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Recursos</h5>
+        <ul>
+          <li><a href="#">Documentación</a></li>
+          <li><a href="#">Status</a></li>
+          <li><a href="#">Changelog</a></li>
+          <li><a href="#">Soporte</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="#">Privacidad</a></li>
+          <li><a href="#">Términos</a></li>
+          <li><a href="#">Cookies</a></li>
+          <li><a href="#">RGPD</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 TriaClaw Solutions · Lleida, ES</span>
+      <span><a href="#">hello@triaclaw.com</a> · v3.04 · glassmorphic-ai</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ========== floating WhatsApp FAB ========== -->
+<a class="fab" href="#" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.94 11.94 0 0 0 12.07 0C5.5 0 .15 5.34.15 11.92c0 2.1.55 4.15 1.6 5.96L0 24l6.32-1.66a11.93 11.93 0 0 0 5.74 1.46h.01c6.58 0 11.92-5.34 11.92-11.92 0-3.18-1.24-6.18-3.47-8.4ZM12.07 21.8h-.01a9.86 9.86 0 0 1-5.03-1.38l-.36-.21-3.75.98 1-3.65-.24-.38a9.85 9.85 0 0 1-1.51-5.24c0-5.46 4.44-9.9 9.9-9.9 2.65 0 5.13 1.03 7 2.9a9.83 9.83 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88Zm5.41-7.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.34.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.34.45-.51.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.66-1.6-.91-2.18-.24-.58-.49-.5-.66-.5h-.57c-.2 0-.51.07-.78.37-.27.3-1.03 1-1.03 2.45s1.06 2.85 1.21 3.05c.15.2 2.08 3.18 5.05 4.46.7.3 1.26.48 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35Z"/></svg>
+</a>
+
+<script>
+  // reveal-on-scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // smooth scroll for anchors
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if (id && id.length > 1) {
+        const t = document.querySelector(id);
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
