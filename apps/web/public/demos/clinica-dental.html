@@ -432,6 +432,36 @@ footer::before{
 .section-head h2{margin-top:14px}
 .section-head p{color:var(--muted);font-size:17px;margin-top:14px}
 
+.attach{
+  display:flex;align-items:center;gap:12px;margin-top:8px;padding:10px 12px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+  border-radius:10px;font-family:'Geist Mono',monospace;font-size:11.5px;cursor:pointer;transition:.2s;
+}
+.attach:hover{background:rgba(255,255,255,.1);border-color:rgba(34,211,238,.4)}
+.attach .ico{
+  width:38px;height:38px;border-radius:8px;
+  background:linear-gradient(135deg,#22d3ee,#a78bfa);
+  display:grid;place-items:center;color:#0b0a1f;font-weight:800;font-size:10px;
+  flex-shrink:0;letter-spacing:.04em;
+}
+.attach .info{flex:1;min-width:0}
+.attach .info b{display:block;color:var(--ink);font-family:'Geist',sans-serif;font-weight:600;font-size:13px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.attach .info span{color:var(--dim);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em}
+.attach .arrow{color:var(--neon-cyan);font-size:14px;flex-shrink:0}
+.attach.img .ico{background:linear-gradient(135deg,#a78bfa,#f0abfc)}
+
+.extract{
+  margin-top:10px;padding:12px 14px;border-radius:12px;
+  background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.3);
+  font-size:12.5px;line-height:1.6;
+}
+.extract .head{display:flex;align-items:center;gap:6px;font-family:'Geist Mono',monospace;font-size:10px;color:var(--soft-cyan);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.extract .head::before{content:"✦";color:var(--soft-cyan);font-size:11px}
+.extract .row{display:flex;justify-content:space-between;padding:3px 0;color:var(--muted);font-size:12px}
+.extract .row b{color:var(--ink);font-weight:600;font-family:'Geist Mono',monospace;font-size:12px}
+.extract .row b.ok{color:#00ffaa}
+.extract .row b.warn{color:#fbbf24}
+
 </style>
 </head>
 <body>
@@ -496,20 +526,32 @@ footer::before{
       </div>
 
       <div class="bubble in b1">
-        <span class="meta">paciente · whatsapp</span>
-        Hola, tengo un dolor de muela horrible, podríais verme hoy?
+        <span class="meta">cliente · whatsapp</span>
+        Tengo un dolor horrible. ¿Veis la foto?
+        <div class="attach img">
+          <div class="ico">IMG</div>
+          <div class="info"><b>muela-dolor.jpg</b><span>1.2 MB · 1920×1440</span></div>
+          <div class="arrow">→</div>
+        </div>
       </div>
       <div class="bubble out b2">
-        <span class="meta">agent · gpt-4o</span>
-        Hola Anna, lo siento. Tengo hueco a las 18h con el Dr. Ferrer. ¿Te encaja?
+        <span class="meta">agent · gpt-4o-vision</span>
+        Anna, parece flemón en muela superior derecha. Te encajo hueco urgente con el Dr. Ferrer.
+        <div class="extract">
+          <div class="head">triaje visual</div>
+          <div class="row"><span>Localización</span><b>Sup. derecha · 16-17</b></div>
+          <div class="row"><span>Síntomas detectados</span><b>Inflamación gingival</b></div>
+          <div class="row"><span>Urgencia</span><b class="warn">Alta · &lt;6h</b></div>
+          <div class="row"><span>Doctor disponible</span><b class="ok">Dr. Ferrer · 18h</b></div>
+        </div>
       </div>
       <div class="bubble in b3">
-        <span class="meta">paciente · whatsapp</span>
-        Sí, perfecto
+        <span class="meta">cliente · whatsapp</span>
+        Sí, perfecto.
       </div>
       <div class="bubble out b4">
         <span class="meta">agent · gpt-4o</span>
-        Confirmada cita 18h. Te mando recordatorio 2h antes y ubicación.
+        Cita confirmada 18h. Te mando recordatorio 2h antes y ubicación.
       </div>
 
       <div class="lead-card">

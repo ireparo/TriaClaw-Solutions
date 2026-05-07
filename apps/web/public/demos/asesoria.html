@@ -226,6 +226,45 @@ p.lead{font-size:19px;color:var(--muted);max-width:60ch;line-height:1.6}
 .lead-card .txt b{display:block}
 .lead-card .txt span{color:var(--dim);font-size:11px;font-family:'Geist Mono',monospace}
 
+/* file attachment + AI extraction cards inside bubbles */
+.attach{
+  display:flex;align-items:center;gap:12px;margin-top:8px;padding:10px 12px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+  border-radius:10px;font-family:'Geist Mono',monospace;font-size:11.5px;cursor:pointer;
+  transition:.2s;
+}
+.attach:hover{background:rgba(255,255,255,.1);border-color:rgba(34,211,238,.4)}
+.attach .ico{
+  width:38px;height:38px;border-radius:8px;
+  background:linear-gradient(135deg,#22d3ee,#a78bfa);
+  display:grid;place-items:center;color:#0b0a1f;font-weight:800;font-size:10px;
+  flex-shrink:0;letter-spacing:.04em;
+}
+.attach .info{flex:1;min-width:0}
+.attach .info b{display:block;color:var(--ink);font-family:'Geist',sans-serif;font-weight:600;font-size:13px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.attach .info span{color:var(--dim);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em}
+.attach .arrow{color:var(--neon-cyan);font-size:14px;flex-shrink:0}
+
+/* image attachment variant */
+.attach.img .ico{background:linear-gradient(135deg,#a78bfa,#f0abfc)}
+
+/* AI extraction summary card */
+.extract{
+  margin-top:10px;padding:12px 14px;border-radius:12px;
+  background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.3);
+  font-size:12.5px;line-height:1.6;
+}
+.extract .head{
+  display:flex;align-items:center;gap:6px;
+  font-family:'Geist Mono',monospace;font-size:10px;color:var(--soft-cyan);
+  text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;
+}
+.extract .head::before{content:"✦";color:var(--soft-cyan);font-size:11px}
+.extract .row{display:flex;justify-content:space-between;padding:3px 0;color:var(--muted);font-size:12px}
+.extract .row b{color:var(--ink);font-weight:600;font-family:'Geist Mono',monospace;font-size:12px}
+.extract .row b.ok{color:#00ffaa}
+.extract .row b.warn{color:#fbbf24}
+
 /* ───────────────────────── logo bar ───────────────────────── */
 .logobar{
   margin:0 auto;padding:22px 32px;display:flex;align-items:center;gap:32px;flex-wrap:wrap;justify-content:center;
@@ -497,19 +536,33 @@ footer::before{
 
       <div class="bubble in b1">
         <span class="meta">cliente · whatsapp</span>
-        Hola, ¿cuándo tengo que presentar el modelo 303 este trimestre?
+        Hola, te mando una factura de un proveedor para la próxima declaración. ¿Está bien?
+        <div class="attach">
+          <div class="ico">PDF</div>
+          <div class="info"><b>factura-proveedor-sept.pdf</b><span>342 KB · 1 página</span></div>
+          <div class="arrow">→</div>
+        </div>
       </div>
       <div class="bubble out b2">
-        <span class="meta">agent · gpt-4o</span>
-        Hola Sandra, tu próximo 303 vence el 20 de octubre. ¿Quieres que reservemos cita para revisarlo?
+        <span class="meta">agent · gpt-4o-vision</span>
+        Recibida y validada. Datos correctos para el modelo 303 del próximo trimestre.
+        <div class="extract">
+          <div class="head">datos extraídos · ocr</div>
+          <div class="row"><span>Proveedor</span><b>Subministraments Lleida SL</b></div>
+          <div class="row"><span>NIF</span><b>B-25xxxxxx</b></div>
+          <div class="row"><span>Base imponible</span><b>2.480,00 €</b></div>
+          <div class="row"><span>IVA 21%</span><b>520,80 €</b></div>
+          <div class="row"><span>Total</span><b>3.000,80 €</b></div>
+          <div class="row"><span>Estado</span><b class="ok">Lista para 303</b></div>
+        </div>
       </div>
       <div class="bubble in b3">
         <span class="meta">cliente · whatsapp</span>
-        Sí, lo antes posible.
+        ¿Cuándo vence el modelo 303 este trimestre?
       </div>
       <div class="bubble out b4">
         <span class="meta">agent · gpt-4o</span>
-        Hecho. Lunes 9h con Marc, tu asesor. Te confirmamos por email.
+        El próximo 20 de octubre. ¿Reservamos cita con Marc para revisarlo?
       </div>
 
       <div class="lead-card">
