@@ -69,7 +69,10 @@ img{max-width:100%;display:block}
 .glass{background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:var(--glass-border);border-radius:var(--r-lg);box-shadow:var(--glass-shadow)}
 
 .header{position:sticky;top:14px;z-index:50;margin:14px auto 0;max-width:1240px;width:calc(100% - 28px);padding:14px 22px;display:flex;align-items:center;gap:18px;background:rgba(15,12,40,.55);backdrop-filter:blur(24px) saturate(1.6);-webkit-backdrop-filter:blur(24px) saturate(1.6);border:var(--glass-border);border-radius:999px;box-shadow:var(--glass-shadow)}
-.header img{height:38px;width:auto}
+.brandlogo{width:36px;height:34px;flex-shrink:0;filter:drop-shadow(0 0 12px rgba(34,211,238,.35))}
+.brand-lock{display:inline-flex;align-items:center;gap:10px}
+.brandname{font-weight:700;font-size:18px;letter-spacing:-.02em;color:var(--ink);font-family:'Geist',sans-serif}
+.brandname small{display:block;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);font-weight:500;margin-top:1px}
 .nav{display:flex;gap:6px;flex:1;justify-content:center}
 .nav a{padding:8px 14px;border-radius:999px;font-size:14px;color:var(--muted);transition:.2s}
 .nav a:hover{background:rgba(255,255,255,.08);color:var(--ink)}
@@ -229,7 +232,6 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 .foot ul{list-style:none;display:grid;gap:10px}
 .foot ul a{color:var(--muted);font-size:14px}
 .foot ul a:hover{color:var(--ink)}
-.foot .brand img{height:40px;margin-bottom:14px}
 .foot .brand p{color:var(--muted);font-size:14px;max-width:32ch}
 .foot-bot{border-top:1px solid rgba(255,255,255,.08);padding:22px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'Geist Mono',monospace;font-size:11px;color:var(--dim);position:relative}
 .foot-bot a{color:var(--muted)}
@@ -245,6 +247,20 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 .section-head{text-align:center;max-width:760px;margin:0 auto 8px}
 .section-head h2{margin-top:14px}
 .section-head p{color:var(--muted);font-size:17px;margin-top:14px}
+
+.demos-teaser{padding:96px 0}
+.demos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:48px}
+@media(max-width:880px){.demos-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){.demos-grid{grid-template-columns:1fr}}
+.demo-card{
+  display:block;padding:24px;border-radius:16px;text-align:left;
+  transition:.3s;position:relative;overflow:hidden;
+}
+.demo-card:hover{transform:translateY(-4px) scale(1.02);box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 24px 60px -20px rgba(167,139,250,.4)}
+.dm-ic{font-size:28px;margin-bottom:14px}
+.dm-id{font-size:10px;color:var(--dim);letter-spacing:.14em;margin-bottom:6px;text-transform:uppercase}
+.dm-name{font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.015em}
+.demo-card:hover .dm-name{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 </style>
 </head>
 <body>
@@ -259,7 +275,10 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 <div class="bg-dots"></div>
 
 <header class="header">
-  <a href="#"><img src="/logo-triaclaw.png" alt="TriaClaw" /></a>
+  <a href="/" class="brand-lock">
+    <svg class="brandlogo" viewBox="0 0 68 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="bg-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#67e8f9"/><stop offset="100%" stop-color="#1e40af"/></linearGradient></defs><line x1="34" y1="4" x2="34" y2="13" stroke="#67e8f9" stroke-width="2.5" stroke-linecap="round"/><circle cx="34" cy="4" r="3" fill="#67e8f9"/><path d="M14 17 H54 a8 8 0 0 1 8 8 v17 a8 8 0 0 1 -8 8 h-13 l-7 8 v-8 h-20 a8 8 0 0 1 -8 -8 v-17 a8 8 0 0 1 8 -8 z" fill="url(#bg-grad)"/><rect x="20" y="24" width="28" height="15" rx="4" fill="#0a1530"/><circle cx="28" cy="31.5" r="2.4" fill="#fff"/><circle cx="40" cy="31.5" r="2.4" fill="#fff"/></svg>
+    <span class="brandname">TriaClaw<small>Solutions</small></span>
+  </a>
   <nav class="nav">
     <a href="#pillars">Centralita</a>
     <a href="#pillars">Agents</a>
@@ -267,6 +286,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
     <span class="sep">|</span>
     <a href="#pricing">Precios</a>
     <a href="#case">Casos</a>
+    <a href="/demos/">Demos</a>
     <span class="sep">|</span>
     <a href="#footer">Partners</a>
     <a href="#cta">Contacto</a>
@@ -449,6 +469,28 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
   </div>
 </section>
 
+<section class="wrap demos-teaser" id="demos">
+  <div class="section-head reveal">
+    <span class="eyebrow mono">DEMOS POR SECTOR · 9 verticales</span>
+    <h2>Cómo se ve TriaClaw para <span class="grad-text">tu sector</span>.</h2>
+    <p>Misma plataforma, conversación específica de cada vertical. Click para ver el demo completo en vivo.</p>
+  </div>
+  <div class="demos-grid">
+    <a class="demo-card glass" href="/demos/talleres-sat.html"><div class="dm-ic">🔧</div><div class="dm-id mono">SECTOR 01</div><div class="dm-name">Talleres SAT</div></a>
+    <a class="demo-card glass" href="/demos/inmobiliaria.html"><div class="dm-ic">🏠</div><div class="dm-id mono">SECTOR 02</div><div class="dm-name">Inmobiliaria</div></a>
+    <a class="demo-card glass" href="/demos/asesoria.html"><div class="dm-ic">📊</div><div class="dm-id mono">SECTOR 03</div><div class="dm-name">Asesoría</div></a>
+    <a class="demo-card glass" href="/demos/energia.html"><div class="dm-ic">⚡</div><div class="dm-id mono">SECTOR 04</div><div class="dm-name">Energía</div></a>
+    <a class="demo-card glass" href="/demos/clinica-dental.html"><div class="dm-ic">🦷</div><div class="dm-id mono">SECTOR 05</div><div class="dm-name">Clínica Dental</div></a>
+    <a class="demo-card glass" href="/demos/restaurante.html"><div class="dm-ic">🍽️</div><div class="dm-id mono">SECTOR 06</div><div class="dm-name">Restaurante</div></a>
+    <a class="demo-card glass" href="/demos/estetica.html"><div class="dm-ic">💇</div><div class="dm-id mono">SECTOR 07</div><div class="dm-name">Peluquería</div></a>
+    <a class="demo-card glass" href="/demos/oficios.html"><div class="dm-ic">🔌</div><div class="dm-id mono">SECTOR 08</div><div class="dm-name">Fontaneros</div></a>
+    <a class="demo-card glass" href="/demos/ecommerce.html"><div class="dm-ic">🛒</div><div class="dm-id mono">SECTOR 09</div><div class="dm-name">E-commerce</div></a>
+  </div>
+  <div style="text-align:center;margin-top:30px">
+    <a class="btn ghost" href="/demos/">Ver índice completo →</a>
+  </div>
+</section>
+
 <section class="wrap cta-final" id="cta">
   <div class="reveal">
     <h2>Tu próxima<br/>operación inteligente.</h2>
@@ -464,7 +506,10 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
   <div class="wrap">
     <div class="foot">
       <div class="brand">
-        <img src="/logo-triaclaw.png" alt="TriaClaw" />
+        <div class="brand-lock" style="margin-bottom:14px">
+          <svg class="brandlogo" viewBox="0 0 68 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="bg-grad-f" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#67e8f9"/><stop offset="100%" stop-color="#1e40af"/></linearGradient></defs><line x1="34" y1="4" x2="34" y2="13" stroke="#67e8f9" stroke-width="2.5" stroke-linecap="round"/><circle cx="34" cy="4" r="3" fill="#67e8f9"/><path d="M14 17 H54 a8 8 0 0 1 8 8 v17 a8 8 0 0 1 -8 8 h-13 l-7 8 v-8 h-20 a8 8 0 0 1 -8 -8 v-17 a8 8 0 0 1 8 -8 z" fill="url(#bg-grad-f)"/><rect x="20" y="24" width="28" height="15" rx="4" fill="#0a1530"/><circle cx="28" cy="31.5" r="2.4" fill="#fff"/><circle cx="40" cy="31.5" r="2.4" fill="#fff"/></svg>
+          <span class="brandname">TriaClaw<small>Solutions</small></span>
+        </div>
         <p>Plataforma de agents IA para PYMES. Centralita, mensajería y CRM en una capa.</p>
       </div>
       <div><h5>Producto</h5><ul><li><a href="#">Centralita</a></li><li><a href="#">Agents</a></li><li><a href="#">CRM</a></li><li><a href="#">Integraciones</a></li></ul></div>
