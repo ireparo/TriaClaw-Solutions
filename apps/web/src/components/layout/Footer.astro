@@ -17,7 +17,7 @@ const locale: Locale = getLocaleFromUrl(Astro.url);
           <li><a href={localizedHref(locale, '/centralita')}>{t(locale, 'nav.centralita')}</a></li>
           <li><a href={localizedHref(locale, '/agents')}>{t(locale, 'nav.agents')}</a></li>
           <li><a href={localizedHref(locale, '/crm')}>{t(locale, 'nav.crm')}</a></li>
-          <li><a href="#">{t(locale, 'footer_columns.integrations')}</a></li>
+          <li><a href={localizedHref(locale, '/precios')}>{t(locale, 'nav.pricing')}</a></li>
         </ul>
       </div>
       <div>
@@ -25,17 +25,15 @@ const locale: Locale = getLocaleFromUrl(Astro.url);
         <ul>
           <li><a href={localizedHref(locale, '/casos')}>{t(locale, 'nav.cases')}</a></li>
           <li><a href={localizedHref(locale, '/partners')}>{t(locale, 'nav.partners')}</a></li>
-          <li><a href="#">{t(locale, 'footer_columns.blog')}</a></li>
+          <li><a href={localizedHref(locale, '/sobre')}>{t(locale, 'footer_columns.about')}</a></li>
           <li><a href={localizedHref(locale, '/contacto')}>{t(locale, 'nav.contact')}</a></li>
         </ul>
       </div>
       <div>
         <h5 class="mono">{t(locale, 'footer_columns.resources')}</h5>
         <ul>
-          <li><a href="#">{t(locale, 'footer_columns.docs')}</a></li>
-          <li><a href="#">{t(locale, 'footer_columns.status')}</a></li>
-          <li><a href="#">{t(locale, 'footer_columns.changelog')}</a></li>
-          <li><a href="#">{t(locale, 'footer_columns.support')}</a></li>
+          <li><a href="/demos/">Demos</a></li>
+          <li><a href={localizedHref(locale, '/contacto')}>{t(locale, 'footer_columns.support')}</a></li>
         </ul>
       </div>
       <div>
@@ -56,7 +54,6 @@ const locale: Locale = getLocaleFromUrl(Astro.url);
               >{t(locale, 'footer_columns.cookies')}</a
             >
           </li>
-          <li><a href="#">{t(locale, 'footer_columns.rgpd')}</a></li>
         </ul>
       </div>
     </div>

@@ -1,14 +1,35 @@
 ---
 // Home: render the v3/04-final prototype byte-for-byte.
 // Bypasses the Astro Base layout intentionally — this is the exact target the user approved.
+// SEO head (canonical/hreflang/OG/JSON-LD) mirrors Base.astro so the home isn't second-class.
+import JsonLd from '../components/layout/JsonLd.astro';
+
+const title = 'TriaClaw — Centralita, Agents y CRM con IA';
+const description =
+  'Plataforma de agentes IA para PYMES: centralita, bots de WhatsApp y CRM operativo. Sin permanencia, setup en 7 días, RGPD-compliant.';
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'http://localhost:4321';
+const canonical = new URL('/', siteUrl).toString();
+const caUrl = new URL('/ca/', siteUrl).toString();
+const ogImage = new URL('/og-default.png', siteUrl).toString();
 ---
 <!doctype html>
 <html lang="es">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>TriaClaw — Centralita, Agents y CRM con IA</title>
-<meta name="description" content="Plataforma de agentes IA para PYMES: centralita, bots de WhatsApp y CRM operativo. Sin permanencia, setup en 7 días, RGPD-compliant." />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="alternate" hreflang="es-ES" href={canonical} />
+<link rel="alternate" hreflang="ca-ES" href={caUrl} />
+<link rel="alternate" hreflang="x-default" href={canonical} />
+<JsonLd />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -78,7 +99,7 @@ img{max-width:100%;display:block}
 .nav a:hover{background:rgba(255,255,255,.08);color:var(--ink)}
 .nav .sep{color:rgba(255,255,255,.18);align-self:center;font-size:12px;padding:0 4px}
 .lang{display:inline-flex;background:rgba(255,255,255,.05);border:var(--glass-border);border-radius:999px;padding:3px;font-size:12px}
-.lang span{padding:5px 10px;border-radius:999px;color:var(--dim);font-weight:600}
+.lang a{padding:5px 10px;border-radius:999px;color:var(--dim);font-weight:600}
 .lang .on{background:var(--grad-button);color:#0b0a1f}
 .cta-wa{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;background:var(--grad-button);color:#0b0a1f;font-weight:700;font-size:14px;box-shadow:0 0 30px -8px rgba(34,211,238,.7);transition:.25s}
 .cta-wa:hover{transform:translateY(-1px) scale(1.03);box-shadow:0 0 40px -6px rgba(167,139,250,.8)}
@@ -261,6 +282,11 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
 .dm-id{font-size:10px;color:var(--dim);letter-spacing:.14em;margin-bottom:6px;text-transform:uppercase}
 .dm-name{font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.015em}
 .demo-card:hover .dm-name{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  .reveal,.bubble,.lead-card{opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
@@ -280,19 +306,19 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
     <span class="brandname">TriaClaw<small>Solutions</small></span>
   </a>
   <nav class="nav">
-    <a href="#pillars">Centralita</a>
-    <a href="#pillars">Agents</a>
-    <a href="#pillars">CRM</a>
+    <a href="/centralita">Centralita</a>
+    <a href="/agents">Agents</a>
+    <a href="/crm">CRM</a>
     <span class="sep">|</span>
-    <a href="#pricing">Precios</a>
-    <a href="#case">Casos</a>
+    <a href="/precios">Precios</a>
+    <a href="/casos">Casos</a>
     <a href="/demos/">Demos</a>
     <span class="sep">|</span>
-    <a href="#footer">Partners</a>
-    <a href="#cta">Contacto</a>
+    <a href="/partners">Partners</a>
+    <a href="/contacto">Contacto</a>
   </nav>
-  <div class="lang"><span class="on">ES</span><span>CA</span></div>
-  <a class="cta-wa" href="#">
+  <div class="lang"><a href="/" class="on">ES</a><a href="/ca/">CA</a></div>
+  <a class="cta-wa" href="https://wa.me/34665954108">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.94 11.94 0 0 0 12.07 0C5.5 0 .15 5.34.15 11.92c0 2.1.55 4.15 1.6 5.96L0 24l6.32-1.66a11.93 11.93 0 0 0 5.74 1.46h.01c6.58 0 11.92-5.34 11.92-11.92 0-3.18-1.24-6.18-3.47-8.4ZM12.07 21.8h-.01a9.86 9.86 0 0 1-5.03-1.38l-.36-.21-3.75.98 1-3.65-.24-.38a9.85 9.85 0 0 1-1.51-5.24c0-5.46 4.44-9.9 9.9-9.9 2.65 0 5.13 1.03 7 2.9a9.83 9.83 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88Z"/></svg>
     Hablar por WhatsApp
   </a>
@@ -360,7 +386,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
         <li>IVR conversacional, no botoneras</li>
         <li>Grabación y transcripción auditable</li>
       </ul>
-      <a class="more" href="#">Explorar centralita →</a>
+      <a class="more" href="/centralita">Explorar centralita →</a>
     </article>
     <article class="pcard glass c2 reveal">
       <div class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4M8 16h.01M16 16h.01"/></svg></div>
@@ -371,7 +397,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
         <li>Plantillas oficiales WhatsApp</li>
         <li>Handoff a humano sin fricciones</li>
       </ul>
-      <a class="more" href="#">Explorar agents →</a>
+      <a class="more" href="/agents">Explorar agents →</a>
     </article>
     <article class="pcard glass c3 reveal">
       <div class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg></div>
@@ -382,7 +408,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
         <li>Atribución por canal y campaña</li>
         <li>Integraciones con Holded y Stripe</li>
       </ul>
-      <a class="more" href="#">Explorar CRM →</a>
+      <a class="more" href="/crm">Explorar CRM →</a>
     </article>
   </div>
 </section>
@@ -465,7 +491,7 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
       <div class="chip glass"><span class="name">Agents WA</span><span class="price">€89<small style="font-size:14px">/mes</small></span><span class="sub">hasta 1.000 conv.</span></div>
       <div class="chip glass"><span class="name">CRM</span><span class="price">€19<small style="font-size:14px">/usuario</small></span><span class="sub">facturado mensual</span></div>
     </div>
-    <a class="btn primary" href="#">Ver tabla completa <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+    <a class="btn primary" href="/precios">Ver tabla completa <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
   </div>
 </section>
 
@@ -496,8 +522,8 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
     <h2>Tu próxima<br/>operación inteligente.</h2>
     <p>30 minutos contigo, una demo en directo y un plan a 7 días. Sin compromiso.</p>
     <div class="cta-row">
-      <a class="btn primary" href="#">Reservar demo</a>
-      <a class="btn ghost" href="#">Hablar por WhatsApp</a>
+      <a class="btn primary" href="/contacto">Reservar demo</a>
+      <a class="btn ghost" href="https://wa.me/34665954108">Hablar por WhatsApp</a>
     </div>
   </div>
 </section>
@@ -512,19 +538,19 @@ footer::before{content:"";position:absolute;inset:0;background-image:radial-grad
         </div>
         <p>Plataforma de agents IA para PYMES. Centralita, mensajería y CRM en una capa.</p>
       </div>
-      <div><h5>Producto</h5><ul><li><a href="#">Centralita</a></li><li><a href="#">Agents</a></li><li><a href="#">CRM</a></li><li><a href="#">Integraciones</a></li></ul></div>
-      <div><h5>Empresa</h5><ul><li><a href="#">Casos</a></li><li><a href="#">Partners</a></li><li><a href="#">Blog</a></li><li><a href="#">Contacto</a></li></ul></div>
-      <div><h5>Recursos</h5><ul><li><a href="#">Documentación</a></li><li><a href="#">Status</a></li><li><a href="#">Changelog</a></li><li><a href="#">Soporte</a></li></ul></div>
-      <div><h5>Legal</h5><ul><li><a href="#">Privacidad</a></li><li><a href="#">Términos</a></li><li><a href="#">Cookies</a></li><li><a href="#">RGPD</a></li></ul></div>
+      <div><h5>Producto</h5><ul><li><a href="/centralita">Centralita</a></li><li><a href="/agents">Agents</a></li><li><a href="/crm">CRM</a></li><li><a href="/precios">Precios</a></li></ul></div>
+      <div><h5>Empresa</h5><ul><li><a href="/casos">Casos</a></li><li><a href="/partners">Partners</a></li><li><a href="/sobre">Sobre nosotros</a></li><li><a href="/contacto">Contacto</a></li></ul></div>
+      <div><h5>Recursos</h5><ul><li><a href="/demos/">Demos por sector</a></li><li><a href="/contacto">Soporte</a></li></ul></div>
+      <div><h5>Legal</h5><ul><li><a href="/legal/privacidad">Privacidad</a></li><li><a href="/legal/aviso">Aviso legal</a></li><li><a href="/legal/cookies">Cookies</a></li></ul></div>
     </div>
     <div class="foot-bot">
       <span>© 2026 TriaClaw Solutions · Lleida, ES</span>
-      <span><a href="#">hello@triaclaw.com</a> · v3.04 · glassmorphic-ai</span>
+      <span><a href="mailto:hola@triaclaw.com">hola@triaclaw.com</a> · v3.04 · glassmorphic-ai</span>
     </div>
   </div>
 </footer>
 
-<a class="fab" href="#" aria-label="WhatsApp">
+<a class="fab" href="https://wa.me/34665954108" aria-label="WhatsApp">
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.94 11.94 0 0 0 12.07 0C5.5 0 .15 5.34.15 11.92c0 2.1.55 4.15 1.6 5.96L0 24l6.32-1.66a11.93 11.93 0 0 0 5.74 1.46h.01c6.58 0 11.92-5.34 11.92-11.92 0-3.18-1.24-6.18-3.47-8.4ZM12.07 21.8h-.01a9.86 9.86 0 0 1-5.03-1.38l-.36-.21-3.75.98 1-3.65-.24-.38a9.85 9.85 0 0 1-1.51-5.24c0-5.46 4.44-9.9 9.9-9.9 2.65 0 5.13 1.03 7 2.9a9.83 9.83 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88Zm5.41-7.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.34.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.34.45-.51.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.66-1.6-.91-2.18-.24-.58-.49-.5-.66-.5h-.57c-.2 0-.51.07-.78.37-.27.3-1.03 1-1.03 2.45s1.06 2.85 1.21 3.05c.15.2 2.08 3.18 5.05 4.46.7.3 1.26.48 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35Z"/></svg>
 </a>
 
