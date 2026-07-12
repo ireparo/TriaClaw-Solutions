@@ -2,10 +2,26 @@
 import Container from '../layout/Container.astro';
 import { getLocaleFromUrl, t, localizedHref, type Locale } from '../../i18n';
 const locale: Locale = getLocaleFromUrl(Astro.url);
+// Precios de entrada de /precios (planes Inicio/Vertical) — mantener en sincronía.
 const chips = [
-  { name: t(locale, 'pricing_teaser.chip_centralita'), price: '€39', suffix: '/mes', sub: '+ consumo por minuto' },
-  { name: t(locale, 'pricing_teaser.chip_agents'), price: '€89', suffix: '/mes', sub: 'hasta 1.000 conv.' },
-  { name: t(locale, 'pricing_teaser.chip_crm'), price: '€19', suffix: '/usuario', sub: 'facturado mensual' },
+  {
+    name: t(locale, 'pricing_teaser.chip_centralita'),
+    price: '€29',
+    suffix: t(locale, 'pricing_teaser.per_month'),
+    sub: t(locale, 'pricing_teaser.chip_centralita_sub'),
+  },
+  {
+    name: t(locale, 'pricing_teaser.chip_agents'),
+    price: '€49',
+    suffix: t(locale, 'pricing_teaser.per_month'),
+    sub: t(locale, 'pricing_teaser.chip_agents_sub'),
+  },
+  {
+    name: t(locale, 'pricing_teaser.chip_crm'),
+    price: '€39',
+    suffix: t(locale, 'pricing_teaser.per_user'),
+    sub: t(locale, 'pricing_teaser.chip_crm_sub'),
+  },
 ];
 ---
 
@@ -24,7 +40,7 @@ const chips = [
             <div class="tcw-chip glass">
               <span class="tcw-chip__name mono">{c.name}</span>
               <span class="tcw-chip__price">
-                {c.price}
+                <small>{t(locale, 'pricing_teaser.from')} </small>{c.price}
                 <small>{c.suffix}</small>
               </span>
               <span class="tcw-chip__sub">{c.sub}</span>

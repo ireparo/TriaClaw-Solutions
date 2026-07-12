@@ -112,6 +112,11 @@
     "chip_centralita": "Centralita",
     "chip_agents": "Agents WA",
     "chip_crm": "CRM",
+    "chip_centralita_sub": "plan Inicio",
+    "chip_agents_sub": "hasta 500 conv./mes",
+    "chip_crm_sub": "facturado mensual",
+    "per_month": "/mes",
+    "per_user": "/usuario",
     "from": "desde",
     "cta_table": "Ver tabla completa",
     "note": "Setup incluido en planes Pro · IVA no incluido"
