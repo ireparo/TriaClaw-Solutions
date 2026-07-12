@@ -112,6 +112,11 @@
     "chip_centralita": "Centraleta",
     "chip_agents": "Agents WA",
     "chip_crm": "CRM",
+    "chip_centralita_sub": "pla Inici",
+    "chip_agents_sub": "fins a 500 conv./mes",
+    "chip_crm_sub": "facturat mensual",
+    "per_month": "/mes",
+    "per_user": "/usuari",
     "from": "des de",
     "cta_table": "Veure taula completa",
     "note": "Posada en marxa inclosa als plans Pro · IVA no inclòs"
