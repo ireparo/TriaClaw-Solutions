@@ -1,0 +1,36 @@
+---
+// JSON-LD Service + Offers construido desde los mismos `groups` de la página
+// de precios, para que el schema nunca se desincronice del contenido visible.
+interface Plan {
+  planName: string;
+  price: string;
+  priceSuffix?: string;
+}
+interface Group {
+  label: string;
+  plans: Plan[];
+}
+const { groups } = Astro.props as { groups: Group[] };
+
+const services = groups.map((g) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: `${g.label} · TriaClaw`,
+  provider: {
+    '@type': 'Organization',
+    name: 'TriaClaw',
+    url: 'https://triaclaw.com',
+  },
+  areaServed: 'ES',
+  offers: g.plans
+    .filter((p) => /\d/.test(p.price))
+    .map((p) => ({
+      '@type': 'Offer',
+      name: p.planName,
+      price: p.price.replace(/[^\d.,]/g, '').replace(',', '.'),
+      priceCurrency: 'EUR',
+    })),
+}));
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(services)} />

@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import PricingCard from '../../components/ui/PricingCard.astro';
 import CTAFinal from '../../components/sections/CTAFinal.astro';
 import WhatsAppFloat from '../../components/sections/WhatsAppFloat.astro';
+import PricingJsonLd from '../../components/layout/PricingJsonLd.astro';
 
 const wa = `https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`;
 
@@ -146,4 +147,5 @@ const groups = [
   </section>
   <CTAFinal />
   <WhatsAppFloat />
+  <PricingJsonLd groups={groups} />
 </Base>
